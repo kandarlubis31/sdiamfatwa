@@ -4,7 +4,14 @@ from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
 from admin_panel.admin import custom_admin_site
+<<<<<<< HEAD
 from django.urls import include, path
+=======
+<<<<<<< HEAD
+=======
+from django.urls import include, path
+>>>>>>> 83ebcfe (Please enter the commit message for your changes. Lines starting)
+>>>>>>> b123919 (resolve conflicts)
 
 urlpatterns = [
     path('admin/', custom_admin_site.urls),
@@ -29,8 +36,16 @@ urlpatterns = [
     
     # CKEditor
     path('ckeditor/', include('ckeditor_uploader.urls')),
+<<<<<<< HEAD
     path('', include('pwa.urls')),
 
+=======
+<<<<<<< HEAD
+=======
+    path('', include('pwa.urls')),
+
+>>>>>>> 83ebcfe (Please enter the commit message for your changes. Lines starting)
+>>>>>>> b123919 (resolve conflicts)
 ]
 
 if settings.DEBUG:

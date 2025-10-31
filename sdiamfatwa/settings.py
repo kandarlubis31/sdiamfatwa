@@ -10,10 +10,24 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY', default='django-insecure-your-secret-key-here')
 
 # SECURITY WARNING: don't run with debug turned on in production!
+<<<<<<< HEAD
 DEBUG = config('DEBUG', default=True, cast=bool)
 
 # Allow all hosts in development, specific hosts in production
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1,tugas.rohidtzz.me', cast=Csv())
+=======
+<<<<<<< HEAD
+DEBUG = config('DEBUG', default=False, cast=bool)
+
+# Allow all hosts in development, specific hosts in production
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1', cast=Csv())
+=======
+DEBUG = config('DEBUG', default=True, cast=bool)
+
+# Allow all hosts in development, specific hosts in production
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1,tugas.rohidtzz.me', cast=Csv())
+>>>>>>> 83ebcfe (Please enter the commit message for your changes. Lines starting)
+>>>>>>> b123919 (resolve conflicts)
 
 # Application definition
 INSTALLED_APPS = [
@@ -24,8 +38,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+<<<<<<< HEAD
     'django.contrib.sites',
     'django.contrib.sitemaps',
+=======
+<<<<<<< HEAD
+=======
+    'django.contrib.sites',
+    'django.contrib.sitemaps',
+>>>>>>> 83ebcfe (Please enter the commit message for your changes. Lines starting)
+>>>>>>> b123919 (resolve conflicts)
     'ckeditor',
     'ckeditor_uploader',
     'home',
@@ -35,6 +57,11 @@ INSTALLED_APPS = [
     'kontak',
     'users',
     'admin_panel',
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> b123919 (resolve conflicts)
     'widget_tweaks',
     'compressor',
     'easy_thumbnails',  
@@ -50,6 +77,10 @@ STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'compressor.finders.CompressorFinder',
+<<<<<<< HEAD
+=======
+>>>>>>> 83ebcfe (Please enter the commit message for your changes. Lines starting)
+>>>>>>> b123919 (resolve conflicts)
 ]
 
 MIDDLEWARE = [
@@ -70,7 +101,15 @@ ROOT_URLCONF = 'sdiamfatwa.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+<<<<<<< HEAD
         'DIRS': [os.path.join(BASE_DIR, 'templates')],
+=======
+<<<<<<< HEAD
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],  # Pastikan ini ada
+=======
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+>>>>>>> 83ebcfe (Please enter the commit message for your changes. Lines starting)
+>>>>>>> b123919 (resolve conflicts)
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -79,7 +118,14 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.static',
+<<<<<<< HEAD
                 'django.template.context_processors.media',
+=======
+<<<<<<< HEAD
+=======
+                'django.template.context_processors.media',
+>>>>>>> 83ebcfe (Please enter the commit message for your changes. Lines starting)
+>>>>>>> b123919 (resolve conflicts)
             ],
         },
     },
@@ -88,6 +134,13 @@ TEMPLATES = [
 WSGI_APPLICATION = 'sdiamfatwa.wsgi.application'
 
 # Database
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+# https://docs.djangoproject.com/en/4.0/ref/settings/#databases
+=======
+>>>>>>> 83ebcfe (Please enter the commit message for your changes. Lines starting)
+>>>>>>> b123919 (resolve conflicts)
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -96,11 +149,25 @@ DATABASES = {
         'PASSWORD': config('DB_PASSWORD', default=''),
         'HOST': config('DB_HOST', default='localhost'),
         'PORT': config('DB_PORT', default='3306'),
+<<<<<<< HEAD
         'CONN_MAX_AGE': 60,
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES', time_zone='+00:00'",
             'connect_timeout': 10,
             'charset': 'utf8mb4',
+=======
+<<<<<<< HEAD
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES', time_zone='+00:00'",
+            'connect_timeout': 10,
+=======
+        'CONN_MAX_AGE': 60,
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES', time_zone='+00:00'",
+            'connect_timeout': 10,
+            'charset': 'utf8mb4',
+>>>>>>> 83ebcfe (Please enter the commit message for your changes. Lines starting)
+>>>>>>> b123919 (resolve conflicts)
         },
         'TEST': {
             'NAME': 'test_sdiamfatwa_db',
@@ -109,6 +176,13 @@ DATABASES = {
 }
 
 # Password validation
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+# https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
+=======
+>>>>>>> 83ebcfe (Please enter the commit message for your changes. Lines starting)
+>>>>>>> b123919 (resolve conflicts)
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -128,17 +202,36 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # Internationalization
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+# https://docs.djangoproject.com/en/4.0/topics/i18n/
+=======
+>>>>>>> 83ebcfe (Please enter the commit message for your changes. Lines starting)
+>>>>>>> b123919 (resolve conflicts)
 LANGUAGE_CODE = 'id-id'
 TIME_ZONE = 'Asia/Jakarta'
 USE_I18N = True
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+# https://docs.djangoproject.com/en/4.0/howto/static-files/
+=======
+>>>>>>> 83ebcfe (Please enter the commit message for your changes. Lines starting)
+>>>>>>> b123919 (resolve conflicts)
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> b123919 (resolve conflicts)
 if DEBUG:
     STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
@@ -196,12 +289,23 @@ def compress_skip_admin(template_name, context):
     return not any(template_name.startswith(pattern) for pattern in skip_patterns)
 
 COMPRESS_TEMPLATE_FILTER_CONTEXT = compress_skip_admin
+<<<<<<< HEAD
+=======
+>>>>>>> 83ebcfe (Please enter the commit message for your changes. Lines starting)
+>>>>>>> b123919 (resolve conflicts)
 
 # Media files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+# https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
+=======
+>>>>>>> 83ebcfe (Please enter the commit message for your changes. Lines starting)
+>>>>>>> b123919 (resolve conflicts)
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # CKEditor settings
@@ -217,10 +321,42 @@ CKEDITOR_CONFIGS = {
 
 # Jazzmin settings
 JAZZMIN_SETTINGS = {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+    # --- Settingan Utama ---
+=======
+>>>>>>> 83ebcfe (Please enter the commit message for your changes. Lines starting)
+>>>>>>> b123919 (resolve conflicts)
     "site_title": "SDI AM FATWA Admin",
     "site_header": "SDI AM FATWA",
     "site_brand": "SDI AM FATWA",
     "welcome_sign": "Selamat Datang di Admin Panel",
+<<<<<<< HEAD
+    "site_icon": "img/logo.webp",
+    "show_recent_actions": False,
+=======
+<<<<<<< HEAD
+    "site_icon": "img/logo.png", # Pastikan path ini benar (img/logo.png)
+
+    # --- Pengaturan Tampilan ---
+    "show_recent_actions": False, # Ini buat ngilangin box "Tindakan Terbaru"
+
+    # --- Link Kustom & Ikon Dashboard ---
+>>>>>>> b123919 (resolve conflicts)
+    "custom_views": [
+        {
+            "url": "/admin-panel/dashboard/",
+            "name": "Dashboard",
+            "icon": "fas fa-tachometer-alt",
+            "link": True,
+        }
+    ],
+<<<<<<< HEAD
+=======
+
+    # --- Ikon Model (Sesuaikan nama model jika perlu!) ---
+=======
     "site_icon": "img/logo.webp",
     "show_recent_actions": False,
     "custom_views": [
@@ -231,11 +367,34 @@ JAZZMIN_SETTINGS = {
             "link": True,
         }
     ],
+>>>>>>> 83ebcfe (Please enter the commit message for your changes. Lines starting)
+>>>>>>> b123919 (resolve conflicts)
     "icons": {
         "auth": "fas fa-users-cog",
         "auth.user": "fas fa-user",
         "auth.Group": "fas fa-users",
         "agenda": "fas fa-calendar-alt",
+<<<<<<< HEAD
+        "agenda.Agenda": "fas fa-calendar-check",
+=======
+<<<<<<< HEAD
+        "agenda.Agenda": "fas fa-calendar-check", # Pastikan nama model 'Agenda'
+>>>>>>> b123919 (resolve conflicts)
+        "berita": "fas fa-newspaper",
+        "berita.Berita": "fas fa-file-alt",
+        "galeri": "fas fa-images",
+        "galeri.Album": "fas fa-photo-video",
+        "galeri.Foto": "fas fa-image",
+        "kontak": "fas fa-envelope-open-text",
+        "kontak.Pesan": "fas fa-inbox",
+    },
+<<<<<<< HEAD
+    "order_with_respect_to": [
+=======
+
+    # --- Urutan Sidebar (Sesuaikan urutan app) ---
+     "order_with_respect_to": [
+=======
         "agenda.Agenda": "fas fa-calendar-check",
         "berita": "fas fa-newspaper",
         "berita.Berita": "fas fa-file-alt",
@@ -246,12 +405,40 @@ JAZZMIN_SETTINGS = {
         "kontak.Pesan": "fas fa-inbox",
     },
     "order_with_respect_to": [
+>>>>>>> 83ebcfe (Please enter the commit message for your changes. Lines starting)
+>>>>>>> b123919 (resolve conflicts)
         "berita",
         "agenda",
         "galeri",
         "kontak",
         "auth",
     ],
+<<<<<<< HEAD
+    "ui_theme": "darkly",
+    "topmenu_links": [
+=======
+<<<<<<< HEAD
+
+    # --- Tema Warna (UI) ---
+    "ui_theme": "darkly", # Contoh tema lain, ganti sesuai selera
+    # Kamu bisa tambahin settingan warna custom di sini kalo mau
+
+    # --- Menu Atas & User Menu ---
+     "topmenu_links": [
+>>>>>>> b123919 (resolve conflicts)
+        {"name": "Lihat Website", "url": "/", "icon": "fas fa-external-link-alt", "new_window": True},
+    ],
+    "usermenu_links": [
+        {"name": "Profil", "url": "admin:auth_user_change", "icon": "fas fa-user"},
+    ],
+    "default_model_icon": "fas fa-circle",
+    "language_chooser": False,
+    "hide_models": ["auth.user", "auth.group"],
+    "show_ui_builder": False,
+<<<<<<< HEAD
+=======
+
+=======
     "ui_theme": "darkly",
     "topmenu_links": [
         {"name": "Lihat Website", "url": "/", "icon": "fas fa-external-link-alt", "new_window": True},
@@ -263,6 +450,8 @@ JAZZMIN_SETTINGS = {
     "language_chooser": False,
     "hide_models": ["auth.user", "auth.group"],
     "show_ui_builder": False,
+>>>>>>> 83ebcfe (Please enter the commit message for your changes. Lines starting)
+>>>>>>> b123919 (resolve conflicts)
 }
 
 # Authentication
@@ -283,7 +472,14 @@ DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='noreply@sdiamfatwa.sc
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 X_FRAME_OPTIONS = 'DENY'
+<<<<<<< HEAD
 SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'
+=======
+<<<<<<< HEAD
+=======
+SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'
+>>>>>>> 83ebcfe (Please enter the commit message for your changes. Lines starting)
+>>>>>>> b123919 (resolve conflicts)
 
 # HSTS settings (hanya aktif di produksi dengan HTTPS)
 if not DEBUG:
@@ -293,13 +489,21 @@ if not DEBUG:
     SECURE_HSTS_SECONDS = 31536000  # 1 tahun
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
+<<<<<<< HEAD
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+=======
+<<<<<<< HEAD
+=======
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+>>>>>>> 83ebcfe (Please enter the commit message for your changes. Lines starting)
+>>>>>>> b123919 (resolve conflicts)
 
 # Cache settings
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
         'LOCATION': 'unique-snowflake',
+<<<<<<< HEAD
         # Default timeout (in seconds) for cache keys. Use 0 for no expiration, None for backend default.
         # Read from environment so it can be configured per-deployment.
         'TIMEOUT': config('CACHE_TIMEOUT', default=3600, cast=int),  # default 1 hour
@@ -308,11 +512,32 @@ CACHES = {
     }
 }
     
+=======
+<<<<<<< HEAD
+    }
+}
+
+=======
+        # Default timeout (in seconds) for cache keys. Use 0 for no expiration, None for backend default.
+        # Read from environment so it can be configured per-deployment.
+        'TIMEOUT': config('CACHE_TIMEOUT', default=3600, cast=int),  # default 1 hour
+        # Optional prefix to avoid collisions between environments
+        'KEY_PREFIX': config('CACHE_KEY_PREFIX', default='sdiamfatwa'),
+    }
+}
+    
+>>>>>>> 83ebcfe (Please enter the commit message for your changes. Lines starting)
+>>>>>>> b123919 (resolve conflicts)
 # Session settings
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 SESSION_CACHE_ALIAS = 'default'
 SESSION_COOKIE_AGE = 86400  # 24 jam
 SESSION_SAVE_EVERY_REQUEST = True
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> b123919 (resolve conflicts)
 SESSION_COOKIE_HTTPONLY = True
 SESSION_COOKIE_SAMESITE = 'Lax'
 
@@ -328,6 +553,10 @@ DATA_UPLOAD_MAX_NUMBER_FIELDS = 1000
 
 # Password reset settings
 PASSWORD_RESET_TIMEOUT = 86400  # 24 jam
+<<<<<<< HEAD
+=======
+>>>>>>> 83ebcfe (Please enter the commit message for your changes. Lines starting)
+>>>>>>> b123919 (resolve conflicts)
 
 # Logging configuration
 LOGGING = {
@@ -345,11 +574,25 @@ LOGGING = {
     },
     'handlers': {
         'file': {
+<<<<<<< HEAD
             'level': 'INFO',
             'class': 'logging.handlers.RotatingFileHandler',
             'filename': os.path.join(BASE_DIR, 'logs', 'django.log'),
             'maxBytes': 1024*1024*5,  # 5MB
             'backupCount': 5,
+=======
+<<<<<<< HEAD
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs', 'django.log'),
+=======
+            'level': 'INFO',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs', 'django.log'),
+            'maxBytes': 1024*1024*5,  # 5MB
+            'backupCount': 5,
+>>>>>>> 83ebcfe (Please enter the commit message for your changes. Lines starting)
+>>>>>>> b123919 (resolve conflicts)
             'formatter': 'verbose',
         },
         'console': {
@@ -384,6 +627,37 @@ MESSAGE_TAGS = {
     messages.ERROR: 'alert-danger',
 }
 
+<<<<<<< HEAD
+# Performance settings
+USE_ETAGS = True
+SEND_BROKEN_LINK_EMAILS = True
+SERVER_EMAIL = DEFAULT_FROM_EMAIL
+=======
+<<<<<<< HEAD
+# File upload settings
+FILE_UPLOAD_MAX_MEMORY_SIZE = 5242880  # 5MB
+DATA_UPLOAD_MAX_MEMORY_SIZE = 5242880  # 5MB
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 1000
+>>>>>>> b123919 (resolve conflicts)
+
+# SEO settings
+PREPEND_WWW = False
+ABSOLUTE_URL_OVERRIDES = {
+    'auth.user': lambda u: "/users/%s/" % u.username,
+}
+
+<<<<<<< HEAD
+=======
+# Pengaturan untuk cookie
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SAMESITE = 'Lax'
+
+# Pengaturan untuk password reset
+PASSWORD_RESET_TIMEOUT = 86400  # 24 jam
+
+# Hapus atau beri komentar pada baris berikut jika Anda tidak memiliki model User kustom
+# AUTH_USER_MODEL = 'users.User'
+=======
 # Performance settings
 USE_ETAGS = True
 SEND_BROKEN_LINK_EMAILS = True
@@ -395,6 +669,7 @@ ABSOLUTE_URL_OVERRIDES = {
     'auth.user': lambda u: "/users/%s/" % u.username,
 }
 
+>>>>>>> b123919 (resolve conflicts)
 PWA_APP_NAME = 'SDI AM FATWA'
 PWA_APP_DESCRIPTION = "Website resmi SDI AM FATWA"
 PWA_APP_THEME_COLOR = '#00695c'
@@ -409,3 +684,7 @@ PWA_APP_ICONS = [
         'sizes': '512x512'
     }
 ]
+<<<<<<< HEAD
+=======
+>>>>>>> 83ebcfe (Please enter the commit message for your changes. Lines starting)
+>>>>>>> b123919 (resolve conflicts)

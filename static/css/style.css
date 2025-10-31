@@ -6,7 +6,15 @@
     background:
         linear-gradient(rgba(24, 154, 106, 0.85),
             rgba(17, 97, 70, 0.85)),
+<<<<<<< HEAD
         url('../img/hero-bg.webp') center/cover no-repeat;
+=======
+<<<<<<< HEAD
+        url('../img/hero-bg.jpg') center/cover no-repeat;
+=======
+        url('../img/hero-bg.webp') center/cover no-repeat;
+>>>>>>> 83ebcfe (Please enter the commit message for your changes. Lines starting)
+>>>>>>> b123919 (resolve conflicts)
     position: relative;
     display: flex;
     align-items: center;
@@ -17,7 +25,14 @@
     overflow: hidden;
     color: #fff;
     text-align: center;
+<<<<<<< HEAD
     opacity: 1; /* Menghapus opacity 0 dari animations.css */
+=======
+<<<<<<< HEAD
+=======
+    opacity: 1; /* Menghapus opacity 0 dari animations.css */
+>>>>>>> 83ebcfe (Please enter the commit message for your changes. Lines starting)
+>>>>>>> b123919 (resolve conflicts)
 }
 
 /* Overlay Radial tambahan */
@@ -30,6 +45,13 @@
             rgba(17, 97, 70, 0.95) 100%);
     mix-blend-mode: multiply;
     z-index: 1;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+    animation: fadeInOverlay 2s ease-in-out;
+=======
+>>>>>>> 83ebcfe (Please enter the commit message for your changes. Lines starting)
+>>>>>>> b123919 (resolve conflicts)
 }
 
 /* Container agar konten di atas overlay */
@@ -37,6 +59,13 @@
     position: relative;
     z-index: 2;
     max-width: 900px;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+    animation: fadeUp 1.2s ease-out;
+=======
+>>>>>>> 83ebcfe (Please enter the commit message for your changes. Lines starting)
+>>>>>>> b123919 (resolve conflicts)
 }
 
 /* ===== Section Umum ===== */
@@ -271,6 +300,13 @@ html {
 
 /* Navbar dan body spacing */
 body {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+    padding-top: 0;
+=======
+>>>>>>> 83ebcfe (Please enter the commit message for your changes. Lines starting)
+>>>>>>> b123919 (resolve conflicts)
     margin: 0;
 }
 
@@ -284,12 +320,28 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+<<<<<<< HEAD
 .page-loaded body {
+=======
+<<<<<<< HEAD
+body {
+=======
+.page-loaded body {
+>>>>>>> 83ebcfe (Please enter the commit message for your changes. Lines starting)
+>>>>>>> b123919 (resolve conflicts)
     padding-top: 56px;
 }
 
 @media (min-width: 992px) {
+<<<<<<< HEAD
     .page-loaded body {
+=======
+<<<<<<< HEAD
+    body {
+=======
+    .page-loaded body {
+>>>>>>> 83ebcfe (Please enter the commit message for your changes. Lines starting)
+>>>>>>> b123919 (resolve conflicts)
         padding-top: 72px;
     }
 }
