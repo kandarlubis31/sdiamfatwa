@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ album.nama }}{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Beranda</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'galeri_list' %}">Galeri</a></li>
+            <li class="breadcrumb-item active">{{ album.nama }}</li>
+        </ol>
+    </nav>
+    
+    <div class="card mb-4">
+        <div class="card-body">
+            <h1 class="card-title">{{ album.nama }}</h1>
+            <p class="card-text">{{ album.deskripsi }}</p>
+            <p class="text-muted"><i class="fas fa-calendar"></i> Dibuat pada {{ album.tanggal_dibuat|date:"d F Y" }}</p>
+        </div>
+    </div>
+    
+    <!-- Galeri Foto -->
+    <div class="row">
+        {% for foto in foto_list %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img src="{{ foto.gambar.url }}" class="card-img-top" alt="{{ foto.keterangan }}">
+                <div class="card-body">
+                    <p class="card-text">{{ foto.keterangan }}</p>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info">Belum ada foto dalam album ini.</div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <div class="mt-4">
+        <a href="{% url 'galeri_list' %}" class="btn btn-outline-primary">Kembali ke Daftar Galeri</a>
+    </div>
+</div>
+{% endblock %}

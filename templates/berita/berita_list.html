@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Berita{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="mb-4">Berita SDI AM FATWA</h1>
+    
+    <!-- Filter Kategori -->
+    <div class="mb-4">
+        <div class="btn-group" role="group">
+            <a href="{% url 'berita_list' %}" class="btn btn-outline-primary {% if not kategori %}active{% endif %}">Semua</a>
+            <a href="?kategori=pengumuman" class="btn btn-outline-primary {% if kategori == 'pengumuman' %}active{% endif %}">Pengumuman</a>
+            <a href="?kategori=kegiatan" class="btn btn-outline-primary {% if kategori == 'kegiatan' %}active{% endif %}">Kegiatan</a>
+            <a href="?kategori=prestasi" class="btn btn-outline-primary {% if kategori == 'prestasi' %}active{% endif %}">Prestasi</a>
+        </div>
+    </div>
+    
+    <!-- Daftar Berita -->
+    <div class="row">
+        {% for berita in berita_list %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="berita-card-img-container">
+                    {% if berita.gambar %}
+                    <img src="{{ berita.gambar.url }}" class="berita-card-img" alt="{{ berita.judul }}">
+                    {% else %}
+                    <img src="{% static 'img/default-berita.jpg' %}" class="berita-card-img" alt="Default Image">
+                    {% endif %}
+                </div>
+                <div class="card-body d-flex flex-column">
+                    <span class="badge bg-primary mb-2 align-self-start">{{ berita.get_kategori_display }}</span>
+                    <h5 class="card-title">{{ berita.judul }}</h5>
+                    <p class="card-text">{{ berita.isi|truncatewords_html:20|safe }}</p>
+                    <div class="mt-auto">
+                        <small class="text-muted">{{ berita.tanggal_publikasi|date:"d M Y" }} oleh {{ berita.author }}</small>
+                        <a href="{% url 'berita_detail' berita.id %}" class="btn btn-sm btn-primary float-end">Baca Selengkapnya</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info">Tidak ada berita dalam kategori ini.</div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <!-- Pagination -->
+    {% if is_paginated %}
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if kategori %}&kategori={{ kategori }}{% endif %}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            {% endif %}
+            
+            {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+            <li class="page-item active"><a class="page-link" href="#">{{ num }}</a></li>
+            {% else %}
+            <li class="page-item"><a class="page-link" href="?page={{ num }}{% if kategori %}&kategori={{ kategori }}{% endif %}">{{ num }}</a></li>
+            {% endif %}
+            {% endfor %}
+            
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if kategori %}&kategori={{ kategori }}{% endif %}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+</div>
+{% endblock %}zzzz

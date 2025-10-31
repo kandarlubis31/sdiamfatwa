@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block title %}Pesan Terkirim{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-check-circle text-success fa-5x mb-4"></i>
+                    <h1 class="card-title">Pesan Anda Telah Terkirim!</h1>
+                    <p class="card-text">Terima kasih telah menghubungi kami. Tim kami akan segera merespons pesan Anda.</p>
+                    <a href="{% url 'home' %}" class="btn btn-primary">Kembali ke Beranda</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

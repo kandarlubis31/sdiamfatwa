@@ -1,0 +1,172 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Beranda{% endblock %}
+{% block content %}
+<!-- Profil Sekolah -->
+<section id="profil" class="mb-5 fade-in">
+  <h2 class="text-center mb-4 slide-in">Profil Sekolah</h2>
+  <div class="row stagger-fade">
+    <div class="col-md-6">
+      <img
+        src="{% static 'img/sekolah.webp' %}"
+        alt="SDI AM FATWA"
+        class="img-fluid rounded lazy-load"
+        loading="lazy"
+      />
+    </div>
+    <div class="col-md-6">
+      <p class="fade-in-up">
+        SDI AM FATWA adalah sekolah dasar Islam yang berkomitmen untuk
+        memberikan pendidikan berkualitas dengan pendekatan islami.
+      </p>
+      <p>
+        Dengan kurikulum yang seimbang antara ilmu pengetahuan umum dan
+        pendidikan agama, kami berusaha mencetak generasi Qur'ani yang cerdas,
+        berakhlak mulia, dan siap menghadapi tantangan global.
+      </p>
+      <p>
+        Didukung oleh tenaga pendidik profesional dan fasilitas lengkap, SDI AM
+        FATWA menjadi pilihan tepat untuk putra-putri Anda.
+      </p>
+      <a href="#" class="btn btn-primary">Selengkapnya</a>
+    </div>
+  </div>
+</section>
+
+<!-- Berita Terbaru -->
+<section class="mb-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Berita Terbaru</h2>
+    <a href="{% url 'berita_list' %}" class="btn btn-outline-primary"
+      >Lihat Semua</a
+    >
+  </div>
+  <div class="row">
+    {% for berita in berita_terbaru %}
+    <div class="col-md-4 mb-4">
+      <div class="card h-100">
+        <div class="berita-card-img-container">
+          {% if berita.gambar %}
+          <img
+            src="{{ berita.gambar.url }}"
+            class="berita-card-img"
+            alt="{{ berita.judul }}"
+          />
+          {% else %}
+          <img
+            src="{% static 'img/default-berita.jpg' %}"
+            class="berita-card-img"
+            alt="Default Image"
+          />
+          {% endif %}
+        </div>
+        <div class="card-body d-flex flex-column">
+          <span class="badge bg-primary mb-2 align-self-start"
+            >{{ berita.get_kategori_display }}</span
+          >
+          <h5 class="card-title">{{ berita.judul }}</h5>
+          <p class="card-text">{{ berita.isi|truncatewords_html:20|safe }}</p>
+          <div class="mt-auto">
+            <small class="text-muted"></small>
+              {{ berita.tanggal_publikasi|date:"j F Y" }} oleh {{ berita.author.get_full_name|default:berita.author.username }}
+            </small>
+            <a
+              href="{% url 'berita_detail' berita.id %}"
+              class="btn btn-sm btn-primary float-end"
+              >Baca Selengkapnya</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+      <div class="alert alert-info">Belum ada berita terbaru.</div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- Agenda Mendatang -->
+<!-- Bagian Agenda Mendatang di home/home.html -->
+<section class="mb-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Agenda Mendatang</h2>
+    <a
+      href="{% url 'agenda_list' %}?filter=mendatang"
+      class="btn btn-outline-primary"
+      >Lihat Semua</a
+    >
+  </div>
+  <div class="row">
+    {% for agenda in agenda_mendatang %}
+    <div class="col-md-4 mb-4">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">{{ agenda.judul }}</h5>
+          <p class="card-text">{{ agenda.deskripsi|truncatewords:15 }}</p>
+          <p>
+            <i class="fas fa-calendar-alt"></i> {{ agenda.tanggal_mulai|date:"d
+            M Y H:i" }}
+          </p>
+          <p><i class="fas fa-map-marker-alt"></i> {{ agenda.lokasi }}</p>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+      <div class="alert alert-info">Tidak ada agenda mendatang.</div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- Statistik Sekolah -->
+<section class="mb-5 bg-light py-5 rounded">
+  <div class="container">
+    <h2 class="text-center mb-4">Statistik Sekolah</h2>
+    <div class="row">
+      <div class="col-md-3 text-center">
+        <div class="stat-item">
+          <i class="fas fa-users fa-3x text-primary mb-3"></i>
+          <h3>500+</h3>
+          <p>Siswa Aktif</p>
+        </div>
+      </div>
+      <div class="col-md-3 text-center">
+        <div class="stat-item">
+          <i class="fas fa-chalkboard-teacher fa-3x text-primary mb-3"></i>
+          <h3>30+</h3>
+          <p>Tenaga Pendidik</p>
+        </div>
+      </div>
+      <div class="col-md-3 text-center">
+        <div class="stat-item">
+          <i class="fas fa-trophy fa-3x text-primary mb-3"></i>
+          <h3>50+</h3>
+          <p>Prestasi</p>
+        </div>
+      </div>
+      <div class="col-md-3 text-center">
+        <div class="stat-item">
+          <i class="fas fa-building fa-3x text-primary mb-3"></i>
+          <h3>20</h3>
+          <p>Ruang Kelas</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Call to Action -->
+<section class="mb-5 bg-primary text-white py-5 rounded">
+  <div class="container text-center">
+    <h2 class="mb-4">Daftarkan Putra-Putri Anda Sekarang!</h2>
+    <p class="lead mb-4">
+      Bergabunglah dengan SDI AM FATWA dan berikan pendidikan terbaik untuk masa
+      depan anak Anda.
+    </p>
+    <a href="#" class="btn btn-warning btn-lg">Daftar Sekarang</a>
+  </div>
+</section>
+{% endblock %}

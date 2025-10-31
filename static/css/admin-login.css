@@ -1,0 +1,135 @@
+/* static/css/admin-login.css */
+
+body {
+    background: linear-gradient(135deg, #189A6A 0%, #116146 100%) !important;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 20px;
+    margin: 0;
+}
+
+#container {
+    width: 100%;
+    max-width: 400px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    padding: 40px 30px;
+    position: relative;
+    overflow: hidden;
+}
+
+#container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, #189A6A, #F3E5A9);
+}
+
+#header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+#header h1 {
+    color: #189A6A;
+    font-weight: 700;
+    margin: 0;
+    font-size: 24px;
+}
+
+#header img {
+    max-height: 60px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+}
+
+.form-row {
+    margin-bottom: 20px;
+}
+
+label {
+    color: #116146;
+    font-weight: 500;
+    margin-bottom: 8px;
+    display: block;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+    border-color: #189A6A;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(24, 154, 106, 0.1);
+}
+
+.errornote {
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+    padding: 12px 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.password-reset-link {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.password-reset-link a {
+    color: #189A6A;
+    text-decoration: none;
+}
+
+.password-reset-link a:hover {
+    text-decoration: underline;
+}
+
+.submit-row {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.submit-row input[type="submit"] {
+    background-color: #189A6A;
+    border: none;
+    padding: 12px 30px;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.submit-row input[type="submit"]:hover {
+    background-color: #116146;
+}
+
+#footer {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+    color: #666;
+    font-size: 14px;
+}

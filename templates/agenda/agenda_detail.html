@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ agenda.judul }}{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Beranda</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'agenda_list' %}">Agenda</a></li>
+            <li class="breadcrumb-item active">{{ agenda.judul }}</li>
+        </ol>
+    </nav>
+    
+    <div class="card">
+        <div class="card-body">
+            <h1 class="card-title">{{ agenda.judul }}</h1>
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <p><i class="fas fa-calendar-alt"></i> <strong>Mulai:</strong> {{ agenda.tanggal_mulai|date:"d F Y H:i" }}</p>
+                    <p><i class="fas fa-calendar-check"></i> <strong>Selesai:</strong> {{ agenda.tanggal_selesai|date:"d F Y H:i" }}</p>
+                </div>
+                <div class="col-md-6">
+                    <p><i class="fas fa-map-marker-alt"></i> <strong>Lokasi:</strong> {{ agenda.lokasi }}</p>
+                    {% if agenda.pihak_terkait %}
+                    <p><i class="fas fa-users"></i> <strong>Pihak Terkait:</strong> {{ agenda.pihak_terkait }}</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="card-text">
+                <h5>Deskripsi:</h5>
+                <p>{{ agenda.deskripsi|linebreaksbr }}</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="mt-4">
+        <a href="{% url 'agenda_list' %}" class="btn btn-outline-primary">Kembali ke Daftar Agenda</a>
+    </div>
+</div>
+{% endblock %}

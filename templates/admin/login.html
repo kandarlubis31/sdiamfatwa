@@ -1,0 +1,453 @@
+{% load i18n static %}
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Halaman Login Admin SDI AM FATWA" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Login | SDI AM FATWA Admin</title>
+    
+    <!-- Preconnect to external domains for performance -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+    
+    <!-- Load critical CSS inline for faster rendering -->
+    <style>
+      /* Critical CSS for above-the-fold content */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: linear-gradient(135deg, #189a6a 0%, #116146 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        padding: 20px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .login-container {
+        width: 100%;
+        max-width: 420px;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        padding: 45px 35px;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+        max-height: calc(100vh - 40px);
+        overflow-y: auto;
+      }
+
+      .login-header {
+        text-align: center;
+        margin-bottom: 35px;
+        padding-bottom: 25px;
+        border-bottom: 2px solid #f0f0f0;
+      }
+
+      .logo-wrapper {
+        position: relative;
+        display: inline-block;
+        margin-bottom: 15px;
+      }
+
+      .login-header img {
+        max-height: 70px;
+        margin-bottom: 5px;
+        border-radius: 10px;
+      }
+
+      .login-header h1 {
+        color: #189a6a;
+        font-weight: 700;
+        margin: 0;
+        font-size: 26px;
+        letter-spacing: 0.5px;
+      }
+
+      .login-header p {
+        color: #666;
+        font-size: 14px;
+        margin-top: 5px;
+      }
+
+      .form-group {
+        margin-bottom: 25px;
+        position: relative;
+      }
+
+      .form-group label {
+        color: #116146;
+        font-weight: 600;
+        margin-bottom: 10px;
+        display: block;
+        font-size: 14px;
+        letter-spacing: 0.3px;
+      }
+
+      .input-wrapper {
+        position: relative;
+      }
+
+      .input-icon {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #999;
+        pointer-events: none;
+      }
+
+      .form-group input {
+        width: 100%;
+        padding: 14px 15px 14px 45px;
+        border: 2px solid #e0e0e0;
+        border-radius: 10px;
+        font-size: 15px;
+        background-color: #fafafa;
+      }
+
+      .form-group input:focus {
+        border-color: #189a6a;
+        background-color: white;
+        outline: none;
+        box-shadow: 0 0 0 4px rgba(24, 154, 106, 0.1);
+      }
+
+      .password-toggle {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: #999;
+        z-index: 2;
+      }
+
+      .error-message {
+        background: linear-gradient(135deg, #fff5f5 0%, #ffe5e5 100%);
+        border-left: 4px solid #dc3545;
+        color: #721c24;
+        padding: 14px 18px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .submit-btn {
+        width: 100%;
+        background: linear-gradient(135deg, #189a6a 0%, #116146 100%);
+        border: none;
+        padding: 14px;
+        font-size: 16px;
+        font-weight: 600;
+        border-radius: 10px;
+        color: white;
+        cursor: pointer;
+        margin-top: 10px;
+        letter-spacing: 0.5px;
+      }
+
+      .remember-forgot {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        margin-top: 15px;
+        font-size: 14px;
+      }
+
+      .forgot-password {
+        color: #189a6a;
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      .copyright {
+        text-align: center;
+        margin-top: 30px;
+        padding-top: 25px;
+        border-top: 2px solid #f0f0f0;
+        color: #666;
+        font-size: 13px;
+      }
+
+      .messages {
+        margin-bottom: 20px;
+      }
+
+      .alert {
+        padding: 14px 18px;
+        border-radius: 10px;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .alert-success {
+        background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+        border-left: 4px solid #22c55e;
+        color: #166534;
+      }
+
+      .alert-error,
+      .alert-danger {
+        background: linear-gradient(135deg, #fff5f5 0%, #ffe5e5 100%);
+        border-left: 4px solid #dc3545;
+        color: #721c24;
+      }
+
+      .alert-warning {
+        background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+        border-left: 4px solid #f59e0b;
+        color: #854d0e;
+      }
+
+      .alert-info {
+        background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+        border-left: 4px solid #3b82f6;
+        color: #1e40af;
+      }
+
+      @media (max-width: 480px) {
+        .login-container {
+          padding: 35px 25px;
+        }
+
+        .login-header h1 {
+          font-size: 22px;
+        }
+
+        .form-group input {
+          padding: 12px 12px 12px 40px;
+        }
+      }
+    </style>
+    
+    <!-- Load non-critical CSS asynchronously -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      media="print" onload="this.media='all'"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      media="print" onload="this.media='all'"
+    />
+    
+    <!-- Fallback for browsers that don't support onload -->
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      />
+      <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      />
+    </noscript>
+    
+    <link rel="icon" href="{% static 'img/logo.webp' %}" type="image/png" />
+    
+    <!-- Preload the logo image -->
+    <link rel="preload" href="{% static 'img/logo.webp' %}" as="image" />
+  </head>
+  <body>
+    <div class="login-container">
+      <div class="login-header">
+        <div class="logo-wrapper">
+          <img src="{% static 'img/logo.webp' %}" alt="Logo SDI AM FATWA" loading="lazy" />
+        </div>
+        <h1>SDI AM FATWA</h1>
+        <p>Sistem Informasi Administrasi</p>
+      </div>
+
+      {% if messages %}
+      <div class="messages" role="alert" aria-live="polite">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+          <i
+            class="fas fa-{% if message.tags == 'success' %}check-circle{% elif message.tags == 'error' or message.tags == 'danger' %}exclamation-triangle{% elif message.tags == 'warning' %}exclamation-circle{% else %}info-circle{% endif %}"
+            aria-hidden="true"
+          ></i>
+          <span>{{ message }}</span>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %} 
+      
+      {% if form.errors and not form.non_field_errors %}
+      <div class="error-message" role="alert">
+        <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
+        <span>
+          {% if form.errors.items|length == 1 %} {% trans "Silakan perbaiki kesalahan di bawah ini." %} {% else %} {% trans "Silakan perbaiki kesalahan-kesalahan di bawah ini." %} {% endif %}
+        </span>
+      </div>
+      {% endif %} 
+      
+      {% if form.non_field_errors %} 
+      {% for error in form.non_field_errors %}
+      <div class="error-message" role="alert">
+        <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
+        <span>{{ error }}</span>
+      </div>
+      {% endfor %} 
+      {% endif %}
+
+      <!-- Form action mengarah ke login view kustom -->
+      <form action="{% url 'admin_login' %}" method="post" id="login-form" novalidate>
+        {% csrf_token %}
+
+        <div class="form-group">
+          <label for="id_username">
+            <i class="fas fa-user" aria-hidden="true"></i> Nama Pengguna
+          </label>
+          <div class="input-wrapper">
+            {{ form.username }}
+            <i class="fas fa-user input-icon" aria-hidden="true"></i>
+          </div>
+          {% if form.username.errors %}
+          <div class="invalid-feedback d-block">
+            {{ form.username.errors|join:", " }}
+          </div>
+          {% endif %}
+        </div>
+
+        <div class="form-group">
+          <label for="id_password">
+            <i class="fas fa-lock" aria-hidden="true"></i> Kata Sandi
+          </label>
+          <div class="input-wrapper">
+            {{ form.password }}
+            <i class="fas fa-lock input-icon" aria-hidden="true"></i>
+            <button
+              type="button"
+              class="password-toggle btn btn-link p-0"
+              id="togglePassword"
+              aria-label="Tampilkan atau sembunyikan password"
+              aria-pressed="false"
+            >
+              <i class="fas fa-eye" aria-hidden="true"></i>
+            </button>
+          </div>
+          {% if form.password.errors %}
+          <div class="invalid-feedback d-block">
+            {{ form.password.errors|join:", " }}
+          </div>
+          {% endif %}
+          <!-- Set next value ke dashboard kustom -->
+          <input type="hidden" name="next" value="{% url 'admin_panel:admin_dashboard' %}" />
+        </div>
+
+        <button type="submit" class="submit-btn" id="submitBtn">
+          <i class="fas fa-sign-in-alt" aria-hidden="true"></i>
+          {% trans 'Masuk' %}
+        </button>
+      </form>
+
+      <div class="copyright">
+        <p>
+          <i class="fas fa-copyright" aria-hidden="true"></i> {% now "Y" %} SDI AM FATWA. All
+          rights reserved.
+        </p>
+      </div>
+    </div>
+
+    <!-- Defer non-critical JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
+    
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        // Focus on username field when page loads
+        try {
+          var usernameField = document.getElementById("id_username");
+          if (usernameField) {
+            usernameField.focus();
+          }
+        } catch (e) {
+          console.error("Error focusing on username field:", e);
+        }
+
+        // Password visibility toggle
+        var togglePassword = document.getElementById("togglePassword");
+        var passwordField = document.getElementById("id_password");
+
+        if (togglePassword && passwordField) {
+          togglePassword.addEventListener("click", function() {
+            var type = passwordField.getAttribute("type") === "password" ? "text" : "password";
+            passwordField.setAttribute("type", type);
+            
+            var icon = togglePassword.querySelector("i");
+            if (icon) {
+              icon.classList.toggle("fa-eye");
+              icon.classList.toggle("fa-eye-slash");
+            }
+            
+            // Update aria-pressed state
+            var isPressed = type === "text";
+            togglePassword.setAttribute("aria-pressed", isPressed);
+            togglePassword.setAttribute("aria-label", 
+              isPressed ? "Sembunyikan password" : "Tampilkan password");
+          });
+          
+          // Add keyboard support
+          togglePassword.addEventListener("keydown", function(e) {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              togglePassword.click();
+            }
+          });
+        }
+
+        // Form submission with loading state
+        var loginForm = document.getElementById("login-form");
+        var submitBtn = document.getElementById("submitBtn");
+
+        if (loginForm && submitBtn) {
+          loginForm.addEventListener("submit", function() {
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Memproses...';
+          });
+        }
+
+        // Keyboard shortcut for username field
+        document.addEventListener("keydown", function(e) {
+          if (e.altKey && e.key === "l") {
+            e.preventDefault();
+            var usernameField = document.getElementById("id_username");
+            if (usernameField) {
+              usernameField.focus();
+            }
+          }
+        });
+        
+        // Add input validation feedback
+        var inputs = document.querySelectorAll('input[type="text"], input[type="password"]');
+        if (inputs && inputs.length > 0) {
+          for (var i = 0; i < inputs.length; i++) {
+            inputs[i].addEventListener('blur', function() {
+              if (this.value.trim() === '') {
+                this.classList.add('is-invalid');
+              } else {
+                this.classList.remove('is-invalid');
+                this.classList.add('is-valid');
+              }
+            });
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

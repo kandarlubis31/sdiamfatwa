@@ -1,0 +1,284 @@
+{% load static %}
+{% load compress %}
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SDI AM FATWA - {% block title %}{% endblock %}</title>
+    
+    <!-- Favicon hanya webp -->
+    <link rel="icon" type="image/webp" href="{% static 'img/logo.webp' %}" />
+    
+    <!-- Preloader Styles -->
+    <style>
+      #preloader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #ffffff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 999999;
+        opacity: 1;
+        transition: opacity 0.5s ease;
+      }
+      #preloader.fade-out {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+      .preloader-logo {
+        width: 120px;
+        height: 120px;
+        animation: logoPulse 2s ease-in-out infinite;
+      }
+      @keyframes logoPulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+      }
+      .preloader-progress {
+        width: 200px;
+        height: 4px;
+        background: rgba(24, 154, 106, 0.2);
+        border-radius: 4px;
+        overflow: hidden;
+        margin-top: 1.5rem;
+      }
+      .preloader-bar {
+        width: 0;
+        height: 100%;
+        background: #189A6A;
+        transition: width 0.3s ease;
+      }
+      /* Hide content initially */
+      body > *:not(#preloader):not(script):not(style) {
+        opacity: 0;
+      }
+      body.page-loaded > *:not(#preloader):not(script):not(style) {
+        opacity: 1;
+        transition: opacity 0.5s ease;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Preloader - Harus muncul pertama -->
+    <div id="preloader">
+      <div class="preloader-content" style="display: flex; flex-direction: column; align-items: center;">
+        <img src="{% static 'img/logo.webp' %}" alt="Loading..." class="preloader-logo" />
+        <div class="preloader-progress">
+          <div class="preloader-bar"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Start progress animation immediately
+      (function() {
+        var bar = document.querySelector('.preloader-bar');
+        if (bar) {
+          var width = 0;
+          var interval = setInterval(function() {
+            width += 1;
+            if (width > 90) {
+              clearInterval(interval);
+            }
+            bar.style.width = width + '%';
+          }, 50);
+        }
+      })();
+    </script>
+
+    {% compress css %}
+    <link rel="stylesheet" href="{% static 'vendor/bootstrap/bootstrap.min.css' %}" type="text/css" />
+    <link rel="stylesheet" href="{% static 'vendor/fontawesome/all.min.css' %}" type="text/css" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css" />
+    <link rel="stylesheet" href="{% static 'css/animations.css' %}" type="text/css" />
+    {% endcompress %}
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+      <div class="container">
+        <a class="navbar-brand" href="{% url 'home' %}">
+          <img src="{% static 'img/logo.webp' %}" alt="Logo" height="40" />
+          SDI AM FATWA
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a
+                class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}"
+                href="{% url 'home' %}"
+                >Beranda</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link {% if 'berita' in request.resolver_match.url_name %}active{% endif %}"
+                href="{% url 'berita_list' %}"
+                >Berita</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link {% if 'agenda' in request.resolver_match.url_name %}active{% endif %}"
+                href="{% url 'agenda_list' %}"
+                >Agenda</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link {% if 'galeri' in request.resolver_match.url_name %}active{% endif %}"
+                href="{% url 'galeri_list' %}"
+                >Galeri</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link {% if 'kontak' in request.resolver_match.url_name %}active{% endif %}"
+                href="{% url 'kontak' %}"
+                >Kontak</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero-section">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-6 stagger-fade">
+            <h1 class="display-4 text-white fade-in">SDI AM FATWA</h1>
+            <p class="lead text-white fade-in-up">
+              Mencetak Generasi Qur'ani yang Cerdas dan Berakhlak Mulia
+            </p>
+            <a href="#profil" class="btn btn-warning btn-lg slide-in">Profil Sekolah</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container my-5">{% block content %}{% endblock %}</main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4">
+            <h5>SDI AM FATWA</h5>
+            <p>
+              Jl. Kramat Pulo Gundul No.2, RT.2/RW.9, Tanah Tinggi, Kec. Johar
+              Baru, Kota Jakarta Pusat, Daerah Khusus Ibukota Jakarta 10450
+            </p>
+            <p><i class="fas fa-phone"></i> (021) 12345678</p>
+            <p><i class="fas fa-envelope"></i> info@sdiamfatwa.sch.id</p>
+          </div>
+          <div class="col-md-4">
+            <h5>Link Cepat</h5>
+            <ul class="list-unstyled">
+              <li>
+                <a href="{% url 'berita_list' %}" class="text-white">Berita</a>
+              </li>
+              <li>
+                <a href="{% url 'agenda_list' %}" class="text-white">Agenda</a>
+              </li>
+              <li>
+                <a href="{% url 'galeri_list' %}" class="text-white">Galeri</a>
+              </li>
+              <li>
+                <a href="{% url 'kontak' %}" class="text-white">Kontak</a>
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-4">
+            <h5>Ikuti Kami</h5>
+            <div class="social-links">
+              <a href="#" class="text-white me-2"
+                ><i class="fab fa-facebook fa-2x"></i
+              ></a>
+              <a href="#" class="text-white me-2"
+                ><i class="fab fa-instagram fa-2x"></i
+              ></a>
+              <a href="#" class="text-white me-2"
+                ><i class="fab fa-youtube fa-2x"></i
+              ></a>
+              <a href="#" class="text-white"
+                ><i class="fab fa-whatsapp fa-2x"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+        <hr class="bg-white" />
+        <div class="text-center">
+          <p>&copy; {% now "Y" %} SDI AM FATWA. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    {% compress js %}
+    <script src="{% static 'vendor/jquery/jquery-3.6.0.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'vendor/bootstrap/bootstrap.bundle.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'js/main.js' %}" type="text/javascript"></script>
+    <script src="{% static 'js/scroll-position.js' %}" type="text/javascript"></script>
+    <script src="{% static 'js/animations.js' %}" type="text/javascript"></script>
+    {% endcompress %}
+
+    <script>
+      // Preloader handling - versi yang diperbaiki
+      document.addEventListener('DOMContentLoaded', function() {
+        const preloader = document.getElementById('preloader');
+        const preloaderBar = document.querySelector('.preloader-bar');
+        
+        // Pastikan preloader ada sebelum memanipulasinya
+        if (preloader && preloaderBar) {
+          // Lanjutkan progress jika diperlukan
+          let width = parseInt(preloaderBar.style.width) || 0;
+          if (width < 90) {
+            const interval = setInterval(() => {
+              width += 2;
+              if (width > 90) {
+                clearInterval(interval);
+              }
+              preloaderBar.style.width = width + '%';
+            }, 50);
+          }
+        }
+      });
+
+      window.addEventListener('load', function() {
+        const preloader = document.getElementById('preloader');
+        const preloaderBar = document.querySelector('.preloader-bar');
+        
+        if (preloader && preloaderBar) {
+          // Selesaikan progress bar
+          preloaderBar.style.width = '100%';
+          
+          // Setelah jeda singkat, hilangkan preloader dan tampilkan konten
+          setTimeout(() => {
+            preloader.classList.add('fade-out');
+            document.body.classList.add('page-loaded');
+            
+            // Hapus preloader sepenuhnya setelah fade out
+            setTimeout(() => {
+              preloader.style.display = 'none';
+            }, 500);
+          }, 500);
+        }
+      });
+    </script>
+  </body>
+</html>

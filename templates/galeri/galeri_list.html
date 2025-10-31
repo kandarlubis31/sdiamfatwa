@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Galeri{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="mb-4">Galeri Kegiatan</h1>
+    
+    <!-- Daftar Album -->
+    <div class="row">
+        {% for album in album_list %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">{{ album.nama }}</h5>
+                    <p class="card-text">{{ album.deskripsi|truncatewords:15 }}</p>
+                    <p><i class="fas fa-calendar"></i> {{ album.tanggal_dibuat|date:"d M Y" }}</p>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <a href="{% url 'galeri_detail' album.id %}" class="btn btn-sm btn-primary">Lihat Galeri</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info">Tidak ada album galeri yang tersedia.</div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

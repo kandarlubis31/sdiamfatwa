@@ -1,0 +1,572 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static jazzmin %}
+
+{% block title %}{{ site_title|default:_('Django site admin') }} | {% trans "Dashboard" %}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">
+  
+  <a href="{% url 'custom_admin:index' %}">
+    <img src="{% static 'img/logo.webp' %}" alt="{{ site_header }}" height="30" />
+    {{ site_header }}
+  </a>
+</h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+{% block content %}
+<div id="content-main">
+  
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="card shadow mb-4">
+        <div class="card-body py-3">
+          <div class="d-flex align-items-center">
+            <div class="mr-3">
+              <i class="fas fa-user-circle fa-3x text-primary"></i>
+            </div>
+            <div>
+              <h4 class="mb-0">Selamat Datang, {{ user.get_full_name|default:user.username }}</h4>
+              <p class="mb-0 text-muted">{{ welcome_sign }}</p>
+            </div>
+            <div class="ml-auto text-right d-none d-md-block">
+              <p class="mb-0 text-muted">{{ now|date:"l, d F Y" }}</p>
+              <p class="mb-0 text-muted">{{ now|date:"H:i" }} WIB</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="row mb-4">
+    <div class="col-xl-3 col-md-6 mb-4">
+      <div class="card border-left-primary shadow h-100 py-2 hover-lift">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Berita</div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_berita }}</div>
+              {% if berita_percentage_change %}
+              <div class="mt-1">
+                {% if berita_percentage_change > 0 %}
+                <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> {{ berita_percentage_change|floatformat:1 }}%</span>
+                {% else %}
+                <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i> {{ berita_percentage_change|floatformat:1 }}%</span>
+                {% endif %}
+                <span class="text-xs text-muted">dari bulan lalu</span>
+              </div>
+              {% endif %}
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-newspaper fa-2x text-gray-300"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 mb-4">
+      <div class="card border-left-success shadow h-100 py-2 hover-lift">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Total Agenda</div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_agenda }}</div>
+              {% if agenda_upcoming %}
+              <div class="mt-1">
+                <span class="text-xs text-muted">{{ agenda_upcoming }} agenda mendatang</span>
+              </div>
+              {% endif %}
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-calendar fa-2x text-gray-300"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 mb-4">
+      <div class="card border-left-info shadow h-100 py-2 hover-lift">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Total Galeri</div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_albums }}</div>
+              <div class="mt-1">
+                <span class="text-xs text-muted">{{ total_photos }} total foto</span>
+              </div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-images fa-2x text-gray-300"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 mb-4">
+      <div class="card border-left-warning shadow h-100 py-2 hover-lift">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Pesan Masuk</div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_pesan }}</div>
+              {% if unread_messages > 0 %}
+              <div class="mt-1">
+                <span class="text-xs text-danger">{{ unread_messages }} belum dibaca</span>
+              </div>
+              {% endif %}
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-envelope fa-2x text-gray-300"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="row">
+    <div class="col-lg-6 mb-4">
+      <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+          <h6 class="m-0 font-weight-bold text-primary">
+            <i class="fas fa-newspaper mr-2"></i>Berita Terbaru
+          </h6>
+          
+          <a href="{% url 'custom_admin:berita_berita_changelist' %}" class="btn btn-sm btn-primary">
+            Lihat Semua
+          </a>
+        </div>
+        <div class="card-body">
+          {% if berita_terbaru %}
+          <div class="table-responsive">
+            <table class="table table-hover table-bordered" width="100%" cellspacing="0">
+              <thead class="thead-light">
+                <tr>
+                  <th>Judul</th>
+                  <th>Kategori</th>
+                  <th>Tanggal</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for berita in berita_terbaru %}
+                <tr>
+                  <td>
+                    
+                    <a href="{% url 'custom_admin:berita_berita_change' berita.id %}" class="text-dark">
+                      {{ berita.judul|truncatechars:50 }}
+                    </a>
+                  </td>
+                  <td>
+                    <span class="badge badge-primary">{{ berita.get_kategori_display }}</span>
+                  </td>
+                  <td><small class="text-muted">{{ berita.tanggal_publikasi|date:"d M Y" }}</small></td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          {% else %}
+          <div class="text-center py-4">
+            <i class="fas fa-newspaper fa-3x text-muted mb-3"></i>
+            <p class="text-muted">Belum ada berita</p>
+            
+            <a href="{% url 'custom_admin:berita_berita_add' %}" class="btn btn-sm btn-primary">
+              <i class="fas fa-plus"></i> Tambah Berita
+            </a>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6 mb-4">
+      <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+          <h6 class="m-0 font-weight-bold text-primary">
+            <i class="fas fa-calendar mr-2"></i>Agenda Mendatang
+          </h6>
+          
+          <a href="{% url 'custom_admin:agenda_agenda_changelist' %}" class="btn btn-sm btn-primary">
+            Lihat Semua
+          </a>
+        </div>
+        <div class="card-body">
+          {% if agenda_mendatang %}
+          <div class="table-responsive">
+            <table class="table table-hover table-bordered" width="100%" cellspacing="0">
+              <thead class="thead-light">
+                <tr>
+                  <th>Judul</th>
+                  <th>Tanggal</th>
+                  <th>Lokasi</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for agenda in agenda_mendatang %}
+                <tr>
+                  <td>
+                    
+                    <a href="{% url 'custom_admin:agenda_agenda_change' agenda.id %}" class="text-dark">
+                      {{ agenda.judul|truncatechars:50 }}
+                    </a>
+                  </td>
+                  <td><small class="text-muted">{{ agenda.tanggal_mulai|date:"d M Y" }}</small></td>
+                  <td><small class="text-muted">{{ agenda.lokasi|truncatechars:30 }}</small></td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          {% else %}
+          <div class="text-center py-4">
+            <i class="fas fa-calendar fa-3x text-muted mb-3"></i>
+            <p class="text-muted">Belum ada agenda</p>
+            
+            <a href="{% url 'custom_admin:agenda_agenda_add' %}" class="btn btn-sm btn-primary">
+              <i class="fas fa-plus"></i> Tambah Agenda
+            </a>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="row">
+    <div class="col-lg-6 mb-4">
+      <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+          <h6 class="m-0 font-weight-bold text-primary">
+            <i class="fas fa-images mr-2"></i>Galeri Terbaru
+          </h6>
+          
+          <a href="{% url 'custom_admin:galeri_album_changelist' %}" class="btn btn-sm btn-primary">
+            Lihat Semua
+          </a>
+        </div>
+        <div class="card-body">
+          {% if album_terbaru %}
+          <div class="row">
+            {% for album in album_terbaru %}
+            <div class="col-md-6 mb-3">
+              <div class="card h-100">
+                
+                {% with first_foto=album.foto_set.first %}
+                  {% if first_foto and first_foto.gambar %}
+                  <img src="{{ first_foto.gambar.url }}" class="card-img-top" alt="{{ album.nama }}" style="height: 120px; object-fit: cover;">
+                  {% else %}
+                  <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 120px;">
+                    <i class="fas fa-image fa-3x text-muted"></i>
+                  </div>
+                  {% endif %}
+                {% endwith %}
+                
+                <div class="card-body p-2">
+                  <h6 class="card-title mb-1">
+                    
+                    <a href="{% url 'custom_admin:galeri_album_change' album.id %}" class="text-dark">
+                      {{ album.nama|truncatechars:25 }}
+                    </a>
+                  </h6>
+                  <p class="card-text small text-muted mb-1">{{ album.foto_set.count }} foto</p>
+                  <p class="card-text small text-muted">{{ album.tanggal_dibuat|date:"d M Y" }}</p>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+          {% else %}
+          <div class="text-center py-4">
+            <i class="fas fa-images fa-3x text-muted mb-3"></i>
+            <p class="text-muted">Belum ada album</p>
+            
+            <a href="{% url 'custom_admin:galeri_album_add' %}" class="btn btn-sm btn-primary">
+              <i class="fas fa-plus"></i> Tambah Album
+            </a>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6 mb-4">
+      <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+          <h6 class="m-0 font-weight-bold text-primary">
+            <i class="fas fa-envelope mr-2"></i>Pesan Terbaru
+          </h6>
+          
+          <a href="{% url 'custom_admin:kontak_pesan_changelist' %}" class="btn btn-sm btn-primary">
+            Lihat Semua
+          </a>
+        </div>
+        <div class="card-body">
+          {% if pesan_terbaru %}
+          <div class="list-group">
+            {% for pesan in pesan_terbaru %}
+            
+            <a href="{% url 'custom_admin:kontak_pesan_change' pesan.id %}" class="list-group-item list-group-item-action {% if not pesan.sudah_dibaca %}list-group-item-info{% endif %}">
+              <div class="d-flex w-100 justify-content-between">
+                <h6 class="mb-1">{{ pesan.nama|truncatechars:30 }}</h6>
+                <small>{{ pesan.tanggal|date:"d M Y" }}</small>
+              </div>
+              <p class="mb-1">{{ pesan.pesan|truncatechars:80 }}</p>
+              <small>{{ pesan.email }}</small>
+              {% if not pesan.sudah_dibaca %}
+              <span class="badge badge-info float-right">Baru</span>
+              {% endif %}
+            </a>
+            {% endfor %}
+          </div>
+          {% else %}
+          <div class="text-center py-4">
+            <i class="fas fa-envelope fa-3x text-muted mb-3"></i>
+            <p class="text-muted">Belum ada pesan</p>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="row">
+    <div class="col-12">
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">
+            <i class="fas fa-bolt mr-2"></i>Aksi Cepat
+          </h6>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-3 mb-3">
+              
+              <a href="{% url 'custom_admin:berita_berita_add' %}" class="btn btn-primary btn-block btn-action">
+                <i class="fas fa-plus-circle mr-2"></i>Tambah Berita
+              </a>
+            </div>
+            <div class="col-md-3 mb-3">
+              
+              <a href="{% url 'custom_admin:agenda_agenda_add' %}" class="btn btn-success btn-block btn-action">
+                <i class="fas fa-plus-circle mr-2"></i>Tambah Agenda
+              </a>
+            </div>
+            <div class="col-md-3 mb-3">
+              
+              <a href="{% url 'custom_admin:galeri_album_add' %}" class="btn btn-info btn-block btn-action">
+                <i class="fas fa-plus-circle mr-2"></i>Tambah Album
+              </a>
+            </div>
+            <div class="col-md-3 mb-3">
+              
+              <a href="{% url 'custom_admin:kontak_pesan_changelist' %}" class="btn btn-warning btn-block btn-action">
+                <i class="fas fa-envelope-open mr-2"></i>Lihat Pesan
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="row">
+    <div class="col-12">
+      <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+          <h6 class="m-0 font-weight-bold text-primary">
+            <i class="fas fa-history mr-2"></i>Aktivitas Terbaru
+          </h6>
+          
+          <a href="{% url 'custom_admin:index' %}" class="btn btn-sm btn-primary">
+            Lihat Semua Model
+          </a>
+        </div>
+        <div class="card-body">
+          {% if recent_actions %}
+          <div class="timeline">
+            {% for action in recent_actions %}
+            <div class="timeline-item">
+              <div class="timeline-point {% if action.is_addition %}timeline-point-success{% elif action.is_change %}timeline-point-primary{% else %}timeline-point-danger{% endif %}"></div>
+              <div class="timeline-content">
+                <div class="d-flex justify-content-between">
+                  <h6 class="mb-1">{{ action.object_repr|truncatechars:80 }} - 
+                    <span class="text-muted">
+                      {% if action.is_addition %}Ditambahkan{% elif action.is_change %}Diubah{% else %}Dihapus{% endif %}
+                    </span>
+                  </h6>
+                  <small class="text-muted">{{ action.action_time|date:"d M Y, H:i" }}</small>
+                </div>
+                <p class="mb-0 text-muted">oleh {{ action.user.get_full_name|default:action.user.username }}</p>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+          {% else %}
+          <div class="text-center py-4">
+            <i class="fas fa-history fa-3x text-muted mb-3"></i>
+            <p class="text-muted">Belum ada aktivitas</p>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+<style>
+  
+  
+  .btn-warning {
+    background-color: #f3e5a9 !important;
+    border-color: #f3e5a9 !important;
+    color: #116146 !important;
+  }
+  .btn-warning:hover,
+  .btn-warning:focus {
+    background-color: #e6d78f !important;
+    border-color: #e6d78f !important;
+    color: #116146 !important;
+    box-shadow: 0 0 0 0.2rem rgba(243, 229, 169, 0.25) !important;
+  }
+  .border-left-warning {
+    border-left: 0.25rem solid #f3e5a9 !important;
+  }
+  .text-warning {
+    color: #f3e5a9 !important;
+  }
+  
+
+  
+  .card {
+    transition: all 0.3s ease;
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+  }
+
+  
+  .table-hover tbody tr:hover {
+    background-color: rgba(24, 154, 106, 0.05);
+  }
+
+  .thead-light th {
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #dee2e6;
+  }
+
+  
+  .btn-action {
+    padding: 0.75rem 1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+
+  .btn-action:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  
+  a.text-dark:hover {
+    color: #189a6a !important;
+    text-decoration: none;
+  }
+
+  
+  .card-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid rgba(24, 154, 106, 0.1);
+  }
+
+  
+  .text-center i.fa-3x {
+    opacity: 0.3;
+  }
+
+  
+  .timeline {
+    position: relative;
+    padding-left: 30px;
+  }
+  
+  .timeline:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 10px;
+    height: 100%;
+    width: 2px;
+    background: #e9ecef;
+  }
+  
+  .timeline-item {
+    position: relative;
+    margin-bottom: 20px;
+  }
+  
+  .timeline-point {
+    position: absolute;
+    left: -30px;
+    top: 5px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #189a6a;
+    border: 3px solid #fff;
+  }
+  
+  .timeline-point-success {
+    background: #28a745;
+  }
+  
+  .timeline-point-primary {
+    background: #189a6a;
+  }
+  
+  .timeline-point-danger {
+    background: #dc3545;
+  }
+  
+  .timeline-content {
+    background: #f8f9fa;
+    border-radius: 5px;
+    padding: 10px 15px;
+  }
+
+  
+  .list-group-item-info {
+    background-color: rgba(24, 154, 106, 0.1);
+    border-left: 3px solid #189a6a;
+  }
+
+  
+  @media (max-width: 768px) {
+    .hover-lift:hover {
+      transform: none;
+    }
+    
+    .btn-action:hover {
+      transform: none;
+    }
+    
+    .d-flex .ml-auto {
+        display: none !important;
+    }
+  }
+</style>
+{% endblock %}

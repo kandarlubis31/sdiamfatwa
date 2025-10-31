@@ -1,0 +1,44 @@
+.env
+venv/
+__pycache__/
+*.pyc
+db.sqlite3
+# Python and environment
+.env
+venv/
+__pycache__/
+*.pyc
+db.sqlite3
+
+# Django static & media builds
+staticfiles/
+media/
+
+# Logs and runtime files
+logs/
+*.log
+*.pid
+
+# Editor/IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# Uploaded files and user content
+media/uploads/
+media/berita/
+media/galeri/
+
+# Node / NPM
+node_modules/
+npm-debug.log*
