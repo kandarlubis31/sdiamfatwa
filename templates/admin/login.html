@@ -8,11 +8,9 @@
     <meta name="robots" content="noindex, nofollow" />
     <title>Login | SDI AM FATWA Admin</title>
     
-    <!-- Preconnect to external domains for performance -->
     <link rel="preconnect" href="https://cdn.jsdelivr.net" />
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
     
-    <!-- Load critical CSS inline for faster rendering -->
     <style>
       /* Critical CSS for above-the-fold content */
       * {
@@ -235,7 +233,6 @@
       }
     </style>
     
-    <!-- Load non-critical CSS asynchronously -->
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
@@ -247,7 +244,6 @@
       media="print" onload="this.media='all'"
     />
     
-    <!-- Fallback for browsers that don't support onload -->
     <noscript>
       <link
         rel="stylesheet"
@@ -259,38 +255,15 @@
       />
     </noscript>
     
-<<<<<<< HEAD
     <link rel="icon" href="{% static 'img/logo.webp' %}" type="image/png" />
     
-    <!-- Preload the logo image -->
     <link rel="preload" href="{% static 'img/logo.webp' %}" as="image" />
-=======
-<<<<<<< HEAD
-    <link rel="icon" href="{% static 'img/logo.png' %}" type="image/png" />
-    
-    <!-- Preload the logo image -->
-    <link rel="preload" href="{% static 'img/logo.png' %}" as="image" />
-=======
-    <link rel="icon" href="{% static 'img/logo.webp' %}" type="image/png" />
-    
-    <!-- Preload the logo image -->
-    <link rel="preload" href="{% static 'img/logo.webp' %}" as="image" />
->>>>>>> 83ebcfe (Please enter the commit message for your changes. Lines starting)
->>>>>>> b123919 (resolve conflicts)
   </head>
   <body>
     <div class="login-container">
       <div class="login-header">
         <div class="logo-wrapper">
-<<<<<<< HEAD
           <img src="{% static 'img/logo.webp' %}" alt="Logo SDI AM FATWA" loading="lazy" />
-=======
-<<<<<<< HEAD
-          <img src="{% static 'img/logo.png' %}" alt="Logo SDI AM FATWA" loading="lazy" />
-=======
-          <img src="{% static 'img/logo.webp' %}" alt="Logo SDI AM FATWA" loading="lazy" />
->>>>>>> 83ebcfe (Please enter the commit message for your changes. Lines starting)
->>>>>>> b123919 (resolve conflicts)
         </div>
         <h1>SDI AM FATWA</h1>
         <p>Sistem Informasi Administrasi</p>
@@ -328,7 +301,6 @@
       {% endfor %} 
       {% endif %}
 
-      <!-- Form action mengarah ke login view kustom -->
       <form action="{% url 'admin_login' %}" method="post" id="login-form" novalidate>
         {% csrf_token %}
 
@@ -369,7 +341,6 @@
             {{ form.password.errors|join:", " }}
           </div>
           {% endif %}
-          <!-- Set next value ke dashboard kustom -->
           <input type="hidden" name="next" value="{% url 'admin_panel:admin_dashboard' %}" />
         </div>
 
@@ -383,19 +354,12 @@
         <p>
           <i class="fas fa-copyright" aria-hidden="true"></i> {% now "Y" %} SDI AM FATWA. All
           rights reserved.
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
           <br />
           Made with <i class="fas fa-heart" aria-hidden="true"></i> for Education
-=======
->>>>>>> 83ebcfe (Please enter the commit message for your changes. Lines starting)
->>>>>>> b123919 (resolve conflicts)
         </p>
       </div>
     </div>
 
-    <!-- Defer non-critical JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
     
     <script>

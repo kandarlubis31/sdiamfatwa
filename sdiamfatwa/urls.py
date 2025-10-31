@@ -4,14 +4,6 @@ from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
 from admin_panel.admin import custom_admin_site
-<<<<<<< HEAD
-from django.urls import include, path
-=======
-<<<<<<< HEAD
-=======
-from django.urls import include, path
->>>>>>> 83ebcfe (Please enter the commit message for your changes. Lines starting)
->>>>>>> b123919 (resolve conflicts)
 
 urlpatterns = [
     path('admin/', custom_admin_site.urls),
@@ -25,27 +17,15 @@ urlpatterns = [
     path('admin/reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     path('admin/reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
     
-    # Aplikasi utama
     path('', include('home.urls')),
     path('berita/', include('berita.urls')),
     path('agenda/', include('agenda.urls')),
     path('galeri/', include('galeri.urls')),
     path('kontak/', include('kontak.urls')),
     
-    # Admin panel kustom
-    
-    # CKEditor
+
     path('ckeditor/', include('ckeditor_uploader.urls')),
-<<<<<<< HEAD
     path('', include('pwa.urls')),
-
-=======
-<<<<<<< HEAD
-=======
-    path('', include('pwa.urls')),
-
->>>>>>> 83ebcfe (Please enter the commit message for your changes. Lines starting)
->>>>>>> b123919 (resolve conflicts)
 ]
 
 if settings.DEBUG:

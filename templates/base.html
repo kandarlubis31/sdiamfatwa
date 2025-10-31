@@ -1,24 +1,14 @@
 {% load static %}
-<<<<<<< HEAD
 {% load compress %}
-=======
-<<<<<<< HEAD
-=======
-{% load compress %}
->>>>>>> 83ebcfe (Please enter the commit message for your changes. Lines starting)
->>>>>>> b123919 (resolve conflicts)
 <!DOCTYPE html>
 <html lang="id">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SDI AM FATWA - {% block title %}{% endblock %}</title>
-<<<<<<< HEAD
     
-    <!-- Favicon hanya webp -->
     <link rel="icon" type="image/webp" href="{% static 'img/logo.webp' %}" />
     
-    <!-- Preloader Styles -->
     <style>
       #preloader {
         position: fixed;
@@ -73,82 +63,6 @@
     </style>
   </head>
   <body>
-=======
-<<<<<<< HEAD
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-    />
-    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
-    <!-- <link rel="stylesheet" href="{% static 'css/animations.css' %}" /> -->
-  </head>
-  <body>
-=======
-    
-    <!-- Favicon hanya webp -->
-    <link rel="icon" type="image/webp" href="{% static 'img/logo.webp' %}" />
-    
-    <!-- Preloader Styles -->
-    <style>
-      #preloader {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: #ffffff;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 999999;
-        opacity: 1;
-        transition: opacity 0.5s ease;
-      }
-      #preloader.fade-out {
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
-      }
-      .preloader-logo {
-        width: 120px;
-        height: 120px;
-        animation: logoPulse 2s ease-in-out infinite;
-      }
-      @keyframes logoPulse {
-        0%, 100% { transform: scale(1); }
-        50% { transform: scale(1.1); }
-      }
-      .preloader-progress {
-        width: 200px;
-        height: 4px;
-        background: rgba(24, 154, 106, 0.2);
-        border-radius: 4px;
-        overflow: hidden;
-        margin-top: 1.5rem;
-      }
-      .preloader-bar {
-        width: 0;
-        height: 100%;
-        background: #189A6A;
-        transition: width 0.3s ease;
-      }
-      /* Hide content initially */
-      body > *:not(#preloader):not(script):not(style) {
-        opacity: 0;
-      }
-      body.page-loaded > *:not(#preloader):not(script):not(style) {
-        opacity: 1;
-        transition: opacity 0.5s ease;
-      }
-    </style>
-  </head>
-  <body>
->>>>>>> b123919 (resolve conflicts)
-    <!-- Preloader - Harus muncul pertama -->
     <div id="preloader">
       <div class="preloader-content" style="display: flex; flex-direction: column; align-items: center;">
         <img src="{% static 'img/logo.webp' %}" alt="Loading..." class="preloader-logo" />
@@ -182,26 +96,11 @@
     <link rel="stylesheet" href="{% static 'css/animations.css' %}" type="text/css" />
     {% endcompress %}
 
-<<<<<<< HEAD
-=======
->>>>>>> 83ebcfe (Please enter the commit message for your changes. Lines starting)
->>>>>>> b123919 (resolve conflicts)
-    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
       <div class="container">
         <a class="navbar-brand" href="{% url 'home' %}">
-<<<<<<< HEAD
           <img src="{% static 'img/logo.webp' %}" alt="Logo" height="40" />
           SDI AM FATWA
-=======
-<<<<<<< HEAD
-          <img src="{% static 'img/logo.png' %}" alt="Logo" height="40" /> SDI
-          AM FATWA
-=======
-          <img src="{% static 'img/logo.webp' %}" alt="Logo" height="40" />
-          SDI AM FATWA
->>>>>>> 83ebcfe (Please enter the commit message for your changes. Lines starting)
->>>>>>> b123919 (resolve conflicts)
         </a>
         <button
           class="navbar-toggler"
@@ -253,51 +152,22 @@
       </div>
     </nav>
 
-    <!-- Hero Section -->
     <div class="hero-section">
       <div class="container">
         <div class="row align-items-center">
-<<<<<<< HEAD
           <div class="col-lg-6 stagger-fade">
             <h1 class="display-4 text-white fade-in">SDI AM FATWA</h1>
             <p class="lead text-white fade-in-up">
               Mencetak Generasi Qur'ani yang Cerdas dan Berakhlak Mulia
             </p>
             <a href="#profil" class="btn btn-warning btn-lg slide-in">Profil Sekolah</a>
-=======
-<<<<<<< HEAD
-          <div class="col-lg-6">
-            <h1 class="display-4 text-white">SDI AM FATWA</h1>
-            <p class="lead text-white">
-              Mencetak Generasi Qur'ani yang Cerdas dan Berakhlak Mulia
-            </p>
-            <a href="#profil" class="btn btn-warning btn-lg">Profil Sekolah</a>
-=======
-          <div class="col-lg-6 stagger-fade">
-            <h1 class="display-4 text-white fade-in">SDI AM FATWA</h1>
-            <p class="lead text-white fade-in-up">
-              Mencetak Generasi Qur'ani yang Cerdas dan Berakhlak Mulia
-            </p>
-            <a href="#profil" class="btn btn-warning btn-lg slide-in">Profil Sekolah</a>
->>>>>>> 83ebcfe (Please enter the commit message for your changes. Lines starting)
->>>>>>> b123919 (resolve conflicts)
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Main Content -->
-<<<<<<< HEAD
     <main class="container my-5">{% block content %}{% endblock %}</main>
-=======
-<<<<<<< HEAD
-    <main class="container my-5">{% block content %} {% endblock %}</main>
-=======
-    <main class="container my-5">{% block content %}{% endblock %}</main>
->>>>>>> 83ebcfe (Please enter the commit message for your changes. Lines starting)
->>>>>>> b123919 (resolve conflicts)
 
-    <!-- Footer -->
     <footer class="bg-dark text-white py-4">
       <div class="container">
         <div class="row">
@@ -352,7 +222,6 @@
       </div>
     </footer>
 
-<<<<<<< HEAD
     {% compress js %}
     <script src="{% static 'vendor/jquery/jquery-3.6.0.min.js' %}" type="text/javascript"></script>
     <script src="{% static 'vendor/bootstrap/bootstrap.bundle.min.js' %}" type="text/javascript"></script>
@@ -406,70 +275,3 @@
     </script>
   </body>
 </html>
-=======
-<<<<<<< HEAD
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{% static 'js/main.js' %}"></script>
-    <!-- Di bagian bawah body, sebelum penutup body -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{% static 'js/main.js' %}"></script>
-    <script src="{% static 'js/scroll-position.js' %}"></script>
-  </body>
-</html>
-=======
-    {% compress js %}
-    <script src="{% static 'vendor/jquery/jquery-3.6.0.min.js' %}" type="text/javascript"></script>
-    <script src="{% static 'vendor/bootstrap/bootstrap.bundle.min.js' %}" type="text/javascript"></script>
-    <script src="{% static 'js/main.js' %}" type="text/javascript"></script>
-    <script src="{% static 'js/scroll-position.js' %}" type="text/javascript"></script>
-    <script src="{% static 'js/animations.js' %}" type="text/javascript"></script>
-    {% endcompress %}
-
-    <script>
-      // Preloader handling - versi yang diperbaiki
-      document.addEventListener('DOMContentLoaded', function() {
-        const preloader = document.getElementById('preloader');
-        const preloaderBar = document.querySelector('.preloader-bar');
-        
-        // Pastikan preloader ada sebelum memanipulasinya
-        if (preloader && preloaderBar) {
-          // Lanjutkan progress jika diperlukan
-          let width = parseInt(preloaderBar.style.width) || 0;
-          if (width < 90) {
-            const interval = setInterval(() => {
-              width += 2;
-              if (width > 90) {
-                clearInterval(interval);
-              }
-              preloaderBar.style.width = width + '%';
-            }, 50);
-          }
-        }
-      });
-
-      window.addEventListener('load', function() {
-        const preloader = document.getElementById('preloader');
-        const preloaderBar = document.querySelector('.preloader-bar');
-        
-        if (preloader && preloaderBar) {
-          // Selesaikan progress bar
-          preloaderBar.style.width = '100%';
-          
-          // Setelah jeda singkat, hilangkan preloader dan tampilkan konten
-          setTimeout(() => {
-            preloader.classList.add('fade-out');
-            document.body.classList.add('page-loaded');
-            
-            // Hapus preloader sepenuhnya setelah fade out
-            setTimeout(() => {
-              preloader.style.display = 'none';
-            }, 500);
-          }, 500);
-        }
-      });
-    </script>
-  </body>
-</html>
->>>>>>> 83ebcfe (Please enter the commit message for your changes. Lines starting)
->>>>>>> b123919 (resolve conflicts)

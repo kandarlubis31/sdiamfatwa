@@ -3,21 +3,7 @@ venv/
 __pycache__/
 *.pyc
 db.sqlite3
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-/staticfiles/
-/media/
-=======
->>>>>>> b123919 (resolve conflicts)
-# Python and environment
-.env
-venv/
-__pycache__/
-*.pyc
-db.sqlite3
 
-# Django static & media builds
 staticfiles/
 media/
 
@@ -49,7 +35,3 @@ media/galeri/
 # Node / NPM
 node_modules/
 npm-debug.log*
-<<<<<<< HEAD
-=======
->>>>>>> 83ebcfe (Please enter the commit message for your changes. Lines starting)
->>>>>>> b123919 (resolve conflicts)

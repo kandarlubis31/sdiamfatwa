@@ -2,21 +2,12 @@
 {% load static %}
 {% block title %}Beranda{% endblock %}
 {% block content %}
-<!-- Profil Sekolah -->
 <section id="profil" class="mb-5 fade-in">
   <h2 class="text-center mb-4 slide-in">Profil Sekolah</h2>
   <div class="row stagger-fade">
     <div class="col-md-6">
       <img
-<<<<<<< HEAD
         src="{% static 'img/sekolah.webp' %}"
-=======
-<<<<<<< HEAD
-        src="{% static 'img/sekolah.jpg' %}"
-=======
-        src="{% static 'img/sekolah.webp' %}"
->>>>>>> 83ebcfe (Please enter the commit message for your changes. Lines starting)
->>>>>>> b123919 (resolve conflicts)
         alt="SDI AM FATWA"
         class="img-fluid rounded lazy-load"
         loading="lazy"
@@ -41,7 +32,6 @@
   </div>
 </section>
 
-<!-- Berita Terbaru -->
 <section class="mb-5">
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h2>Berita Terbaru</h2>
@@ -75,7 +65,7 @@
           <h5 class="card-title">{{ berita.judul }}</h5>
           <p class="card-text">{{ berita.isi|truncatewords_html:20|safe }}</p>
           <div class="mt-auto">
-            <small class="text-muted"></small>
+            <small class="text-muted">
               {{ berita.tanggal_publikasi|date:"j F Y" }} oleh {{ berita.author.get_full_name|default:berita.author.username }}
             </small>
             <a
@@ -95,8 +85,6 @@
   </div>
 </section>
 
-<!-- Agenda Mendatang -->
-<!-- Bagian Agenda Mendatang di home/home.html -->
 <section class="mb-5">
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h2>Agenda Mendatang</h2>
@@ -129,7 +117,6 @@
   </div>
 </section>
 
-<!-- Statistik Sekolah -->
 <section class="mb-5 bg-light py-5 rounded">
   <div class="container">
     <h2 class="text-center mb-4">Statistik Sekolah</h2>
@@ -166,7 +153,6 @@
   </div>
 </section>
 
-<!-- Call to Action -->
 <section class="mb-5 bg-primary text-white py-5 rounded">
   <div class="container text-center">
     <h2 class="mb-4">Daftarkan Putra-Putri Anda Sekarang!</h2>
