@@ -1,32 +1,132 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load widget_tweaks %}
 
 {% block title %}Galeri{% endblock %}
 
+{% block extra_css %}
+<style>
+  .album-card {
+    transition: transform 0.3s ease;
+    height: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+  }
+  
+  .album-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+  }
+  
+  .album-img-container {
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .album-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+  
+  .album-card:hover .album-img {
+    transform: scale(1.03);
+  }
+  
+  .album-count {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(0,0,0,0.6);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+  }
+  
+  .page-header {
+    position: relative;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+  }
+  
+  .page-header:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background-color: #0d6efd;
+    border-radius: 2px;
+  }
+  
+  .empty-state {
+    padding: 3rem 1rem;
+    text-align: center;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    border: 1px dashed #dee2e6;
+  }
+  
+  .empty-icon {
+    font-size: 3rem;
+    color: #dee2e6;
+    margin-bottom: 1rem;
+  }
+</style>
+{% endblock %}
+
 {% block content %}
 <div class="container my-5">
-    <h1 class="mb-4">Galeri Kegiatan</h1>
-    
-    <!-- Daftar Album -->
-    <div class="row">
-        {% for album in album_list %}
-        <div class="col-md-4 mb-4">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h5 class="card-title">{{ album.nama }}</h5>
-                    <p class="card-text">{{ album.deskripsi|truncatewords:15 }}</p>
-                    <p><i class="fas fa-calendar"></i> {{ album.tanggal_dibuat|date:"d M Y" }}</p>
-                </div>
-                <div class="card-footer bg-transparent">
-                    <a href="{% url 'galeri_detail' album.id %}" class="btn btn-sm btn-primary">Lihat Galeri</a>
-                </div>
-            </div>
+  <div class="page-header">
+    <h1 class="fw-bold">Galeri Kegiatan</h1>
+    <p class="text-muted">Dokumentasi kegiatan dan momen berharga di SDI AM FATWA</p>
+  </div>
+  
+  <!-- Daftar Album -->
+  <div class="row g-4">
+    {% for album in album_list %}
+    <div class="col-md-4">
+      <div class="card album-card">
+        <div class="album-img-container">
+          {% if album.foto_set.first %}
+            <img src="{{ album.foto_set.first.gambar.url }}" class="album-img" alt="{{ album.nama }}">
+          {% else %}
+            <img src="{% static 'img/default-album.jpg' %}" class="album-img" alt="Default Album">
+          {% endif %}
+          <div class="album-count">
+            <i class="fas fa-images me-1"></i> {{ album.foto_set.count }}
+          </div>
         </div>
-        {% empty %}
-        <div class="col-12">
-            <div class="alert alert-info">Tidak ada album galeri yang tersedia.</div>
+        <div class="card-body">
+          <h5 class="card-title fw-bold">{{ album.nama }}</h5>
+          <p class="card-text text-muted">{{ album.deskripsi|truncatewords:15 }}</p>
+          <p class="text-muted small mb-0">
+            <i class="far fa-calendar me-1"></i> {{ album.tanggal_dibuat|date:"d M Y" }}
+          </p>
         </div>
-        {% endfor %}
+        <div class="card-footer bg-white border-0">
+          <a href="{% url 'galeri_detail' album.id %}" class="btn btn-primary w-100">
+            <i class="fas fa-eye me-1"></i> Lihat Galeri
+          </a>
+        </div>
+      </div>
     </div>
+    {% empty %}
+    <div class="col-12">
+      <div class="empty-state">
+        <div class="empty-icon">
+          <i class="fas fa-images"></i>
+        </div>
+        <h3 class="text-muted">Belum Ada Album Galeri</h3>
+        <p class="text-muted">Album galeri kegiatan akan segera tersedia.</p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
 </div>
 {% endblock %}

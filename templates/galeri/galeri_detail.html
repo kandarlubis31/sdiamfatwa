@@ -1,6 +1,67 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}{{ album.nama }}{% endblock %}
+
+{% block extra_css %}
+<style>
+  .gallery-img {
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+  
+  .gallery-img:hover {
+    transform: scale(1.03);
+  }
+  
+  .card {
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .card:hover {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  }
+  
+  .lightbox {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.9);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .lightbox-content {
+    max-width: 90%;
+    max-height: 90%;
+    position: relative;
+  }
+  
+  .lightbox-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  
+  .lightbox-close {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    color: white;
+    font-size: 35px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .album-header {
+    border-left: 4px solid #0d6efd;
+  }
+</style>
+{% endblock %}
 
 {% block content %}
 <div class="container my-5">
@@ -12,11 +73,14 @@
         </ol>
     </nav>
     
-    <div class="card mb-4">
+    <div class="card mb-4 album-header">
         <div class="card-body">
             <h1 class="card-title">{{ album.nama }}</h1>
             <p class="card-text">{{ album.deskripsi }}</p>
-            <p class="text-muted"><i class="fas fa-calendar"></i> Dibuat pada {{ album.tanggal_dibuat|date:"d F Y" }}</p>
+            <p class="text-muted">
+                <i class="fas fa-calendar"></i> Dibuat pada {{ album.tanggal_dibuat|date:"d F Y" }}
+                <span class="ms-3"><i class="fas fa-images"></i> {{ foto_list.count }} Foto</span>
+            </p>
         </div>
     </div>
     
@@ -24,8 +88,10 @@
     <div class="row">
         {% for foto in foto_list %}
         <div class="col-md-4 mb-4">
-            <div class="card">
-                <img src="{{ foto.gambar.url }}" class="card-img-top" alt="{{ foto.keterangan }}">
+            <div class="card h-100">
+                <img src="{{ foto.gambar.url }}" class="card-img-top gallery-img" alt="{{ foto.keterangan }}" 
+                     data-bs-toggle="modal" data-bs-target="#lightbox" 
+                     data-img="{{ foto.gambar.url }}" data-caption="{{ foto.keterangan }}">
                 <div class="card-body">
                     <p class="card-text">{{ foto.keterangan }}</p>
                 </div>
@@ -33,13 +99,75 @@
         </div>
         {% empty %}
         <div class="col-12">
-            <div class="alert alert-info">Belum ada foto dalam album ini.</div>
+            <div class="alert alert-info text-center py-4">
+                <i class="fas fa-image fa-3x mb-3 d-block text-center"></i>
+                <h5>Belum ada foto dalam album ini</h5>
+                <p>Silakan kembali lagi nanti untuk melihat foto-foto terbaru.</p>
+            </div>
         </div>
         {% endfor %}
     </div>
     
-    <div class="mt-4">
-        <a href="{% url 'galeri_list' %}" class="btn btn-outline-primary">Kembali ke Daftar Galeri</a>
+    <div class="mt-4 text-center">
+        <a href="{% url 'galeri_list' %}" class="btn btn-outline-primary">
+            <i class="fas fa-arrow-left me-2"></i> Kembali ke Daftar Galeri
+        </a>
     </div>
 </div>
+
+<!-- Lightbox Modal -->
+<div class="lightbox" id="lightbox">
+    <div class="lightbox-content">
+        <span class="lightbox-close">&times;</span>
+        <img src="" alt="" class="lightbox-img" id="lightbox-img">
+        <div class="text-white text-center p-3" id="lightbox-caption"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const galleryImgs = document.querySelectorAll('.gallery-img');
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxCaption = document.getElementById('lightbox-caption');
+        const lightboxClose = document.querySelector('.lightbox-close');
+        
+        // Open lightbox when clicking on gallery images
+        galleryImgs.forEach(img => {
+            img.addEventListener('click', function() {
+                const imgSrc = this.getAttribute('data-img');
+                const caption = this.getAttribute('data-caption');
+                
+                lightboxImg.src = imgSrc;
+                lightboxCaption.textContent = caption;
+                lightbox.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            });
+        });
+        
+        // Close lightbox
+        function closeLightbox() {
+            lightbox.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        lightboxClose.addEventListener('click', closeLightbox);
+        
+        // Close lightbox when clicking outside the image
+        lightbox.addEventListener('click', function(e) {
+            if (e.target === lightbox) {
+                closeLightbox();
+            }
+        });
+        
+        // Close lightbox with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && lightbox.style.display === 'flex') {
+                closeLightbox();
+            }
+        });
+    });
+</script>
 {% endblock %}

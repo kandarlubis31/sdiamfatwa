@@ -1,97 +1,168 @@
-{% extends 'base.html' %} {% load static %} {% block title %}{{ berita.judul
-}}{% endblock %} {% block content %}
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ berita.judul }}{% endblock %}
+
+{% block extra_css %}
+<style>
+  .breadcrumb {
+    background-color: transparent;
+    padding: 0;
+    margin-bottom: 1.5rem;
+  }
+  
+  .breadcrumb-item + .breadcrumb-item::before {
+    content: ">";
+    color: #6c757d;
+  }
+  
+  .berita-header {
+    border-left: 4px solid #0d6efd;
+    padding-left: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .berita-img-container {
+    margin-bottom: 2rem;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  }
+  
+  .berita-content {
+    line-height: 1.7;
+  }
+  
+  .berita-content p {
+    margin-bottom: 1.2rem;
+  }
+  
+  .berita-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+  }
+  
+  .berita-content h2, .berita-content h3 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+  
+  .berita-meta {
+    color: #6c757d;
+    font-size: 0.9rem;
+  }
+  
+  .terkait-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
+  .terkait-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+  }
+  
+  .terkait-img-container {
+    height: 150px;
+    overflow: hidden;
+  }
+  
+  .terkait-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+  
+  .terkait-card:hover .terkait-img {
+    transform: scale(1.03);
+  }
+  
+  .btn-back {
+    transition: all 0.3s ease;
+  }
+  
+  .btn-back:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,123,255,0.3);
+  }
+</style>
+{% endblock %}
+
+{% block content %}
 <div class="container my-5">
+  <!-- Breadcrumb -->
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="{% url 'home' %}">Beranda</a></li>
-      <li class="breadcrumb-item">
-        <a href="{% url 'berita_list' %}">Berita</a>
-      </li>
+      <li class="breadcrumb-item"><a href="{% url 'home' %}" class="text-decoration-none">Beranda</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'berita_list' %}" class="text-decoration-none">Berita</a></li>
       <li class="breadcrumb-item active">{{ berita.judul }}</li>
     </ol>
   </nav>
-
-  <div class="card">
-    <div class="card-body">
-      <span class="badge bg-primary mb-3"
-        >{{ berita.get_kategori_display }}</span
-      >
-      <h1 class="card-title">{{ berita.judul }}</h1>
-      <div class="d-flex justify-content-between mb-3">
-        <small class="text-muted">Oleh: {{ berita.author }}</small>
-        <small class="text-muted"
-          >{{ berita.tanggal_publikasi|date:"d F Y" }}</small
-        >
-      </div>
-
-      {% if berita.gambar %}
-      <div class="mb-4 text-center">
-        <img
-          src="{{ berita.gambar.url }}"
-          class="img-fluid rounded"
-          alt="{{ berita.judul }}"
-          style="max-height: 500px; width: auto"
-        />
-      </div>
-      {% else %}
-      <div class="mb-4 text-center">
-        <img
-          src="{% static 'img/default-berita.jpg' %}"
-          class="img-fluid rounded"
-          alt="Default Image"
-          style="max-height: 500px; width: auto"
-        />
-      </div>
-      {% endif %}
-
-      <div class="card-text berita-content">{{ berita.isi|safe }}</div>
+  
+  <!-- Berita Header -->
+  <div class="berita-header">
+    <span class="badge bg-primary mb-2">{{ berita.get_kategori_display }}</span>
+    <h1 class="fw-bold">{{ berita.judul }}</h1>
+    <div class="berita-meta">
+      <i class="far fa-user me-1"></i> {{ berita.author }} 
+      <span class="mx-2">|</span>
+      <i class="far fa-calendar me-1"></i> {{ berita.tanggal_publikasi|date:"d F Y" }}
     </div>
   </div>
-
-  <div class="mt-4">
-    <a href="{% url 'berita_list' %}" class="btn btn-outline-primary"
-      >Kembali ke Daftar Berita</a
-    >
+  
+  <!-- Berita Image -->
+  {% if berita.gambar %}
+  <div class="berita-img-container">
+    <img src="{{ berita.gambar.url }}" class="img-fluid w-100" alt="{{ berita.judul }}">
+  </div>
+  {% endif %}
+  
+  <!-- Berita Content -->
+  <div class="card border-0 shadow-sm mb-5">
+    <div class="card-body p-4">
+      <div class="berita-content">{{ berita.isi|safe }}</div>
+    </div>
+  </div>
+  
+  <!-- Back Button -->
+  <div class="mb-5">
+    <a href="{% url 'berita_list' %}" class="btn btn-outline-primary btn-back">
+      <i class="fas fa-arrow-left me-2"></i> Kembali ke Daftar Berita
+    </a>
   </div>
 
   <!-- Berita Terkait -->
   {% if berita_terkait %}
   <div class="mt-5">
-    <h3>Berita Terkait</h3>
-    <div class="row">
+    <h3 class="mb-4 fw-bold">Berita Terkait</h3>
+    <div class="row g-4">
       {% for item in berita_terkait %}
-      <div class="col-md-4 mb-4">
-        <div class="card h-100">
-          <div class="berita-card-img-container">
+      <div class="col-md-4">
+        <div class="card terkait-card">
+          <div class="terkait-img-container">
             {% if item.gambar %}
-            <img
-              src="{{ item.gambar.url }}"
-              class="berita-card-img"
-              alt="{{ item.judul }}"
-            />
+            <img src="{{ item.gambar.url }}" class="terkait-img" alt="{{ item.judul }}">
             {% else %}
-            <img
-              src="{% static 'img/default-berita.jpg' %}"
-              class="berita-card-img"
-              alt="Default Image"
-            />
+            <img src="{% static 'img/default-berita.jpg' %}" class="terkait-img" alt="Default Image">
             {% endif %}
           </div>
           <div class="card-body d-flex flex-column">
-            <span class="badge bg-primary mb-2 align-self-start"
-              >{{ item.get_kategori_display }}</span
-            >
-            <h5 class="card-title">{{ item.judul }}</h5>
-            <p class="card-text">{{ item.isi|truncatewords_html:15|safe }}</p>
-            <div class="mt-auto">
-              <small class="text-muted"
-                >{{ item.tanggal_publikasi|date:"d M Y" }}</small
-              >
-              <a
-                href="{% url 'berita_detail' item.id %}"
-                class="btn btn-sm btn-primary float-end"
-                >Baca Selengkapnya</a
-              >
+            <span class="badge bg-primary mb-2 align-self-start">{{ item.get_kategori_display }}</span>
+            <h5 class="card-title fw-bold">{{ item.judul }}</h5>
+            <p class="card-text text-muted small flex-grow-1">{{ item.isi|truncatewords_html:15|safe }}</p>
+            <div class="d-flex justify-content-between align-items-center mt-2">
+              <small class="text-muted">
+                <i class="far fa-calendar me-1"></i> {{ item.tanggal_publikasi|date:"d M Y" }}
+              </small>
+              <a href="{% url 'berita_detail' item.id %}" class="btn btn-sm btn-primary">
+                Baca <i class="fas fa-arrow-right ms-1"></i>
+              </a>
             </div>
           </div>
         </div>

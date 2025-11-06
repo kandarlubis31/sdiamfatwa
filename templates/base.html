@@ -148,6 +148,13 @@
             </li>
             <li class="nav-item">
               <a
+                class="nav-link profile-link"
+                href="#profil"
+                >Profil</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
                 class="nav-link {% if 'berita' in request.resolver_match.url_name %}active{% endif %}"
                 href="{% url 'berita_list' %}"
                 >Berita</a
@@ -187,9 +194,9 @@
             <p class="lead text-white fade-in-up">
               Mencetak Generasi Qur'ani yang Cerdas dan Berakhlak Mulia
             </p>
-            <a href="#profil" class="btn btn-warning btn-lg slide-in"
-              >Profil Sekolah</a
-            >
+            <a href="#profil" class="btn btn-warning btn-lg slide-in profile-link">
+              Profil Sekolah
+            </a>
           </div>
         </div>
       </div>
@@ -224,6 +231,9 @@
           <div class="col-md-4">
             <h5>Link Cepat</h5>
             <ul class="list-unstyled">
+              <li>
+                <a href="#profil" class="text-white profile-link">Profil</a>
+              </li>
               <li>
                 <a href="{% url 'berita_list' %}" class="text-white">Berita</a>
               </li>
@@ -346,6 +356,50 @@
             setTimeout(() => {
               preloader.style.display = "none";
             }, 500);
+          }, 500);
+        }
+      });
+      
+      // Handle profile links
+      document.addEventListener('DOMContentLoaded', function() {
+        // Get all profile links
+        const profileLinks = document.querySelectorAll('.profile-link');
+        
+        profileLinks.forEach(link => {
+          link.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Check if we're on the home page
+            const currentPath = window.location.pathname;
+            const isHomePage = currentPath === '/' || currentPath.endsWith('/home/');
+            
+            if (isHomePage) {
+              // If on home page, scroll to #profil section
+              const profilSection = document.getElementById('profil');
+              if (profilSection) {
+                profilSection.scrollIntoView({
+                  behavior: 'smooth',
+                  block: 'start'
+                });
+              }
+            } else {
+              // If not on home page, redirect to home page with #profil hash
+              window.location.href = "{% url 'home' %}#profil";
+            }
+          });
+        });
+        
+        // Check if we need to scroll to #profil after page load
+        if (window.location.hash === '#profil') {
+          // Wait a bit for the page to fully load
+          setTimeout(() => {
+            const profilSection = document.getElementById('profil');
+            if (profilSection) {
+              profilSection.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+              });
+            }
           }, 500);
         }
       });
