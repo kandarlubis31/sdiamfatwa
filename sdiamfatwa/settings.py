@@ -13,7 +13,7 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-your-secret-key-here'
 DEBUG = config('DEBUG', default=True, cast=bool)
 
 # Allow all hosts in development, specific hosts in production
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1,tugas.rohidtzz.me', cast=Csv())
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1,', cast=Csv())
 
 # Application definition
 INSTALLED_APPS = [
@@ -300,21 +300,18 @@ CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
         'LOCATION': 'unique-snowflake',
-        # Default timeout (in seconds) for cache keys. Use 0 for no expiration, None for backend default.
-        # Read from environment so it can be configured per-deployment.
-        'TIMEOUT': config('CACHE_TIMEOUT', default=3600, cast=int),  # default 1 hour
-        # Optional prefix to avoid collisions between environments
+        'TIMEOUT': config('CACHE_TIMEOUT', default=3600, cast=int),
         'KEY_PREFIX': config('CACHE_KEY_PREFIX', default='sdiamfatwa'),
     }
 }
     
 # Session settings
-SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
-SESSION_CACHE_ALIAS = 'default'
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # Ubah dari 'cache' ke 'db'
 SESSION_COOKIE_AGE = 86400  # 24 jam
 SESSION_SAVE_EVERY_REQUEST = True
 SESSION_COOKIE_HTTPONLY = True
 SESSION_COOKIE_SAMESITE = 'Lax'
+SESSION_COOKIE_NAME = 'sessionid'  # Tambahkan ini
 
 # CSRF settings
 CSRF_COOKIE_HTTPONLY = True
@@ -330,6 +327,18 @@ DATA_UPLOAD_MAX_NUMBER_FIELDS = 1000
 PASSWORD_RESET_TIMEOUT = 86400  # 24 jam
 
 # Logging configuration
+LOGS_DIR = os.path.join(BASE_DIR, 'logs')
+os.makedirs(LOGS_DIR, exist_ok=True)
+
+# Try to create log file with proper permissions
+LOG_FILE = os.path.join(LOGS_DIR, 'django.log')
+try:
+    if not os.path.exists(LOG_FILE):
+        open(LOG_FILE, 'a').close()
+        os.chmod(LOG_FILE, 0o666)
+except (OSError, PermissionError):
+    LOG_FILE = None
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -344,14 +353,6 @@ LOGGING = {
         },
     },
     'handlers': {
-        'file': {
-            'level': 'INFO',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(BASE_DIR, 'logs', 'django.log'),
-            'maxBytes': 1024*1024*5,  # 5MB
-            'backupCount': 5,
-            'formatter': 'verbose',
-        },
         'console': {
             'level': 'INFO',
             'class': 'logging.StreamHandler',
@@ -360,20 +361,30 @@ LOGGING = {
     },
     'loggers': {
         'django': {
-            'handlers': ['file', 'console'],
+            'handlers': ['console'],
             'level': 'INFO',
             'propagate': True,
         },
         'django.request': {
-            'handlers': ['file'],
+            'handlers': ['console'],
             'level': 'ERROR',
             'propagate': False,
         },
     },
 }
 
-# Create logs directory if it doesn't exist
-os.makedirs(os.path.join(BASE_DIR, 'logs'), exist_ok=True)
+# Add file handler only if log file is accessible
+if LOG_FILE:
+    LOGGING['handlers']['file'] = {
+        'level': 'INFO',
+        'class': 'logging.handlers.RotatingFileHandler',
+        'filename': LOG_FILE,
+        'maxBytes': 1024*1024*5,  # 5MB
+        'backupCount': 5,
+        'formatter': 'verbose',
+    }
+    LOGGING['loggers']['django']['handlers'].append('file')
+    LOGGING['loggers']['django.request']['handlers'].append('file')
 
 # Message tags
 MESSAGE_TAGS = {
@@ -395,6 +406,7 @@ ABSOLUTE_URL_OVERRIDES = {
     'auth.user': lambda u: "/users/%s/" % u.username,
 }
 
+# PWA Settings
 PWA_APP_NAME = 'SDI AM FATWA'
 PWA_APP_DESCRIPTION = "Website resmi SDI AM FATWA"
 PWA_APP_THEME_COLOR = '#00695c'
