@@ -64,6 +64,29 @@
         opacity: 1;
         transition: opacity 0.5s ease;
       }
+      /* Hidden admin button */
+      .admin-button {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        opacity: 0.3;
+        transition: all 0.3s ease;
+        z-index: 100;
+        font-size: 20px;
+        color: #333;
+      }
+      .admin-button:hover {
+        opacity: 0.7;
+        background-color: rgba(0, 0, 0, 0.2);
+      }
     </style>
   </head>
   <body>
@@ -293,6 +316,10 @@
 
         <div class="text-center">
           <p>&copy; {% now "Y" %} SDI AM FATWA. All rights reserved.</p>
+          <!-- Hidden admin link in footer -->
+          <div style="font-size: 10px; opacity: 0.3; margin-top: 5px;">
+            <a href="https://sdiamfatwa.web.id/admin" target="_blank" style="color: #666;">Admin</a>
+          </div>
         </div>
       </div>
     </footer>
@@ -401,6 +428,14 @@
               });
             }
           }, 500);
+        }
+        
+        // Admin button functionality
+        const adminButton = document.querySelector('.admin-button');
+        if (adminButton) {
+          adminButton.addEventListener('click', function() {
+            window.open('https://sdiamfatwa.web.id/admin', '_blank');
+          });
         }
       });
     </script>
