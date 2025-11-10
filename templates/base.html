@@ -56,6 +56,7 @@
         background: #189a6a;
         transition: width 0.3s ease;
       }
+      
       /* Hide content initially */
       body > *:not(#preloader):not(script):not(style) {
         opacity: 0;
@@ -64,7 +65,8 @@
         opacity: 1;
         transition: opacity 0.5s ease;
       }
-      /* Hidden admin button */
+      
+      /* Admin button */
       .admin-button {
         position: fixed;
         bottom: 20px;
@@ -87,42 +89,54 @@
         opacity: 0.7;
         background-color: rgba(0, 0, 0, 0.2);
       }
-    </style>
-  </head>
-  <body>
-    <div id="preloader">
-      <div
-        class="preloader-content"
-        style="display: flex; flex-direction: column; align-items: center"
-      >
-        <img
-          src="{% static 'img/logo.webp' %}"
-          alt="Loading..."
-          class="preloader-logo"
-        />
-        <div class="preloader-progress">
-          <div class="preloader-bar"></div>
-        </div>
-      </div>
-    </div>
-
-    <script>
-      // Start progress animation immediately
-      (function () {
-        var bar = document.querySelector(".preloader-bar");
-        if (bar) {
-          var width = 0;
-          var interval = setInterval(function () {
-            width += 1;
-            if (width > 90) {
-              clearInterval(interval);
-            }
-            bar.style.width = width + "%";
-          }, 50);
+      
+      /* Navbar styles */
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        box-shadow: 0 2px 4px rgba(0,0,0,.1);
+      }
+      
+      /* Hero section styles */
+      .hero-section {
+        background: linear-gradient(rgba(24, 154, 106, 0.8), rgba(24, 154, 106, 0.8)), 
+                    url('{% static "img/hero-bg.jpg" %}') no-repeat center center;
+        background-size: cover;
+        padding: 120px 0 80px;
+        margin-top: 70px; /* Sesuai dengan tinggi navbar */
+        color: white;
+      }
+      
+      /* Main content styles */
+      main {
+        padding-top: 2rem;
+        min-height: calc(100vh - 70px); /* Sesuai dengan tinggi navbar */
+      }
+      
+      /* Body padding to avoid content being hidden under navbar */
+      body {
+        padding-top: 70px; /* Sesuai dengan tinggi navbar */
+      }
+      
+      /* Mobile responsive adjustments */
+      @media (max-width: 991.98px) {
+        .navbar-collapse {
+          background-color: #0d6efd;
+          padding: 1rem;
+          border-radius: 0.25rem;
+          margin-top: 0.5rem;
         }
-      })();
-    </script>
-
+        
+        .hero-section {
+          padding-top: 100px;
+          padding-bottom: 60px;
+        }
+      }
+    </style>
+    
     {% compress css %}
     <link
       rel="stylesheet"
@@ -145,6 +159,25 @@
       type="text/css"
     />
     {% endcompress %}
+    
+    {% block extra_css %}{% endblock %}
+  </head>
+  <body class="{% block body_class %}{% endblock %}">
+    <div id="preloader">
+      <div
+        class="preloader-content"
+        style="display: flex; flex-direction: column; align-items: center"
+      >
+        <img
+          src="{% static 'img/logo.webp' %}"
+          alt="Loading..."
+          class="preloader-logo"
+        />
+        <div class="preloader-progress">
+          <div class="preloader-bar"></div>
+        </div>
+      </div>
+    </div>
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
       <div class="container">
@@ -157,6 +190,9 @@
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
         >
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -209,6 +245,7 @@
       </div>
     </nav>
 
+    <!-- Hero Section -->
     <div class="hero-section">
       <div class="container">
         <div class="row align-items-center">
@@ -225,9 +262,13 @@
       </div>
     </div>
 
-    <main class="container my-5">{% block content %}{% endblock %}</main>
+    <!-- Main Content -->
+    <main class="container my-5">
+      {% block content %}{% endblock %}
+    </main>
 
-    <footer class="bg-dark text-white py-4">
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4 mt-5">
       <div class="container">
         <div class="row">
           <!-- Informasi Sekolah -->
@@ -324,6 +365,11 @@
       </div>
     </footer>
 
+    <!-- Admin Button -->
+    <a class="admin-button" href="https://sdiamfatwa.web.id/admin" target="_blank" rel="noopener noreferrer" title="Halaman Admin">
+      <i class="fas fa-user-shield"></i>
+    </a>
+
     {% compress js %}
     <script
       src="{% static 'vendor/jquery/jquery-3.6.0.min.js' %}"
@@ -345,7 +391,7 @@
     {% endcompress %}
 
     <script>
-      // Preloader handling - versi yang diperbaiki
+      // Preloader handling
       document.addEventListener("DOMContentLoaded", function () {
         const preloader = document.getElementById("preloader");
         const preloaderBar = document.querySelector(".preloader-bar");
@@ -404,9 +450,11 @@
               // If on home page, scroll to #profil section
               const profilSection = document.getElementById('profil');
               if (profilSection) {
-                profilSection.scrollIntoView({
-                  behavior: 'smooth',
-                  block: 'start'
+                // Add offset to avoid navbar covering the section
+                const navbarHeight = document.querySelector('.navbar').offsetHeight;
+                window.scrollTo({
+                  top: profilSection.offsetTop - navbarHeight,
+                  behavior: 'smooth'
                 });
               }
             } else {
@@ -422,22 +470,18 @@
           setTimeout(() => {
             const profilSection = document.getElementById('profil');
             if (profilSection) {
-              profilSection.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
+              // Add offset to avoid navbar covering the section
+              const navbarHeight = document.querySelector('.navbar').offsetHeight;
+              window.scrollTo({
+                top: profilSection.offsetTop - navbarHeight,
+                behavior: 'smooth'
               });
             }
           }, 500);
         }
-        
-        // Admin button functionality
-        const adminButton = document.querySelector('.admin-button');
-        if (adminButton) {
-          adminButton.addEventListener('click', function() {
-            window.open('https://sdiamfatwa.web.id/admin', '_blank');
-          });
-        }
       });
     </script>
+    
+    {% block extra_js %}{% endblock %}
   </body>
 </html>
