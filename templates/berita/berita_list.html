@@ -5,11 +5,20 @@
 
 {% block extra_css %}
 <style>
+  /* PERBAIKAN JARAK NAVBAR: 
+    Kita paksa container utama di halaman ini punya margin-top 5rem (80px),
+    cukup untuk ngelewatin navbar 72px. 
+  */
+  .berita-list-container.my-5 {
+    margin-top: 5rem !important;
+  }
+
   .berita-card {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     height: 100%;
     border-radius: 10px;
     overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
   }
   
   .berita-card:hover {
@@ -20,6 +29,7 @@
   .berita-card-img-container {
     height: 200px;
     overflow: hidden;
+    background-color: #f0f0f0;
   }
   
   .berita-card-img {
@@ -39,6 +49,7 @@
     padding-bottom: 1rem;
   }
   
+  /* PERBAIKAN WARNA: Ganti biru jadi hijau */
   .page-header:after {
     content: '';
     position: absolute;
@@ -46,7 +57,7 @@
     left: 0;
     width: 60px;
     height: 3px;
-    background-color: #0d6efd;
+    background-color: #189A6A; 
     border-radius: 2px;
   }
   
@@ -54,14 +65,7 @@
     margin-bottom: 2rem;
   }
   
-  .pagination .page-link {
-    color: #0d6efd;
-  }
-  
-  .pagination .page-item.active .page-link {
-    background-color: #0d6efd;
-    border-color: #0d6efd;
-  }
+  /* Style pagination udah ada di style.css utama, jadi kita hapus di sini */
   
   .empty-state {
     padding: 3rem 1rem;
@@ -74,13 +78,12 @@
 {% endblock %}
 
 {% block content %}
-<div class="container my-5">
+<div class="container my-5 berita-list-container">
   <div class="page-header">
     <h1 class="fw-bold">Berita SDI AM FATWA</h1>
     <p class="text-muted">Informasi terkini seputar kegiatan sekolah</p>
   </div>
   
-  <!-- Filter Kategori -->
   <div class="filter-group">
     <div class="btn-group flex-wrap" role="group">
       <a href="{% url 'berita_list' %}" class="btn btn-outline-primary {% if not kategori %}active{% endif %}">Semua</a>
@@ -90,16 +93,15 @@
     </div>
   </div>
   
-  <!-- Daftar Berita -->
   <div class="row g-4">
     {% for berita in berita_list %}
     <div class="col-md-4">
       <div class="card berita-card">
         <div class="berita-card-img-container">
           {% if berita.gambar %}
-          <img src="{{ berita.gambar.url }}" class="berita-card-img" alt="{{ berita.judul }}">
+          <img src="{{ berita.gambar.url }}" class="berita-card-img" alt="{{ berita.judul }}" loading="lazy">
           {% else %}
-          <img src="{% static 'img/default-berita.jpg' %}" class="berita-card-img" alt="Default Image">
+          <img src="{% static 'img/default-berita.jpg' %}" class="berita-card-img" alt="Default Image" loading="lazy">
           {% endif %}
         </div>
         <div class="card-body d-flex flex-column">
@@ -130,7 +132,6 @@
     {% endfor %}
   </div>
   
-  <!-- Pagination -->
   {% if is_paginated %}
   <nav aria-label="Page navigation" class="mt-4">
     <ul class="pagination justify-content-center">

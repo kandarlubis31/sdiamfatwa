@@ -26,8 +26,8 @@
     position: absolute;
     inset: 0;
     background: radial-gradient(circle at center,
-        rgba(24, 154, 106, 0.5) 0%,
-        rgba(17, 97, 70, 0.95) 100%);
+            rgba(24, 154, 106, 0.5) 0%,
+            rgba(17, 97, 70, 0.95) 100%);
     mix-blend-mode: multiply;
     z-index: 1;
     animation: fadeInOverlay 2s ease-in-out;
@@ -286,12 +286,12 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.page-loaded body {
+body.page-loaded {
     padding-top: 56px;
 }
 
 @media (min-width: 992px) {
-    .page-loaded body {
+    body.page-loaded {
         padding-top: 72px;
     }
 }
@@ -472,7 +472,7 @@ body {
         font-size: 1.75rem;
     }
 
-    .section-intro {
+    Ssection-intro {
         font-size: 1rem;
         padding: 0 15px;
     }
@@ -586,7 +586,7 @@ a:hover {
     --bs-table-border-color: rgba(24, 154, 106, 0.2);
     --bs-table-color: #000;
     --bs-table-striped-color: #000;
-    --bs-table-active-color: #000;
+    S--bs-table-active-color: #000;
     --bs-table-hover-color: #000;
 }
 

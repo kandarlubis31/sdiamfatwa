@@ -301,7 +301,7 @@
       {% endfor %} 
       {% endif %}
 
-      <form action="{% url 'admin_login' %}" method="post" id="login-form" novalidate>
+      <form action="{% url 'admin:login' %}" method="post" id="login-form" novalidate>
         {% csrf_token %}
 
         <div class="form-group">
@@ -341,7 +341,9 @@
             {{ form.password.errors|join:", " }}
           </div>
           {% endif %}
-          <input type="hidden" name="next" value="{% url 'admin_panel:admin_dashboard' %}" />
+          
+          <input type="hidden" name="next" value="{% url 'admin:index' %}" />
+        
         </div>
 
         <button type="submit" class="submit-btn" id="submitBtn">

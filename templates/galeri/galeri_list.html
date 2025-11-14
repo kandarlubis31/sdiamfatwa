@@ -1,11 +1,20 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load widget_tweaks %}
+{% load compress %}
 
 {% block title %}Galeri{% endblock %}
 
 {% block extra_css %}
 <style>
+  /* PERBAIKAN JARAK NAVBAR: 
+     Kita paksa container utama di halaman ini punya margin-top 5rem (80px),
+     cukup untuk ngelewatin navbar 72px. (Sama kayak berita/agenda)
+  */
+  .galeri-list-container.my-5 {
+    margin-top: 5rem !important;
+  }
+
   .album-card {
     transition: transform 0.3s ease;
     height: 100%;
@@ -23,6 +32,7 @@
     height: 200px;
     overflow: hidden;
     position: relative;
+    background-color: #f0f0f0;
   }
   
   .album-img {
@@ -47,12 +57,14 @@
     font-size: 0.8rem;
   }
   
+  /* Style untuk page header (biar sama kayak berita) */
   .page-header {
     position: relative;
     margin-bottom: 2rem;
     padding-bottom: 1rem;
   }
   
+  /* PERBAIKAN WARNA: Ganti biru jadi hijau */
   .page-header:after {
     content: '';
     position: absolute;
@@ -60,10 +72,11 @@
     left: 0;
     width: 60px;
     height: 3px;
-    background-color: #0d6efd;
+    background-color: #189A6A;
     border-radius: 2px;
   }
   
+  /* Style untuk empty state (biar sama kayak berita) */
   .empty-state {
     padding: 3rem 1rem;
     text-align: center;
@@ -74,14 +87,14 @@
   
   .empty-icon {
     font-size: 3rem;
-    color: #dee2e6;
+    color: #6c757d;
     margin-bottom: 1rem;
   }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="container my-5">
+<main class="container my-5 galeri-list-container">
   <div class="page-header">
     <h1 class="fw-bold">Galeri Kegiatan</h1>
     <p class="text-muted">Dokumentasi kegiatan dan momen berharga di SDI AM FATWA</p>
@@ -94,22 +107,22 @@
       <div class="card album-card">
         <div class="album-img-container">
           {% if album.foto_set.first %}
-            <img src="{{ album.foto_set.first.gambar.url }}" class="album-img" alt="{{ album.nama }}">
+            <img src="{{ album.foto_set.first.gambar.url }}" class="album-img" alt="{{ album.nama }}" loading="lazy">
           {% else %}
-            <img src="{% static 'img/default-album.jpg' %}" class="album-img" alt="Default Album">
+            <img src="{% static 'img/default-album.jpg' %}" class="album-img" alt="Default Album" loading="lazy">
           {% endif %}
           <div class="album-count">
             <i class="fas fa-images me-1"></i> {{ album.foto_set.count }}
           </div>
         </div>
-        <div class="card-body">
+        <div class="card-body d-flex flex-column">
           <h5 class="card-title fw-bold">{{ album.nama }}</h5>
-          <p class="card-text text-muted">{{ album.deskripsi|truncatewords:15 }}</p>
+          <p class="card-text text-muted flex-grow-1">{{ album.deskripsi|truncatewords:15 }}</p>
           <p class="text-muted small mb-0">
             <i class="far fa-calendar me-1"></i> {{ album.tanggal_dibuat|date:"d M Y" }}
           </p>
         </div>
-        <div class="card-footer bg-white border-0">
+        <div class="card-footer bg-white border-0 pt-0 pb-3 px-3">
           <a href="{% url 'galeri_detail' album.id %}" class="btn btn-primary w-100">
             <i class="fas fa-eye me-1"></i> Lihat Galeri
           </a>
@@ -120,7 +133,7 @@
     <div class="col-12">
       <div class="empty-state">
         <div class="empty-icon">
-          <i class="fas fa-images"></i>
+          <i class="fas fa-images text-muted"></i>
         </div>
         <h3 class="text-muted">Belum Ada Album Galeri</h3>
         <p class="text-muted">Album galeri kegiatan akan segera tersedia.</p>
@@ -128,5 +141,5 @@
     </div>
     {% endfor %}
   </div>
-</div>
+</main>
 {% endblock %}

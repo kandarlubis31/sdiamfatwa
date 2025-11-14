@@ -1,6 +1,5 @@
 from django.contrib import admin
 from .models import Pesan
-from admin_panel.admin import custom_admin_site
 
 @admin.register(Pesan)
 class PesanAdmin(admin.ModelAdmin):
@@ -14,5 +13,3 @@ class PesanAdmin(admin.ModelAdmin):
     
     mark_as_read.short_description = "Tandai sebagai sudah dibaca"
     actions = [mark_as_read]
-    
-custom_admin_site.register(Pesan, PesanAdmin)

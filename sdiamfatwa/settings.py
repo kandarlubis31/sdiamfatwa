@@ -98,7 +98,7 @@ DATABASES = {
         'PORT': config('DB_PORT', default='3306'),
         'CONN_MAX_AGE': 60,
         'OPTIONS': {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES', time_zone='+00:00'",
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES', time_zone='+07:00'",
             'connect_timeout': 10,
             'charset': 'utf8mb4',
         },
@@ -220,21 +220,41 @@ JAZZMIN_SETTINGS = {
     "site_title": "SDI AM FATWA Admin",
     "site_header": "SDI AM FATWA",
     "site_brand": "SDI AM FATWA",
+    "dashboard_view": "admin_panel.views.dashboard_view",
     "welcome_sign": "Selamat Datang di Admin Panel",
     "site_icon": "img/logo.webp",
-    "show_recent_actions": False,
-    "custom_views": [
-        {
-            "url": "/admin-panel/dashboard/",
-            "name": "Dashboard",
-            "icon": "fas fa-tachometer-alt",
-            "link": True,
-        }
+    "site_logo": "img/logo.webp",
+    "login_logo": "img/logo.webp",
+    "search_model": "auth.User",
+    "user_avatar": None,
+    "topmenu_links": [
+        {"name": "Home",  "url": "admin:index", "permissions": ["auth.view_user"]},
+        {"name": "Lihat Website", "url": "/", "icon": "fas fa-external-link-alt", "new_window": True},
+    ],
+    "usermenu_links": [
+         {"name": "Profil Saya", "model": "auth.user", "icon": "fas fa-user"},
+    ],
+    "show_sidebar": True,
+    "navigation_expanded": True,
+    
+    # HANYA SEMBUNYIKAN SITES
+    "hide_apps": ["sites"], 
+    
+    "hide_models": [],
+    "order_with_respect_to": [
+        "berita",
+        "agenda",
+        "galeri",
+        "kontak",
+        "users",
+        "auth",
+        "filer", # FILER TETAP TAMPIL
     ],
     "icons": {
         "auth": "fas fa-users-cog",
         "auth.user": "fas fa-user",
         "auth.Group": "fas fa-users",
+        "users": "fas fa-user-graduate",
         "agenda": "fas fa-calendar-alt",
         "agenda.Agenda": "fas fa-calendar-check",
         "berita": "fas fa-newspaper",
@@ -244,30 +264,65 @@ JAZZMIN_SETTINGS = {
         "galeri.Foto": "fas fa-image",
         "kontak": "fas fa-envelope-open-text",
         "kontak.Pesan": "fas fa-inbox",
+
+        # IKON UNTUK FILER
+        "filer": "fas fa-folder-open",
+        "filer.Folder": "fas fa-folder",
+        "filer.ThumbnailOption": "fas fa-crop-alt",
     },
-    "order_with_respect_to": [
-        "berita",
-        "agenda",
-        "galeri",
-        "kontak",
-        "auth",
-    ],
-    "ui_theme": "darkly",
-    "topmenu_links": [
-        {"name": "Lihat Website", "url": "/", "icon": "fas fa-external-link-alt", "new_window": True},
-    ],
-    "usermenu_links": [
-        {"name": "Profil", "url": "admin:auth_user_change", "icon": "fas fa-user"},
-    ],
-    "default_model_icon": "fas fa-circle",
-    "language_chooser": False,
-    "hide_models": ["auth.user", "auth.group"],
+    "default_icon_parents": "fas fa-chevron-circle-right",
+    "default_icon_children": "fas fa-circle",
+    "related_modal_active": False,
+    "custom_css": "css/custom_jazzmin.css",
+    "custom_js": None,
+    "use_google_fonts_cdn": True,
     "show_ui_builder": False,
+    "language_chooser": False,
+}
+
+JAZZMIN_UI_TWEAKS = {
+    "navbar_small_text": False,
+    "footer_small_text": False,
+    "body_small_text": False,
+    "brand_small_text": False,
+    "brand_colour": "navbar-light",
+    "accent": "accent-primary",
+    "navbar": "navbar-light navbar-white",
+    "no_navbar_border": False,
+    "navbar_fixed": True,
+    "layout_boxed": False,
+    "footer_fixed": False,
+    "sidebar_fixed": True,
+    "sidebar": "sidebar-light-primary",
+    "sidebar_nav_small_text": False,
+    "sidebar_disable_expand": False,
+    "sidebar_nav_child_indent": False,
+    "sidebar_nav_compact_style": False,
+    "sidebar_nav_legacy_style": False,
+    "sidebar_nav_flat_style": False,
+    "theme": "flatly",
+    "dark_mode_theme": None,
+    "button_classes": {
+        "primary": "btn-primary",
+        "secondary": "btn-secondary",
+        "info": "btn-info",
+        "warning": "btn-warning",
+        "danger": "btn-danger",
+        "success": "btn-success"
+    },
+    # "colors": {
+    #     "primary": "#189a6a",
+    #     "secondary": "#6c757d",
+    #     "info": "#17a2b8",
+    #     "success": "#28a745",
+    #     "warning": "#f3e5a9",
+    #     "danger": "#dc3545",
+    # },
 }
 
 # Authentication
 LOGIN_URL = '/admin/login/'
-LOGIN_REDIRECT_URL = '/admin_panel/dashboard/'
+# LOGIN_REDIRECT_URL = '/admin_panel/dashboard/'
 LOGOUT_REDIRECT_URL = '/admin/login/'
 
 # Email settings

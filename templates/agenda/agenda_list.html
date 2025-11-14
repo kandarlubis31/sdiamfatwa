@@ -1,11 +1,76 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load compress %}
 
 {% block title %}Agenda{% endblock %}
 
+{% block extra_css %}
+<style>
+  /* PERBAIKAN JARAK NAVBAR: 
+     Kita paksa container utama di halaman ini punya margin-top 5rem (80px),
+     cukup untuk ngelewatin navbar 72px. (Sama kayak berita_list.html)
+  */
+  .agenda-list-container.my-5 {
+    margin-top: 5rem !important;
+  }
+
+  /* Style untuk page header (biar sama kayak berita) */
+  .page-header {
+    position: relative;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+  }
+  
+  .page-header:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background-color: #189A6A; 
+    border-radius: 2px;
+  }
+
+  /* Style untuk card agenda (biar sama kayak berita) */
+  .agenda-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  }
+  
+  .agenda-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+  }
+
+  .agenda-card .card-body p {
+    margin-bottom: 0.75rem;
+  }
+
+  .agenda-card .card-body i {
+    color: var(--primary);
+    margin-right: 8px;
+  }
+  
+  /* Style untuk empty state (biar sama kayak berita) */
+  .empty-state {
+    padding: 3rem 1rem;
+    text-align: center;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    border: 1px dashed #dee2e6;
+  }
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="container my-5">
-    <h1 class="mb-4">Agenda Kegiatan SDI AM FATWA</h1>
+<main class="container my-5 agenda-list-container">
+    <div class="page-header">
+      <h1 class="fw-bold">Agenda Kegiatan SDI AM FATWA</h1>
+    </div>
     
     <!-- Filter -->
     <div class="mb-4">
@@ -20,24 +85,29 @@
     <div class="row">
         {% for agenda in agenda_list %}
         <div class="col-md-6 mb-4">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h5 class="card-title">{{ agenda.judul }}</h5>
-                    <p class="card-text">{{ agenda.deskripsi|truncatewords:20 }}</p>
-                    <p><i class="fas fa-calendar-alt"></i> {{ agenda.tanggal_mulai|date:"d M Y H:i" }} - {{ agenda.tanggal_selesai|date:"d M Y H:i" }}</p>
-                    <p><i class="fas fa-map-marker-alt"></i> {{ agenda.lokasi }}</p>
+            <div class="card h-100 agenda-card">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title fw-bold">{{ agenda.judul }}</h5>
+                    <p class="card-text text-muted flex-grow-1">{{ agenda.deskripsi|truncatewords:20 }}</p>
+                    <p class="small text-muted mb-2"><i class="fas fa-calendar-alt"></i> {{ agenda.tanggal_mulai|date:"d M Y H:i" }} - {{ agenda.tanggal_selesai|date:"d M Y H:i" }}</p>
+                    <p class="small text-muted mb-2"><i class="fas fa-map-marker-alt"></i> {{ agenda.lokasi }}</p>
                     {% if agenda.pihak_terkait %}
-                    <p><i class="fas fa-users"></i> {{ agenda.pihak_terkait }}</p>
+                    <p class="small text-muted"><i class="fas fa-users"></i> {{ agenda.pihak_terkait }}</p>
                     {% endif %}
                 </div>
-                <div class="card-footer bg-transparent">
-                    <a href="{% url 'agenda_detail' agenda.id %}" class="btn btn-sm btn-primary">Detail Agenda</a>
+                <div class="card-footer bg-transparent border-0 pt-0 pb-3 px-3">
+                    <a href="{% url 'agenda_detail' agenda.id %}" class="btn btn-sm btn-primary float-end">Detail Agenda</a>
                 </div>
             </div>
         </div>
         {% empty %}
         <div class="col-12">
-            <div class="alert alert-info">
+            <div class="empty-state">
+              <div class="empty-icon mb-3">
+                <i class="fas fa-calendar-times fa-3x text-muted"></i>
+              </div>
+              <h3 class="text-muted">Tidak Ada Agenda</h3>
+              <p class="text-muted">
                 {% if filter_type == 'mendatang' %}
                 Tidak ada agenda mendatang.
                 {% elif filter_type == 'lalu' %}
@@ -45,6 +115,7 @@
                 {% else %}
                 Tidak ada agenda yang tersedia.
                 {% endif %}
+              </p>
             </div>
         </div>
         {% endfor %}
@@ -52,7 +123,7 @@
     
     <!-- Pagination -->
     {% if is_paginated %}
-    <nav aria-label="Page navigation">
+    <nav aria-label="Page navigation" class="mt-4">
         <ul class="pagination justify-content-center">
             {% if page_obj.has_previous %}
             <li class="page-item">
@@ -65,7 +136,7 @@
             {% for num in page_obj.paginator.page_range %}
             {% if page_obj.number == num %}
             <li class="page-item active"><a class="page-link" href="#">{{ num }}</a></li>
-            {% else %}
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
             <li class="page-item"><a class="page-link" href="?page={{ num }}{% if filter_type and filter_type != 'semua' %}&filter={{ filter_type }}{% endif %}">{{ num }}</a></li>
             {% endif %}
             {% endfor %}
@@ -80,5 +151,5 @@
         </ul>
     </nav>
     {% endif %}
-</div>
+</main>
 {% endblock %}

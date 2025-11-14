@@ -1,23 +1,14 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth import logout
+from django.shortcuts import render
 from django.contrib.admin.views.decorators import staff_member_required
-from django.views.decorators.http import require_http_methods
-from django.contrib import messages
 from django.utils import timezone
 from datetime import timedelta
 from django.contrib.admin.models import LogEntry
 from django.db.models import Count, Q
-# Ditambahkan: Import 'reverse' untuk URL logout
-from django.urls import reverse
 
-# Import model-model kamu
 from berita.models import Berita
 from agenda.models import Agenda
 from galeri.models import Album, Foto
 from kontak.models import Pesan
-
-# Ditambahkan: Import custom_admin_site dari admin.py di folder yang sama
-from .admin import custom_admin_site
 
 @staff_member_required
 def dashboard_view(request):
@@ -46,7 +37,6 @@ def dashboard_view(request):
     unread_messages_count = Pesan.objects.filter(sudah_dibaca=False).count()
     
     
-    # Hitung ulang agenda_upcoming_count di sini agar akurat
     agenda_upcoming_count = Agenda.objects.filter(tanggal_mulai__gte=today).count() 
 
     
@@ -69,17 +59,12 @@ def dashboard_view(request):
         if count_last_month > 0:
             berita_percentage_change_val = ((count_this_month - count_last_month) / count_last_month) * 100
         elif count_this_month > 0:
-            berita_percentage_change_val = 100.0  
+            berita_percentage_change_val = 100.0 
     except Exception as e:
         
         pass 
 
     context = {
-        # Ditambahkan: Konteks dari custom_admin_site agar sidebar muncul
-        **custom_admin_site.each_context(request), 
-        
-        # Variabel ini bisa jadi sudah ada dari each_context,
-        # tapi tidak apa-apa menimpanya jika ingin nilai spesifik.
         'site_title': 'Admin Panel SDIAmFatwa', 
         'site_header': 'SDIAmFatwa Admin',   
         'welcome_sign': 'Dashboard Sistem Informasi Administrasi',
@@ -94,28 +79,20 @@ def dashboard_view(request):
         
         
         'berita_terbaru': berita_terbaru_list,
-        'agenda_mendatang': agenda_mendatang_list, # Kirim list untuk ditampilkan di tabel
+        'agenda_mendatang': agenda_mendatang_list, 
         'album_terbaru': album_terbaru_list,
         'pesan_terbaru': pesan_terbaru_list,
         
         
         'berita_percentage_change': berita_percentage_change_val,
-        'agenda_upcoming': agenda_upcoming_count, # Kirim count untuk ditampilkan di card statistik
+        'agenda_upcoming': agenda_upcoming_count, 
         'unread_messages': unread_messages_count,
         
         
         'recent_actions': recent_actions_list,
         
-        # Ditambahkan: Judul spesifik untuk halaman dashboard ini
-        'title': 'Dashboard Kustom', 
+        
+        'title': 'Dashboard', 
     }
     
     return render(request, 'admin/dashboard_view.html', context)
-
-@require_http_methods(["POST"])
-def custom_logout_view(request):
-    logout(request)
-    messages.success(request, 'Anda telah berhasil logout.')
-    # Diperbaiki: Arahkan ke halaman login custom admin site menggunakan reverse
-    login_url = reverse('custom_admin:login') 
-    return redirect(login_url)

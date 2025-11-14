@@ -1,6 +1,5 @@
 from django.contrib import admin
 from .models import Agenda
-from admin_panel.admin import custom_admin_site
 
 @admin.register(Agenda)
 class AgendaAdmin(admin.ModelAdmin):
@@ -22,8 +21,6 @@ class AgendaAdmin(admin.ModelAdmin):
     )
     
     def get_readonly_fields(self, request, obj=None):
-        if obj:  # editing an existing object
+        if obj: 
             return ['dibuat_pada', 'diperbarui_pada']
         return []
-    
-custom_admin_site.register(Agenda, AgendaAdmin)

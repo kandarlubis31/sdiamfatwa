@@ -8,7 +8,7 @@
 
     <link rel="icon" type="image/webp" href="{% static 'img/logo.webp' %}" />
 
-    <style>
+<style>
       #preloader {
         position: fixed;
         top: 0;
@@ -56,17 +56,15 @@
         background: #189a6a;
         transition: width 0.3s ease;
       }
-      
-      /* Hide content initially */
-      body > *:not(#preloader):not(script):not(style) {
+
+      .page-content {
         opacity: 0;
-      }
-      body.page-loaded > *:not(#preloader):not(script):not(style) {
-        opacity: 1;
         transition: opacity 0.5s ease;
       }
-      
-      /* Admin button */
+      body.page-loaded .page-content {
+        opacity: 1;
+      }
+
       .admin-button {
         position: fixed;
         bottom: 20px;
@@ -74,69 +72,26 @@
         width: 50px;
         height: 50px;
         border-radius: 50%;
-        background-color: rgba(0, 0, 0, 0.1);
-        display: flex;
+        background-color: rgba(24, 154, 106, 0.15);
+        color: #189a6a;
+        display: none; /* <-- TOMBOL DISEMBUNYIKAN DI SINI */
         justify-content: center;
         align-items: center;
         cursor: pointer;
-        opacity: 0.3;
+        opacity: 0.7;
         transition: all 0.3s ease;
-        z-index: 100;
+        z-index: 1040;
         font-size: 20px;
-        color: #333;
       }
       .admin-button:hover {
-        opacity: 0.7;
-        background-color: rgba(0, 0, 0, 0.2);
-      }
-      
-      /* Navbar styles */
-      .navbar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 1000;
-        box-shadow: 0 2px 4px rgba(0,0,0,.1);
-      }
-      
-      /* Hero section styles */
-      .hero-section {
-        background: linear-gradient(rgba(24, 154, 106, 0.8), rgba(24, 154, 106, 0.8)), 
-                    url('{% static "img/hero-bg.jpg" %}') no-repeat center center;
-        background-size: cover;
-        padding: 120px 0 80px;
-        margin-top: 70px; /* Sesuai dengan tinggi navbar */
-        color: white;
-      }
-      
-      /* Main content styles */
-      main {
-        padding-top: 2rem;
-        min-height: calc(100vh - 70px); /* Sesuai dengan tinggi navbar */
-      }
-      
-      /* Body padding to avoid content being hidden under navbar */
-      body {
-        padding-top: 70px; /* Sesuai dengan tinggi navbar */
-      }
-      
-      /* Mobile responsive adjustments */
-      @media (max-width: 991.98px) {
-        .navbar-collapse {
-          background-color: #0d6efd;
-          padding: 1rem;
-          border-radius: 0.25rem;
-          margin-top: 0.5rem;
-        }
-        
-        .hero-section {
-          padding-top: 100px;
-          padding-bottom: 60px;
-        }
+        opacity: 1;
+        background-color: #189a6a;
+        color: #ffffff;
+        transform: scale(1.05);
+        box-shadow: 0 4px 10px rgba(24, 154, 106, 0.4);
       }
     </style>
-    
+
     {% compress css %}
     <link
       rel="stylesheet"
@@ -158,9 +113,7 @@
       href="{% static 'css/animations.css' %}"
       type="text/css"
     />
-    {% endcompress %}
-    
-    {% block extra_css %}{% endblock %}
+    {% endcompress %} {% block extra_css %}{% endblock %}
   </head>
   <body class="{% block body_class %}{% endblock %}">
     <div id="preloader">
@@ -206,9 +159,7 @@
               >
             </li>
             <li class="nav-item">
-              <a
-                class="nav-link profile-link"
-                href="#profil"
+              <a class="nav-link profile-link" href="{% url 'home' %}#profil"
                 >Profil</a
               >
             </li>
@@ -245,136 +196,117 @@
       </div>
     </nav>
 
-    <!-- Hero Section -->
-    <div class="hero-section">
-      <div class="container">
-        <div class="row align-items-center">
-          <div class="col-lg-6 stagger-fade">
-            <h1 class="display-4 text-white fade-in">SDI AM FATWA</h1>
-            <p class="lead text-white fade-in-up">
-              Mencetak Generasi Qur'ani yang Cerdas dan Berakhlak Mulia
-            </p>
-            <a href="#profil" class="btn btn-warning btn-lg slide-in profile-link">
-              Profil Sekolah
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Main Content -->
-    <main class="container my-5">
+    <div class="page-content">
       {% block content %}{% endblock %}
-    </main>
 
-    <!-- Footer -->
-    <footer class="bg-dark text-white py-4 mt-5">
-      <div class="container">
-        <div class="row">
-          <!-- Informasi Sekolah -->
-          <div class="col-md-4">
-            <h5>SDI AM FATWA</h5>
-            <p>
-              Jl. Kramat Pulo Gundul No.2, RT.2/RW.9, Tanah Tinggi, Kec. Johar
-              Baru, Kota Jakarta Pusat, DKI Jakarta 10450
-            </p>
-            <p><i class="fas fa-phone"></i> 0838-0553-0371</p>
-            <p>
-              <i class="fab fa-whatsapp"></i>
-              <a
-                href="https://wa.me/6283805530371"
-                class="text-white"
-                target="_blank"
-                >Chat via WhatsApp</a
-              >
-            </p>
-            <p><i class="fas fa-envelope"></i> sdi.amfatwa@gmail.com</p>
-          </div>
+      <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-4">
+              <h5>SDI AM FATWA</h5>
+              <p>
+                Jl. Kramat Pulo Gundul No.2, RT.2/RW.9, Tanah Tinggi, Kec. Johar
+                Baru, Kota Jakarta Pusat, DKI Jakarta 10450
+              </p>
+              <p><i class="fas fa-phone"></i> 0838-0553-0371</p>
+              <p>
+                <i class="fab fa-whatsapp"></i>
+                <a
+                  href="https://wa.me/6283805530371"
+                  class="text-white"
+                  target="_blank"
+                  >Chat via WhatsApp</a
+                >
+              </p>
+              <p><i class="fas fa-envelope"></i> sdi.amfatwa@gmail.com</p>
+            </div>
 
-          <!-- Link Cepat -->
-          <div class="col-md-4">
-            <h5>Link Cepat</h5>
-            <ul class="list-unstyled">
-              <li>
-                <a href="#profil" class="text-white profile-link">Profil</a>
-              </li>
-              <li>
-                <a href="{% url 'berita_list' %}" class="text-white">Berita</a>
-              </li>
-              <li>
-                <a href="{% url 'agenda_list' %}" class="text-white">Agenda</a>
-              </li>
-              <li>
-                <a href="{% url 'galeri_list' %}" class="text-white">Galeri</a>
-              </li>
-              <li>
-                <a href="{% url 'kontak' %}" class="text-white">Kontak</a>
-              </li>
-            </ul>
-          </div>
+            <div class="col-md-4">
+              <h5>Link Cepat</h5>
+              <ul class="list-unstyled">
+                <li>
+                  <a
+                    href="{% url 'home' %}#profil"
+                    class="text-white profile-link"
+                    >Profil</a
+                  >
+                </li>
+                <li>
+                  <a href="{% url 'berita_list' %}" class="text-white"
+                    >Berita</a
+                  >
+                </li>
+                <li>
+                  <a href="{% url 'agenda_list' %}" class="text-white"
+                    >Agenda</a
+                  >
+                </li>
+                <li>
+                  <a href="{% url 'galeri_list' %}" class="text-white"
+                    >Galeri</a
+                  >
+                </li>
+                <li>
+                  <a href="{% url 'kontak' %}" class="text-white">Kontak</a>
+                </li>
+              </ul>
+            </div>
 
-          <!-- Sosial Media -->
-          <div class="col-md-4">
-            <h5>Ikuti Kami</h5>
-            <div class="social-links">
-              <a
-                href="https://web.facebook.com/amf.fatwa.5"
-                class="text-white me-2"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <i class="fab fa-facebook fa-2x"></i>
-              </a>
-              <a
-                href="https://www.instagram.com/sdiamfatwa/"
-                class="text-white me-2"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <i class="fab fa-instagram fa-2x"></i>
-              </a>
-              <a
-                href="https://www.youtube.com/@sdiamfatwa4752"
-                class="text-white me-2"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <i class="fab fa-youtube fa-2x"></i>
-              </a>
-              <a
-                href="https://wa.me/6283805530371"
-                class="text-white"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <i class="fab fa-whatsapp fa-2x"></i>
-              </a>
+            <div class="col-md-4">
+              <h5>Ikuti Kami</h5>
+              <div class="social-links">
+                <a
+                  href="https://web.facebook.com/amf.fatwa.5"
+                  class="text-white me-2"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <i class="fab fa-facebook fa-2x"></i>
+                </a>
+                <a
+                  href="https://www.instagram.com/sdiamfatwa/"
+                  class="text-white me-2"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <i class="fab fa-instagram fa-2x"></i>
+                </a>
+                <a
+                  href="https://www.youtube.com/@sdiamfatwa4752"
+                  class="text-white me-2"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <i class="fab fa-youtube fa-2x"></i>
+                </a>
+                <a
+                  href="https://wa.me/6283805530371"
+                  class="text-white"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <i class="fab fa-whatsapp fa-2x"></i>
+                </a>
+              </div>
             </div>
           </div>
+
+          <hr class="bg-white" />
+
+<div class="text-center">
+          <p>&copy; {% now "Y" %} 
+            <a 
+              href="{% url 'admin:index' %}" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              class="text-white text-decoration-none"
+              title="Admin Login"
+            >SDI AM FATWA</a>. All rights reserved.</p>
         </div>
-
-        <hr class="bg-white" />
-
-        <div class="text-center">
-          <p>&copy; {% now "Y" %} SDI AM FATWA. All rights reserved.</p>
-          <!-- Hidden admin link in footer -->
-          <div style="font-size: 10px; opacity: 0.3; margin-top: 5px;">
-            <a href="https://sdiamfatwa.web.id/admin" target="_blank" style="color: #666;">Admin</a>
-          </div>
-        </div>
-      </div>
-    </footer>
-
-    <!-- Admin Button -->
-    <a class="admin-button" href="https://sdiamfatwa.web.id/admin" target="_blank" rel="noopener noreferrer" title="Halaman Admin">
-      <i class="fas fa-user-shield"></i>
-    </a>
+      </footer>
+    </div>
 
     {% compress js %}
-    <script
-      src="{% static 'vendor/jquery/jquery-3.6.0.min.js' %}"
-      type="text/javascript"
-    ></script>
     <script
       src="{% static 'vendor/bootstrap/bootstrap.bundle.min.js' %}"
       type="text/javascript"
@@ -384,104 +316,85 @@
       src="{% static 'js/scroll-position.js' %}"
       type="text/javascript"
     ></script>
-    <script
-      src="{% static 'js/animations.js' %}"
-      type="text/javascript"
-    ></script>
+    <script src="{% static 'js/animations.js' %}" type="text/config"></script>
     {% endcompress %}
 
     <script>
-      // Preloader handling
       document.addEventListener("DOMContentLoaded", function () {
         const preloader = document.getElementById("preloader");
         const preloaderBar = document.querySelector(".preloader-bar");
-
-        // Pastikan preloader ada sebelum memanipulasinya
-        if (preloader && preloaderBar) {
-          // Lanjutkan progress jika diperlukan
-          let width = parseInt(preloaderBar.style.width) || 0;
-          if (width < 90) {
-            const interval = setInterval(() => {
-              width += 2;
-              if (width > 90) {
-                clearInterval(interval);
-              }
-              preloaderBar.style.width = width + "%";
-            }, 50);
-          }
-        }
-      });
-
-      window.addEventListener("load", function () {
-        const preloader = document.getElementById("preloader");
-        const preloaderBar = document.querySelector(".preloader-bar");
+        const body = document.body;
 
         if (preloader && preloaderBar) {
-          // Selesaikan progress bar
-          preloaderBar.style.width = "100%";
+          let width = 0;
+          const fakeProgress = setInterval(() => {
+            width += 5;
+            if (width > 90) {
+              clearInterval(fakeProgress);
+            }
+            preloaderBar.style.width = width + "%";
+          }, 100);
 
-          // Setelah jeda singkat, hilangkan preloader dan tampilkan konten
-          setTimeout(() => {
-            preloader.classList.add("fade-out");
-            document.body.classList.add("page-loaded");
+          window.addEventListener("load", function () {
+            clearInterval(fakeProgress);
+            preloaderBar.style.width = "100%";
 
-            // Hapus preloader sepenuhnya setelah fade out
             setTimeout(() => {
-              preloader.style.display = "none";
-            }, 500);
-          }, 500);
+              preloader.classList.add("fade-out");
+              body.classList.add("page-loaded");
+
+              setTimeout(() => {
+                preloader.style.display = "none";
+              }, 500);
+            }, 400);
+          });
+        } else {
+          body.classList.add("page-loaded");
         }
-      });
-      
-      // Handle profile links
-      document.addEventListener('DOMContentLoaded', function() {
-        // Get all profile links
-        const profileLinks = document.querySelectorAll('.profile-link');
-        
-        profileLinks.forEach(link => {
-          link.addEventListener('click', function(e) {
+
+        const profileLinks = document.querySelectorAll(".profile-link");
+        profileLinks.forEach((link) => {
+          link.addEventListener("click", function (e) {
             e.preventDefault();
-            
-            // Check if we're on the home page
+
+            const homeUrl = "{% url 'home' %}";
             const currentPath = window.location.pathname;
-            const isHomePage = currentPath === '/' || currentPath.endsWith('/home/');
-            
+            const isHomePage =
+              currentPath === homeUrl ||
+              (homeUrl === "/" && currentPath === "/");
+
             if (isHomePage) {
-              // If on home page, scroll to #profil section
-              const profilSection = document.getElementById('profil');
+              const profilSection = document.getElementById("profil");
               if (profilSection) {
-                // Add offset to avoid navbar covering the section
-                const navbarHeight = document.querySelector('.navbar').offsetHeight;
+                const navbarHeight =
+                  document.querySelector(".navbar").offsetHeight;
                 window.scrollTo({
-                  top: profilSection.offsetTop - navbarHeight,
-                  behavior: 'smooth'
+                  top: profilSection.offsetTop - navbarHeight - 20,
+                  behavior: "smooth",
                 });
               }
             } else {
-              // If not on home page, redirect to home page with #profil hash
               window.location.href = "{% url 'home' %}#profil";
             }
           });
         });
-        
-        // Check if we need to scroll to #profil after page load
-        if (window.location.hash === '#profil') {
-          // Wait a bit for the page to fully load
+
+        if (window.location.hash === "#profil") {
           setTimeout(() => {
-            const profilSection = document.getElementById('profil');
+            const profilSection = document.getElementById("profil");
             if (profilSection) {
-              // Add offset to avoid navbar covering the section
-              const navbarHeight = document.querySelector('.navbar').offsetHeight;
+              const navbarHeight =
+                document.querySelector(".navbar").offsetHeight;
               window.scrollTo({
-                top: profilSection.offsetTop - navbarHeight,
-                behavior: 'smooth'
+                top: profilSection.offsetTop - navbarHeight - 20,
+                behavior: "smooth",
               });
             }
-          }, 500);
+          }, 600);
         }
       });
     </script>
-    
+
     {% block extra_js %}{% endblock %}
   </body>
 </html>
