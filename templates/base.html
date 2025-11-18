@@ -8,7 +8,15 @@
 
     <link rel="icon" type="image/webp" href="{% static 'img/logo.webp' %}" />
 
-<style>
+    <style>
+      /* PAKSA BODY KELIATAN (BIAR PRELOADER MUNCUL) */
+      body {
+        opacity: 1 !important;
+        visibility: visible !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
       #preloader {
         position: fixed;
         top: 0;
@@ -57,12 +65,42 @@
         transition: width 0.3s ease;
       }
 
+      /* LOGIC PRELOADER YANG BENER (SEMBUNYIIN KONTEN, BUKAN BODY) */
       .page-content {
         opacity: 0;
         transition: opacity 0.5s ease;
       }
       body.page-loaded .page-content {
         opacity: 1;
+      }
+
+      /* PAKSA HILANGIN GAP DI HERO SECTION */
+      .hero-section {
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        margin-top: 0 !important;
+      }
+      
+      /* SOLUSI HILANGKAN GAP ANTARA NAVBAR DAN KONTEN */
+      .navbar {
+        margin-bottom: 0 !important;
+      }
+      
+      .page-content > *:first-child {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+      }
+      
+      /* Reset container untuk menghilangkan gap */
+      .container-fluid, .container {
+        padding-top: 0 !important;
+      }
+      
+      /* Reset untuk elemen pertama di dalam container */
+      .container > *:first-child,
+      .container-fluid > *:first-child {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
       }
 
       .admin-button {
@@ -74,7 +112,7 @@
         border-radius: 50%;
         background-color: rgba(24, 154, 106, 0.15);
         color: #189a6a;
-        display: none; /* <-- TOMBOL DISEMBUNYIKAN DI SINI */
+        display: none;
         justify-content: center;
         align-items: center;
         cursor: pointer;
@@ -293,15 +331,16 @@
 
           <hr class="bg-white" />
 
-<div class="text-center">
-          <p>&copy; {% now "Y" %} 
-            <a 
-              href="{% url 'admin:index' %}" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              class="text-white text-decoration-none"
-              title="Admin Login"
-            >SDI AM FATWA</a>. All rights reserved.</p>
+          <div class="text-center">
+            <p>&copy; {% now "Y" %} 
+              <a 
+                href="{% url 'admin:index' %}" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                class="text-white text-decoration-none"
+                title="Admin Login"
+              >SDI AM FATWA</a>. All rights reserved.</p>
+          </div>
         </div>
       </footer>
     </div>
