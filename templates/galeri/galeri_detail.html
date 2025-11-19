@@ -1,173 +1,385 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}{{ album.nama }}{% endblock %}
+{% block title %}{{ album.nama }} - Galeri{% endblock %}
 
 {% block extra_css %}
 <style>
-  .gallery-img {
-    cursor: pointer;
-    transition: transform 0.3s ease;
+  .detail-container {
+    margin-top: 6rem !important;
   }
-  
-  .gallery-img:hover {
+
+  .breadcrumb-item a {
+    color: #189A6A;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .breadcrumb-item.active {
+    color: #6c757d;
+  }
+
+  .album-header-card {
+    border: none;
+    border-left: 5px solid #189A6A;
+    background: #fff;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    border-radius: 8px;
+  }
+
+  .masonry-grid {
+    column-count: 1;
+    column-gap: 1.5rem;
+  }
+
+  @media (min-width: 576px) {
+    .masonry-grid { column-count: 2; }
+  }
+
+  @media (min-width: 992px) {
+    .masonry-grid { column-count: 3; }
+  }
+
+  .gallery-item {
+    position: relative;
+    margin-bottom: 1.5rem;
+    break-inside: avoid;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .gallery-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  }
+
+  .gallery-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.5s ease;
+  }
+
+  .gallery-item:hover .gallery-img {
     transform: scale(1.03);
   }
-  
-  .card {
-    transition: box-shadow 0.3s ease;
+
+  .gallery-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 100%);
+    display: flex;
+    align-items: flex-end;
+    padding: 20px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
   }
-  
-  .card:hover {
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+
+  .gallery-item:hover .gallery-overlay {
+    opacity: 1;
   }
-  
+
+  .overlay-content {
+    color: white;
+    width: 100%;
+  }
+
+  /* Lightbox CSS */
   .lightbox {
     display: none;
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.9);
-    z-index: 1000;
-    justify-content: center;
+    inset: 0;
+    z-index: 9999;
+    background-color: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(5px);
     align-items: center;
+    justify-content: center;
+    flex-direction: column;
   }
-  
-  .lightbox-content {
-    max-width: 90%;
-    max-height: 90%;
+
+  .lightbox-content-wrapper {
     position: relative;
+    max-width: 90vw;
+    max-height: 85vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-  
-  .lightbox-img {
-    width: 100%;
-    height: 100%;
+
+  .lightbox-content {
+    max-width: 100%;
+    max-height: 80vh;
     object-fit: contain;
+    border-radius: 4px;
+    box-shadow: 0 0 30px rgba(0,0,0,0.5);
+    transition: opacity 0.3s ease;
   }
-  
+
+  .lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: white;
+    font-size: 2.5rem;
+    cursor: pointer;
+    padding: 20px;
+    opacity: 0.6;
+    transition: all 0.3s ease;
+    z-index: 10001;
+    background: rgba(0,0,0,0.2);
+    border-radius: 50%;
+    user-select: none;
+  }
+
+  .lightbox-nav:hover {
+    opacity: 1;
+    background: rgba(255,255,255,0.1);
+  }
+
+  .nav-prev { left: -80px; }
+  .nav-next { right: -80px; }
+
+  @media (max-width: 768px) {
+    .nav-prev { left: 10px; font-size: 1.5rem; background: rgba(0,0,0,0.5); }
+    .nav-next { right: 10px; font-size: 1.5rem; background: rgba(0,0,0,0.5); }
+  }
+
+  .lightbox-caption {
+    color: #e0e0e0;
+    margin-top: 15px;
+    font-size: 1.1rem;
+    text-align: center;
+    max-width: 90vw;
+    word-wrap: break-word;
+  }
+
   .lightbox-close {
     position: absolute;
-    top: 15px;
-    right: 25px;
-    color: white;
-    font-size: 35px;
-    font-weight: bold;
+    top: 20px;
+    right: 30px;
+    color: #fff;
+    font-size: 3rem;
     cursor: pointer;
+    z-index: 10002;
+    line-height: 1;
+    transition: transform 0.2s ease;
+    user-select: none;
   }
-  
-  .album-header {
-    border-left: 4px solid #0d6efd;
+
+  .lightbox-close:hover {
+    transform: scale(1.1);
+  }
+
+  /* Loading spinner untuk gambar */
+  .loading {
+    opacity: 0.5;
   }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="container my-5">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{% url 'home' %}">Beranda</a></li>
+<div class="container detail-container mb-5">
+    
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb bg-transparent p-0">
+            <li class="breadcrumb-item"><a href="/">Beranda</a></li>
             <li class="breadcrumb-item"><a href="{% url 'galeri_list' %}">Galeri</a></li>
-            <li class="breadcrumb-item active">{{ album.nama }}</li>
+            <li class="breadcrumb-item active" aria-current="page">{{ album.nama|truncatechars:30 }}</li>
         </ol>
     </nav>
-    
-    <div class="card mb-4 album-header">
-        <div class="card-body">
-            <h1 class="card-title">{{ album.nama }}</h1>
-            <p class="card-text">{{ album.deskripsi }}</p>
-            <p class="text-muted">
-                <i class="fas fa-calendar"></i> Dibuat pada {{ album.tanggal_dibuat|date:"d F Y" }}
-                <span class="ms-3"><i class="fas fa-images"></i> {{ foto_list.count }} Foto</span>
-            </p>
+
+    <div class="card album-header-card mb-5 p-4">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h2 class="fw-bold text-dark mb-2">{{ album.nama }}</h2>
+                {% if album.deskripsi %}
+                    <p class="text-muted mb-2">{{ album.deskripsi }}</p>
+                {% endif %}
+            </div>
+            <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                <div class="d-inline-block bg-light rounded px-3 py-2">
+                    <div class="d-flex align-items-center text-secondary small">
+                        <span class="me-3"><i class="fas fa-calendar-alt me-2 text-success"></i>{{ album.tanggal_dibuat|date:"d M Y" }}</span>
+                        <span><i class="fas fa-camera me-2 text-success"></i>{{ foto_list.count }} Foto</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    
-    <!-- Galeri Foto -->
-    <div class="row">
+
+    <div class="masonry-grid" id="gallery-grid">
         {% for foto in foto_list %}
-        <div class="col-md-4 mb-4">
-            <div class="card h-100">
-                <img src="{{ foto.gambar.url }}" class="card-img-top gallery-img" alt="{{ foto.keterangan }}" 
-                     data-bs-toggle="modal" data-bs-target="#lightbox" 
-                     data-img="{{ foto.gambar.url }}" data-caption="{{ foto.keterangan }}">
-                <div class="card-body">
-                    <p class="card-text">{{ foto.keterangan }}</p>
+        <div class="gallery-item" 
+             data-index="{{ forloop.counter0 }}"
+             data-src="{{ foto.gambar.url }}" 
+             data-caption="{{ foto.keterangan|default:''|escapejs }}">
+             
+            <img src="{{ foto.gambar.url }}" class="gallery-img" alt="{{ foto.keterangan|default:'Foto '|add:album.nama }}" loading="lazy">
+            <div class="gallery-overlay">
+                <div class="overlay-content">
+                    <i class="fas fa-search-plus mb-2"></i>
+                    {% if foto.keterangan %}
+                    <p class="small mb-0 text-white text-truncate">{{ foto.keterangan }}</p>
+                    {% endif %}
                 </div>
             </div>
         </div>
         {% empty %}
-        <div class="col-12">
-            <div class="alert alert-info text-center py-4">
-                <i class="fas fa-image fa-3x mb-3 d-block text-center"></i>
-                <h5>Belum ada foto dalam album ini</h5>
-                <p>Silakan kembali lagi nanti untuk melihat foto-foto terbaru.</p>
-            </div>
+        <div class="col-12 text-center py-5 bg-light rounded w-100">
+            <i class="fas fa-images fa-3x mb-3 text-muted"></i>
+            <p class="mb-0 text-muted">Belum ada foto di album ini.</p>
         </div>
         {% endfor %}
     </div>
-    
-    <div class="mt-4 text-center">
-        <a href="{% url 'galeri_list' %}" class="btn btn-outline-primary">
-            <i class="fas fa-arrow-left me-2"></i> Kembali ke Daftar Galeri
+
+    <div class="mt-5 text-center">
+        <a href="{% url 'galeri_list' %}" class="btn btn-outline-success rounded-pill px-4 py-2">
+            <i class="fas fa-arrow-left me-2"></i> Kembali ke Galeri
         </a>
     </div>
+
 </div>
 
 <!-- Lightbox Modal -->
 <div class="lightbox" id="lightbox">
-    <div class="lightbox-content">
-        <span class="lightbox-close">&times;</span>
-        <img src="" alt="" class="lightbox-img" id="lightbox-img">
-        <div class="text-white text-center p-3" id="lightbox-caption"></div>
+    <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+    
+    <div class="lightbox-content-wrapper">
+        <div class="lightbox-nav nav-prev" onclick="changeImage(-1)">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+        
+        <div class="text-center">
+            <img src="" class="lightbox-content" id="lightbox-img" alt="Full Preview">
+            <div class="lightbox-caption" id="lightbox-caption"></div>
+            <div class="text-white-50 small mt-2" id="lightbox-counter"></div>
+        </div>
+
+        <div class="lightbox-nav nav-next" onclick="changeImage(1)">
+            <i class="fas fa-chevron-right"></i>
+        </div>
     </div>
 </div>
 {% endblock %}
 
 {% block extra_js %}
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const galleryImgs = document.querySelectorAll('.gallery-img');
+    (function() {
+        'use strict';
+
+        // Ambil data galeri dari elemen HTML
+        const items = document.querySelectorAll('.gallery-item');
+        const galleryData = Array.from(items).map(item => ({
+            src: item.dataset.src,
+            caption: item.dataset.caption || ""
+        }));
+
+        let currentIndex = 0;
         const lightbox = document.getElementById('lightbox');
         const lightboxImg = document.getElementById('lightbox-img');
         const lightboxCaption = document.getElementById('lightbox-caption');
-        const lightboxClose = document.querySelector('.lightbox-close');
-        
-        // Open lightbox when clicking on gallery images
-        galleryImgs.forEach(img => {
-            img.addEventListener('click', function() {
-                const imgSrc = this.getAttribute('data-img');
-                const caption = this.getAttribute('data-caption');
-                
-                lightboxImg.src = imgSrc;
-                lightboxCaption.textContent = caption;
-                lightbox.style.display = 'flex';
-                document.body.style.overflow = 'hidden';
+        const lightboxCounter = document.getElementById('lightbox-counter');
+
+        // Tambahkan event listener ke setiap gallery item
+        items.forEach((item, index) => {
+            item.addEventListener('click', function() {
+                openLightbox(index);
             });
         });
-        
-        // Close lightbox
+
+        function openLightbox(index) {
+            if (galleryData.length === 0) return;
+            
+            currentIndex = index;
+            updateLightboxContent();
+            lightbox.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
         function closeLightbox() {
             lightbox.style.display = 'none';
             document.body.style.overflow = 'auto';
         }
-        
-        lightboxClose.addEventListener('click', closeLightbox);
-        
-        // Close lightbox when clicking outside the image
+
+        function updateLightboxContent() {
+            if (galleryData.length === 0) return;
+            
+            const data = galleryData[currentIndex];
+            
+            // Tambahkan loading state
+            lightboxImg.classList.add('loading');
+            
+            // Preload gambar
+            const img = new Image();
+            img.onload = function() {
+                lightboxImg.src = data.src;
+                lightboxImg.classList.remove('loading');
+            };
+            img.src = data.src;
+            
+            lightboxCaption.textContent = data.caption;
+            lightboxCounter.textContent = `${currentIndex + 1} dari ${galleryData.length}`;
+        }
+
+        function changeImage(direction) {
+            if (galleryData.length === 0) return;
+            
+            currentIndex += direction;
+            
+            // Loop navigation
+            if (currentIndex >= galleryData.length) {
+                currentIndex = 0;
+            } else if (currentIndex < 0) {
+                currentIndex = galleryData.length - 1;
+            }
+            
+            // Smooth transition
+            lightboxImg.style.opacity = '0.3';
+            setTimeout(() => {
+                updateLightboxContent();
+                lightboxImg.style.opacity = '1';
+            }, 150);
+        }
+
+        // Event listener untuk klik di luar gambar
         lightbox.addEventListener('click', function(e) {
-            if (e.target === lightbox) {
+            if (e.target === lightbox || e.target.classList.contains('lightbox-content-wrapper')) {
                 closeLightbox();
             }
         });
-        
-        // Close lightbox with Escape key
+
+        // Event listener untuk keyboard
         document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && lightbox.style.display === 'flex') {
-                closeLightbox();
+            if (lightbox.style.display === 'flex') {
+                e.preventDefault();
+                
+                switch(e.key) {
+                    case 'Escape':
+                        closeLightbox();
+                        break;
+                    case 'ArrowLeft':
+                        changeImage(-1);
+                        break;
+                    case 'ArrowRight':
+                        changeImage(1);
+                        break;
+                }
             }
         });
-    });
+
+        // Expose functions to global scope untuk onclick attributes
+        window.openLightbox = openLightbox;
+        window.closeLightbox = closeLightbox;
+        window.changeImage = changeImage;
+
+        // Prevent context menu pada lightbox
+        lightboxImg.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+    })();
 </script>
 {% endblock %}

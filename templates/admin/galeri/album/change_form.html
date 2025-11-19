@@ -1,0 +1,56 @@
+{% extends "admin/change_form.html" %}
+{% load static %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
+    <style>
+        .dropzone {
+            border: 2px dashed #189A6A;
+            background: #f0f9f5;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .dropzone .dz-message {
+            font-weight: bold;
+            color: #189A6A;
+        }
+    </style>
+{% endblock %}
+
+{% block after_related_objects %}
+    {% if original %}
+    <div class="module aligned">
+        <h2>Upload Foto Masal (Drag & Drop)</h2>
+        <div class="form-row">
+            <div id="my-dropzone" class="dropzone"></div>
+        </div>
+    </div>
+
+    <script>
+        Dropzone.autoDiscover = false;
+        
+        document.addEventListener("DOMContentLoaded", function() {
+            const myDropzone = new Dropzone("#my-dropzone", {
+                url: "{% url 'upload_foto_album' original.id %}",
+                paramName: "file",
+                maxFilesize: 5,
+                acceptedFiles: "image/*",
+                headers: {
+                    "X-CSRFToken": "{{ csrf_token }}"
+                },
+                dictDefaultMessage: "Tarik foto ke sini atau Klik untuk Upload Banyak Sekaligus"
+            });
+
+            myDropzone.on("success", function(file, response) {
+                console.log("Sukses upload");
+            });
+
+            myDropzone.on("queuecomplete", function() {
+                location.reload();
+            });
+        });
+    </script>
+    {% endif %}
+{% endblock %}

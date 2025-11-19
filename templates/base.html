@@ -3,20 +3,34 @@
 <html lang="id">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SDI AM FATWA - {% block title %}{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="description" content="SDI AM FATWA - Sekolah Dasar Islam yang berdedikasi dalam pendidikan berkualitas" />
+    <meta name="theme-color" content="#189a6a" />
+    
+    <title>SDI AM FATWA - {% block title %}Beranda{% endblock %}</title>
 
     <link rel="icon" type="image/webp" href="{% static 'img/logo.webp' %}" />
+    <link rel="apple-touch-icon" href="{% static 'img/logo.webp' %}" />
 
     <style>
-      /* PAKSA BODY KELIATAN (BIAR PRELOADER MUNCUL) */
+      /* ========================================
+         CRITICAL CSS - PRELOADER & BASE STYLES
+         ======================================== */
+      * {
+        box-sizing: border-box;
+      }
+
       body {
         opacity: 1 !important;
         visibility: visible !important;
         margin: 0 !important;
         padding: 0 !important;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        overflow-x: hidden;
       }
 
+      /* PRELOADER STYLES */
       #preloader {
         position: fixed;
         top: 0;
@@ -31,33 +45,45 @@
         opacity: 1;
         transition: opacity 0.5s ease;
       }
+      
       #preloader.fade-out {
         opacity: 0;
         visibility: hidden;
         pointer-events: none;
       }
+      
+      .preloader-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 1rem;
+      }
+      
       .preloader-logo {
-        width: 120px;
-        height: 120px;
+        width: 100px;
+        height: 100px;
         animation: logoPulse 2s ease-in-out infinite;
       }
+      
       @keyframes logoPulse {
-        0%,
-        100% {
+        0%, 100% {
           transform: scale(1);
         }
         50% {
           transform: scale(1.1);
         }
       }
+      
       .preloader-progress {
         width: 200px;
+        max-width: 80vw;
         height: 4px;
         background: rgba(24, 154, 106, 0.2);
         border-radius: 4px;
         overflow: hidden;
         margin-top: 1.5rem;
       }
+      
       .preloader-bar {
         width: 0;
         height: 100%;
@@ -65,68 +91,214 @@
         transition: width 0.3s ease;
       }
 
-      /* LOGIC PRELOADER YANG BENER (SEMBUNYIIN KONTEN, BUKAN BODY) */
+      /* PAGE CONTENT REVEAL */
       .page-content {
         opacity: 0;
         transition: opacity 0.5s ease;
       }
+      
       body.page-loaded .page-content {
         opacity: 1;
       }
 
-      /* PAKSA HILANGIN GAP DI HERO SECTION */
-      .hero-section {
-        padding-top: 0 !important;
-        padding-bottom: 0 !important;
-        margin-top: 0 !important;
-      }
-      
-      /* SOLUSI HILANGKAN GAP ANTARA NAVBAR DAN KONTEN */
+      /* NAVBAR RESET */
       .navbar {
         margin-bottom: 0 !important;
+        position: sticky;
+        top: 0;
+        z-index: 1030;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       }
       
+      .navbar-brand {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: 600;
+      }
+      
+      .navbar-brand img {
+        height: 40px;
+        width: auto;
+      }
+
+      /* CONTENT SPACING FIX */
       .page-content > *:first-child {
         margin-top: 0 !important;
         padding-top: 0 !important;
       }
       
-      /* Reset container untuk menghilangkan gap */
+      .hero-section {
+        padding-top: 0 !important;
+        margin-top: 0 !important;
+      }
+      
       .container-fluid, .container {
         padding-top: 0 !important;
       }
       
-      /* Reset untuk elemen pertama di dalam container */
       .container > *:first-child,
       .container-fluid > *:first-child {
         margin-top: 0 !important;
         padding-top: 0 !important;
       }
 
+      /* FOOTER STYLES */
+      footer {
+        margin-top: 3rem !important;
+      }
+      
+      footer h5 {
+        margin-bottom: 1rem;
+        font-weight: 600;
+      }
+      
+      footer p {
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+      }
+      
+      footer .social-links a {
+        display: inline-block;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+      }
+      
+      footer .social-links a:hover {
+        transform: scale(1.1);
+        opacity: 0.8;
+      }
+
+      /* ADMIN FLOATING BUTTON */
       .admin-button {
         position: fixed;
         bottom: 20px;
         right: 20px;
-        width: 50px;
-        height: 50px;
+        width: 56px;
+        height: 56px;
         border-radius: 50%;
-        background-color: rgba(24, 154, 106, 0.15);
-        color: #189a6a;
+        background-color: #189a6a;
+        color: #ffffff;
         display: none;
         justify-content: center;
         align-items: center;
         cursor: pointer;
-        opacity: 0.7;
+        opacity: 0.9;
         transition: all 0.3s ease;
         z-index: 1040;
         font-size: 20px;
+        box-shadow: 0 4px 12px rgba(24, 154, 106, 0.3);
+        border: none;
+        text-decoration: none;
       }
+      
       .admin-button:hover {
         opacity: 1;
-        background-color: #189a6a;
-        color: #ffffff;
-        transform: scale(1.05);
-        box-shadow: 0 4px 10px rgba(24, 154, 106, 0.4);
+        transform: scale(1.1);
+        box-shadow: 0 6px 16px rgba(24, 154, 106, 0.5);
+      }
+
+      /* RESPONSIVE NAVBAR */
+      @media (max-width: 991px) {
+        .navbar-brand img {
+          height: 35px;
+        }
+        
+        .navbar-brand {
+          font-size: 1rem;
+        }
+        
+        .navbar-nav {
+          padding-top: 1rem;
+          padding-bottom: 0.5rem;
+        }
+        
+        .navbar-nav .nav-link {
+          padding: 0.5rem 0;
+        }
+      }
+
+      /* MOBILE OPTIMIZATION */
+      @media (max-width: 768px) {
+        .preloader-logo {
+          width: 80px;
+          height: 80px;
+        }
+        
+        .preloader-progress {
+          width: 150px;
+        }
+        
+        footer {
+          margin-top: 2rem !important;
+        }
+        
+        footer .col-md-4 {
+          margin-bottom: 2rem;
+        }
+        
+        footer .col-md-4:last-child {
+          margin-bottom: 0;
+        }
+        
+        footer h5 {
+          font-size: 1.1rem;
+        }
+        
+        footer p, footer a {
+          font-size: 0.85rem;
+        }
+        
+        .admin-button {
+          width: 50px;
+          height: 50px;
+          bottom: 15px;
+          right: 15px;
+          font-size: 18px;
+        }
+      }
+
+      /* EXTRA SMALL DEVICES */
+      @media (max-width: 480px) {
+        .navbar-brand {
+          font-size: 0.9rem;
+        }
+        
+        .navbar-brand img {
+          height: 30px;
+        }
+        
+        footer {
+          font-size: 0.8rem;
+        }
+        
+        footer .social-links a i {
+          font-size: 1.5rem !important;
+        }
+      }
+
+      /* SMOOTH SCROLLING */
+      html {
+        scroll-behavior: smooth;
+      }
+
+      /* ACCESSIBILITY */
+      a:focus, button:focus {
+        outline: 2px solid #189a6a;
+        outline-offset: 2px;
+      }
+
+      /* PRINT STYLES */
+      @media print {
+        #preloader,
+        .navbar,
+        footer,
+        .admin-button {
+          display: none !important;
+        }
+        
+        .page-content {
+          opacity: 1 !important;
+        }
       }
     </style>
 
@@ -151,18 +323,21 @@
       href="{% static 'css/animations.css' %}"
       type="text/css"
     />
-    {% endcompress %} {% block extra_css %}{% endblock %}
+    {% endcompress %} 
+    
+    {% block extra_css %}{% endblock %}
   </head>
+  
   <body class="{% block body_class %}{% endblock %}">
+    <!-- PRELOADER -->
     <div id="preloader">
-      <div
-        class="preloader-content"
-        style="display: flex; flex-direction: column; align-items: center"
-      >
+      <div class="preloader-content">
         <img
           src="{% static 'img/logo.webp' %}"
-          alt="Loading..."
+          alt="SDI AM FATWA Loading"
           class="preloader-logo"
+          width="100"
+          height="100"
         />
         <div class="preloader-progress">
           <div class="preloader-bar"></div>
@@ -170,12 +345,20 @@
       </div>
     </div>
 
+    <!-- NAVBAR -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
       <div class="container">
-        <a class="navbar-brand" href="{% url 'home' %}">
-          <img src="{% static 'img/logo.webp' %}" alt="Logo" height="40" />
-          SDI AM FATWA
+        <a class="navbar-brand" href="{% url 'home' %}" aria-label="SDI AM FATWA Homepage">
+          <img 
+            src="{% static 'img/logo.webp' %}" 
+            alt="Logo SDI AM FATWA" 
+            width="40"
+            height="40"
+            loading="eager"
+          />
+          <span>SDI AM FATWA</span>
         </a>
+        
         <button
           class="navbar-toggler"
           type="button"
@@ -187,164 +370,181 @@
         >
           <span class="navbar-toggler-icon"></span>
         </button>
+        
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
               <a
                 class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}"
                 href="{% url 'home' %}"
-                >Beranda</a
-              >
+                {% if request.resolver_match.url_name == 'home' %}aria-current="page"{% endif %}
+              >Beranda</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link profile-link" href="{% url 'home' %}#profil"
-                >Profil</a
-              >
+              <a class="nav-link profile-link" href="{% url 'home' %}#profil">Profil</a>
             </li>
             <li class="nav-item">
               <a
                 class="nav-link {% if 'berita' in request.resolver_match.url_name %}active{% endif %}"
                 href="{% url 'berita_list' %}"
-                >Berita</a
-              >
+                {% if 'berita' in request.resolver_match.url_name %}aria-current="page"{% endif %}
+              >Berita</a>
             </li>
             <li class="nav-item">
               <a
                 class="nav-link {% if 'agenda' in request.resolver_match.url_name %}active{% endif %}"
                 href="{% url 'agenda_list' %}"
-                >Agenda</a
-              >
+                {% if 'agenda' in request.resolver_match.url_name %}aria-current="page"{% endif %}
+              >Agenda</a>
             </li>
             <li class="nav-item">
               <a
                 class="nav-link {% if 'galeri' in request.resolver_match.url_name %}active{% endif %}"
                 href="{% url 'galeri_list' %}"
-                >Galeri</a
-              >
+                {% if 'galeri' in request.resolver_match.url_name %}aria-current="page"{% endif %}
+              >Galeri</a>
             </li>
             <li class="nav-item">
               <a
                 class="nav-link {% if 'kontak' in request.resolver_match.url_name %}active{% endif %}"
                 href="{% url 'kontak' %}"
-                >Kontak</a
-              >
+                {% if 'kontak' in request.resolver_match.url_name %}aria-current="page"{% endif %}
+              >Kontak</a>
             </li>
           </ul>
         </div>
       </div>
     </nav>
 
-    <div class="page-content">
+    <!-- MAIN CONTENT -->
+    <main class="page-content">
       {% block content %}{% endblock %}
+    </main>
 
-      <footer class="bg-dark text-white py-4 mt-5">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-4">
-              <h5>SDI AM FATWA</h5>
-              <p>
-                Jl. Kramat Pulo Gundul No.2, RT.2/RW.9, Tanah Tinggi, Kec. Johar
-                Baru, Kota Jakarta Pusat, DKI Jakarta 10450
-              </p>
-              <p><i class="fas fa-phone"></i> 0838-0553-0371</p>
-              <p>
-                <i class="fab fa-whatsapp"></i>
-                <a
-                  href="https://wa.me/6283805530371"
-                  class="text-white"
-                  target="_blank"
-                  >Chat via WhatsApp</a
-                >
-              </p>
-              <p><i class="fas fa-envelope"></i> sdi.amfatwa@gmail.com</p>
-            </div>
-
-            <div class="col-md-4">
-              <h5>Link Cepat</h5>
-              <ul class="list-unstyled">
-                <li>
-                  <a
-                    href="{% url 'home' %}#profil"
-                    class="text-white profile-link"
-                    >Profil</a
-                  >
-                </li>
-                <li>
-                  <a href="{% url 'berita_list' %}" class="text-white"
-                    >Berita</a
-                  >
-                </li>
-                <li>
-                  <a href="{% url 'agenda_list' %}" class="text-white"
-                    >Agenda</a
-                  >
-                </li>
-                <li>
-                  <a href="{% url 'galeri_list' %}" class="text-white"
-                    >Galeri</a
-                  >
-                </li>
-                <li>
-                  <a href="{% url 'kontak' %}" class="text-white">Kontak</a>
-                </li>
-              </ul>
-            </div>
-
-            <div class="col-md-4">
-              <h5>Ikuti Kami</h5>
-              <div class="social-links">
-                <a
-                  href="https://web.facebook.com/amf.fatwa.5"
-                  class="text-white me-2"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <i class="fab fa-facebook fa-2x"></i>
-                </a>
-                <a
-                  href="https://www.instagram.com/sdiamfatwa/"
-                  class="text-white me-2"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <i class="fab fa-instagram fa-2x"></i>
-                </a>
-                <a
-                  href="https://www.youtube.com/@sdiamfatwa4752"
-                  class="text-white me-2"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <i class="fab fa-youtube fa-2x"></i>
-                </a>
-                <a
-                  href="https://wa.me/6283805530371"
-                  class="text-white"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <i class="fab fa-whatsapp fa-2x"></i>
-                </a>
-              </div>
-            </div>
+    <!-- FOOTER -->
+    <footer class="bg-dark text-white py-4">
+      <div class="container">
+        <div class="row">
+          <!-- KOLOM 1: INFO SEKOLAH -->
+          <div class="col-md-4 col-sm-12 mb-4 mb-md-0">
+            <h5>SDI AM FATWA</h5>
+            <p>
+              <i class="fas fa-map-marker-alt me-2"></i>
+              Jl. Kramat Pulo Gundul No.2, RT.2/RW.9, Tanah Tinggi, Kec. Johar Baru, Kota Jakarta Pusat, DKI Jakarta 10450
+            </p>
+            <p>
+              <i class="fas fa-phone me-2"></i> 
+              <a href="tel:+6283805530371" class="text-white text-decoration-none">0838-0553-0371</a>
+            </p>
+            <p>
+              <i class="fab fa-whatsapp me-2"></i>
+              <a
+                href="https://wa.me/6283805530371?text=Halo%20SDI%20AM%20FATWA"
+                class="text-white text-decoration-none"
+                target="_blank"
+                rel="noopener noreferrer"
+              >Chat via WhatsApp</a>
+            </p>
+            <p>
+              <i class="fas fa-envelope me-2"></i>
+              <a href="mailto:sdi.amfatwa@gmail.com" class="text-white text-decoration-none">sdi.amfatwa@gmail.com</a>
+            </p>
           </div>
 
-          <hr class="bg-white" />
+          <!-- KOLOM 2: LINK CEPAT -->
+          <div class="col-md-4 col-sm-6 mb-4 mb-md-0">
+            <h5>Link Cepat</h5>
+            <ul class="list-unstyled">
+              <li class="mb-2">
+                <a href="{% url 'home' %}#profil" class="text-white text-decoration-none profile-link">
+                  <i class="fas fa-chevron-right me-2"></i>Profil
+                </a>
+              </li>
+              <li class="mb-2">
+                <a href="{% url 'berita_list' %}" class="text-white text-decoration-none">
+                  <i class="fas fa-chevron-right me-2"></i>Berita
+                </a>
+              </li>
+              <li class="mb-2">
+                <a href="{% url 'agenda_list' %}" class="text-white text-decoration-none">
+                  <i class="fas fa-chevron-right me-2"></i>Agenda
+                </a>
+              </li>
+              <li class="mb-2">
+                <a href="{% url 'galeri_list' %}" class="text-white text-decoration-none">
+                  <i class="fas fa-chevron-right me-2"></i>Galeri
+                </a>
+              </li>
+              <li class="mb-2">
+                <a href="{% url 'kontak' %}" class="text-white text-decoration-none">
+                  <i class="fas fa-chevron-right me-2"></i>Kontak
+                </a>
+              </li>
+            </ul>
+          </div>
 
-          <div class="text-center">
-            <p>&copy; {% now "Y" %} 
-              <a 
-                href="{% url 'admin:index' %}" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                class="text-white text-decoration-none"
-                title="Admin Login"
-              >SDI AM FATWA</a>. All rights reserved.</p>
+          <!-- KOLOM 3: SOCIAL MEDIA -->
+          <div class="col-md-4 col-sm-6">
+            <h5>Ikuti Kami</h5>
+            <div class="social-links">
+              <a
+                href="https://web.facebook.com/amf.fatwa.5"
+                class="text-white me-3"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook SDI AM FATWA"
+              >
+                <i class="fab fa-facebook fa-2x"></i>
+              </a>
+              <a
+                href="https://www.instagram.com/sdiamfatwa/"
+                class="text-white me-3"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram SDI AM FATWA"
+              >
+                <i class="fab fa-instagram fa-2x"></i>
+              </a>
+              <a
+                href="https://www.youtube.com/@sdiamfatwa4752"
+                class="text-white me-3"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="YouTube SDI AM FATWA"
+              >
+                <i class="fab fa-youtube fa-2x"></i>
+              </a>
+              <a
+                href="https://wa.me/6283805530371?text=Halo%20SDI%20AM%20FATWA"
+                class="text-white"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="WhatsApp SDI AM FATWA"
+              >
+                <i class="fab fa-whatsapp fa-2x"></i>
+              </a>
+            </div>
           </div>
         </div>
-      </footer>
-    </div>
 
+        <hr class="bg-white my-4" />
+
+        <div class="text-center">
+          <p class="mb-0">
+            &copy; {% now "Y" %} 
+            <a 
+              href="{% url 'admin:index' %}" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              class="text-white text-decoration-none"
+              title="Admin Panel"
+            >SDI AM FATWA</a>. All rights reserved.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- SCRIPTS -->
     {% compress js %}
     <script
       src="{% static 'vendor/bootstrap/bootstrap.bundle.min.js' %}"
@@ -355,83 +555,120 @@
       src="{% static 'js/scroll-position.js' %}"
       type="text/javascript"
     ></script>
-    <script src="{% static 'js/animations.js' %}" type="text/config"></script>
+    <script src="{% static 'js/animations.js' %}" type="text/javascript"></script>
     {% endcompress %}
 
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const preloader = document.getElementById("preloader");
-        const preloaderBar = document.querySelector(".preloader-bar");
+      (function() {
+        'use strict';
+        
+        // PRELOADER MANAGEMENT
+        const preloader = document.getElementById('preloader');
+        const preloaderBar = document.querySelector('.preloader-bar');
         const body = document.body;
 
         if (preloader && preloaderBar) {
           let width = 0;
+          
+          // Fake progress animation
           const fakeProgress = setInterval(() => {
             width += 5;
             if (width > 90) {
               clearInterval(fakeProgress);
             }
-            preloaderBar.style.width = width + "%";
+            preloaderBar.style.width = width + '%';
           }, 100);
 
-          window.addEventListener("load", function () {
+          // Complete loading
+          window.addEventListener('load', function() {
             clearInterval(fakeProgress);
-            preloaderBar.style.width = "100%";
+            preloaderBar.style.width = '100%';
 
             setTimeout(() => {
-              preloader.classList.add("fade-out");
-              body.classList.add("page-loaded");
+              preloader.classList.add('fade-out');
+              body.classList.add('page-loaded');
 
               setTimeout(() => {
-                preloader.style.display = "none";
+                preloader.style.display = 'none';
               }, 500);
-            }, 400);
+            }, 300);
           });
+
+          // Fallback timeout
+          setTimeout(() => {
+            if (!body.classList.contains('page-loaded')) {
+              clearInterval(fakeProgress);
+              preloader.classList.add('fade-out');
+              body.classList.add('page-loaded');
+            }
+          }, 5000);
         } else {
-          body.classList.add("page-loaded");
+          body.classList.add('page-loaded');
         }
 
-        const profileLinks = document.querySelectorAll(".profile-link");
-        profileLinks.forEach((link) => {
-          link.addEventListener("click", function (e) {
-            e.preventDefault();
+        // SMOOTH SCROLL TO PROFIL SECTION
+        function scrollToProfile(e) {
+          e.preventDefault();
 
-            const homeUrl = "{% url 'home' %}";
-            const currentPath = window.location.pathname;
-            const isHomePage =
-              currentPath === homeUrl ||
-              (homeUrl === "/" && currentPath === "/");
+          const homeUrl = "{% url 'home' %}";
+          const currentPath = window.location.pathname;
+          const isHomePage = currentPath === homeUrl || (homeUrl === '/' && currentPath === '/');
 
-            if (isHomePage) {
-              const profilSection = document.getElementById("profil");
-              if (profilSection) {
-                const navbarHeight =
-                  document.querySelector(".navbar").offsetHeight;
-                window.scrollTo({
-                  top: profilSection.offsetTop - navbarHeight - 20,
-                  behavior: "smooth",
-                });
-              }
-            } else {
-              window.location.href = "{% url 'home' %}#profil";
-            }
-          });
-        });
-
-        if (window.location.hash === "#profil") {
-          setTimeout(() => {
-            const profilSection = document.getElementById("profil");
+          if (isHomePage) {
+            const profilSection = document.getElementById('profil');
             if (profilSection) {
-              const navbarHeight =
-                document.querySelector(".navbar").offsetHeight;
+              const navbar = document.querySelector('.navbar');
+              const navbarHeight = navbar ? navbar.offsetHeight : 0;
+              
               window.scrollTo({
                 top: profilSection.offsetTop - navbarHeight - 20,
-                behavior: "smooth",
+                behavior: 'smooth'
+              });
+            }
+          } else {
+            window.location.href = "{% url 'home' %}#profil";
+          }
+        }
+
+        // Attach profile link handlers
+        const profileLinks = document.querySelectorAll('.profile-link');
+        profileLinks.forEach(link => {
+          link.addEventListener('click', scrollToProfile);
+        });
+
+        // Handle hash on page load
+        if (window.location.hash === '#profil') {
+          setTimeout(() => {
+            const profilSection = document.getElementById('profil');
+            if (profilSection) {
+              const navbar = document.querySelector('.navbar');
+              const navbarHeight = navbar ? navbar.offsetHeight : 0;
+              
+              window.scrollTo({
+                top: profilSection.offsetTop - navbarHeight - 20,
+                behavior: 'smooth'
               });
             }
           }, 600);
         }
-      });
+
+        // AUTO-CLOSE NAVBAR ON MOBILE
+        const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+        const navbarCollapse = document.querySelector('.navbar-collapse');
+        
+        if (navbarCollapse) {
+          navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+              if (window.innerWidth < 992) {
+                const bsCollapse = bootstrap.Collapse.getInstance(navbarCollapse);
+                if (bsCollapse) {
+                  bsCollapse.hide();
+                }
+              }
+            });
+          });
+        }
+      })();
     </script>
 
     {% block extra_js %}{% endblock %}

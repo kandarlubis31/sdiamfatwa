@@ -13,7 +13,10 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-your-secret-key-here'
 DEBUG = config('DEBUG', default=True, cast=bool)
 
 # Allow all hosts in development, specific hosts in production
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1,', cast=Csv())
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1', cast=Csv())
+
+
+CSRF_TRUSTED_ORIGINS = config('CSRF_TRUSTED_ORIGINS', default='http://localhost', cast=Csv())
 
 # Application definition
 INSTALLED_APPS = [
@@ -217,107 +220,110 @@ CKEDITOR_CONFIGS = {
 
 # Jazzmin settings
 JAZZMIN_SETTINGS = {
-    "site_title": "SDI AM FATWA Admin",
+    "site_title": "Admin SDI AM FATWA",
     "site_header": "SDI AM FATWA",
     "site_brand": "SDI AM FATWA",
-    "dashboard_view": "admin_panel.views.dashboard_view",
-    "welcome_sign": "Selamat Datang di Admin Panel",
+    # "dashboard_view": "admin_panel.views.dashboard_view", # MATIKAN INI DULU BIAR TEMPLATE CUSTOM KITA JALAN
+    "welcome_sign": "Panel Administrasi Sekolah",
     "site_icon": "img/logo.webp",
     "site_logo": "img/logo.webp",
     "login_logo": "img/logo.webp",
-    "search_model": "auth.User",
+    "search_model": "users.Siswa", # Ganti ke model Siswa jika ada, atau auth.User
     "user_avatar": None,
+    
+    # Menu Atas
     "topmenu_links": [
-        {"name": "Home",  "url": "admin:index", "permissions": ["auth.view_user"]},
-        {"name": "Lihat Website", "url": "/", "icon": "fas fa-external-link-alt", "new_window": True},
+        {"name": "Dashboard", "url": "admin:index", "permissions": ["auth.view_user"]},
+        {"name": "Lihat Website", "url": "/", "icon": "fas fa-globe", "new_window": True},
+        {"model": "auth.User"},
     ],
+    
     "usermenu_links": [
-         {"name": "Profil Saya", "model": "auth.user", "icon": "fas fa-user"},
+        {"name": "Profil Admin", "model": "auth.user", "icon": "fas fa-user-shield"},
     ],
+    
     "show_sidebar": True,
     "navigation_expanded": True,
+    "hide_apps": ["sites"],
     
-    # HANYA SEMBUNYIKAN SITES
-    "hide_apps": ["sites"], 
-    
-    "hide_models": [],
+    # Urutan Menu (Prioritas Sekolah)
     "order_with_respect_to": [
         "berita",
         "agenda",
         "galeri",
-        "kontak",
         "users",
+        "kontak",
         "auth",
-        "filer", # FILER TETAP TAMPIL
+        "filer"
     ],
+    
+    # Ikon Keren (FontAwesome 5)
     "icons": {
         "auth": "fas fa-users-cog",
-        "auth.user": "fas fa-user",
+        "auth.user": "fas fa-user-tie",
         "auth.Group": "fas fa-users",
-        "users": "fas fa-user-graduate",
+        
+        "users": "fas fa-graduation-cap",
+        "users.Siswa": "fas fa-child",
+        "users.Guru": "fas fa-chalkboard-teacher",
+        
         "agenda": "fas fa-calendar-alt",
         "agenda.Agenda": "fas fa-calendar-check",
+        
         "berita": "fas fa-newspaper",
-        "berita.Berita": "fas fa-file-alt",
-        "galeri": "fas fa-images",
-        "galeri.Album": "fas fa-photo-video",
-        "galeri.Foto": "fas fa-image",
-        "kontak": "fas fa-envelope-open-text",
-        "kontak.Pesan": "fas fa-inbox",
-
-        # IKON UNTUK FILER
-        "filer": "fas fa-folder-open",
+        "berita.Berita": "fas fa-pen-nib",
+        "berita.Kategori": "fas fa-tags",
+        
+        "galeri": "fas fa-photo-video",
+        "galeri.Album": "fas fa-folder-open",
+        "galeri.Foto": "fas fa-images",
+        
+        "kontak": "fas fa-comments",
+        "kontak.Pesan": "fas fa-envelope-open-text",
+        
+        "filer": "fas fa-cloud-upload-alt",
         "filer.Folder": "fas fa-folder",
-        "filer.ThumbnailOption": "fas fa-crop-alt",
     },
+    
     "default_icon_parents": "fas fa-chevron-circle-right",
     "default_icon_children": "fas fa-circle",
-    "related_modal_active": False,
+    "related_modal_active": True,
     "custom_css": "css/custom_jazzmin.css",
     "custom_js": None,
-    "use_google_fonts_cdn": True,
     "show_ui_builder": False,
-    "language_chooser": False,
 }
 
+# TWEAKS UI (Tema Hijau/Putih Elegan)
 JAZZMIN_UI_TWEAKS = {
     "navbar_small_text": False,
     "footer_small_text": False,
     "body_small_text": False,
     "brand_small_text": False,
-    "brand_colour": "navbar-light",
-    "accent": "accent-primary",
-    "navbar": "navbar-light navbar-white",
+    "brand_colour": "navbar-white",
+    "accent": "accent-success", # Hijau
+    "navbar": "navbar-white navbar-light",
     "no_navbar_border": False,
     "navbar_fixed": True,
     "layout_boxed": False,
     "footer_fixed": False,
     "sidebar_fixed": True,
-    "sidebar": "sidebar-light-primary",
+    "sidebar": "sidebar-light-success", # Sidebar Putih aksen Hijau
     "sidebar_nav_small_text": False,
     "sidebar_disable_expand": False,
-    "sidebar_nav_child_indent": False,
+    "sidebar_nav_child_indent": True,
     "sidebar_nav_compact_style": False,
     "sidebar_nav_legacy_style": False,
     "sidebar_nav_flat_style": False,
-    "theme": "flatly",
+    "theme": "default", # GANTI DARI FLATLY KE DEFAULT BIAR LEBIH HIDUP
     "dark_mode_theme": None,
     "button_classes": {
-        "primary": "btn-primary",
-        "secondary": "btn-secondary",
+        "primary": "btn-success", # Tombol utama jadi Hijau
+        "secondary": "btn-outline-secondary",
         "info": "btn-info",
         "warning": "btn-warning",
         "danger": "btn-danger",
         "success": "btn-success"
-    },
-    # "colors": {
-    #     "primary": "#189a6a",
-    #     "secondary": "#6c757d",
-    #     "info": "#17a2b8",
-    #     "success": "#28a745",
-    #     "warning": "#f3e5a9",
-    #     "danger": "#dc3545",
-    # },
+    }
 }
 
 # Authentication

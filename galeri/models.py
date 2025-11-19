@@ -11,7 +11,7 @@ class Album(models.Model):
 class Foto(models.Model):
     album = models.ForeignKey(Album, on_delete=models.CASCADE)
     gambar = models.ImageField(upload_to='galeri/')
-    keterangan = models.CharField(max_length=200)
+    keterangan = models.CharField(max_length=200, blank=True)
     
     def __str__(self):
         return f"Foto di {self.album.nama}"

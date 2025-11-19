@@ -1,0 +1,68 @@
+{% extends "admin/index.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="row mb-4">
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-info">
+                <div class="inner">
+                    <h3>Berita</h3>
+                    <p>Publikasi Sekolah</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-newspaper"></i>
+                </div>
+                <a href="{% url 'admin:berita_berita_changelist' %}" class="small-box-footer">
+                    Kelola Data <i class="fas fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-success">
+                <div class="inner">
+                    <h3>Galeri</h3>
+                    <p>Dokumentasi Kegiatan</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-images"></i>
+                </div>
+                <a href="{% url 'admin:galeri_album_changelist' %}" class="small-box-footer">
+                    Lihat Album <i class="fas fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-warning">
+                <div class="inner">
+                    <h3>Agenda</h3>
+                    <p>Jadwal Mendatang</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <a href="{% url 'admin:agenda_agenda_changelist' %}" class="small-box-footer">
+                    Cek Jadwal <i class="fas fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-danger">
+                <div class="inner">
+                    <h3>Pesan</h3>
+                    <p>Kotak Masuk</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-envelope-open-text"></i>
+                </div>
+                <a href="{% url 'admin:kontak_pesan_changelist' %}" class="small-box-footer">
+                    Baca Pesan <i class="fas fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    {{ block.super }}
+{% endblock %}
