@@ -2,11 +2,207 @@
 {% load static %} 
 {% load compress %}
 
-{% block title %}Beranda{% endblock %} 
+{% block title %}Beranda - SDI AM FATWA{% endblock %} 
+
+{% block extra_head %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "School",
+  "name": "SDI AM FATWA",
+  "description": "Mencetak Generasi Qur'ani yang Cerdas dan Berakhlak Mulia",
+  "url": "{{ request.build_absolute_uri }}",
+  "logo": "{{ request.build_absolute_uri|slice:':-1' }}{% static 'img/logo.png' %}",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Jakarta Pusat",
+    "addressRegion": "DKI Jakarta",
+    "addressCountry": "ID"
+  }
+}
+</script>
+{% endblock %}
 
 {% block extra_css %}
   {% compress css %}
   <link rel="stylesheet" href="{% static 'css/home.css' %}" type="text/css" />
+  <style>
+    /* ===== COLOR SYSTEM - Konsisten di seluruh halaman ===== */
+    :root { 
+      --primary-green: #198754;      /* Warna utama (hijau) */
+      --primary-gold: #ffc107;       /* Warna aksen (emas/kuning) */
+      --success: #198754;            /* Alias untuk konsistensi */
+      --warning: #ffc107;            /* Alias untuk konsistensi */
+      --text-primary: #198754;
+      --bg-primary-light: rgba(25, 135, 84, 0.1);
+      --bg-gold-light: rgba(255, 193, 7, 0.1);
+    }
+    
+    .hero-section { 
+      display: flex; 
+      align-items: center; 
+      min-height: 85vh; 
+      margin-top: -76px; 
+      padding-top: 76px;
+      background: linear-gradient(rgba(25, 135, 84, 0.85), rgba(0,0,0,0.7)), url('{% static "img/hero-bg.webp" %}') center/cover no-repeat;
+    }
+    
+    /* Konsistensi Button Styles */
+    .btn-primary-custom {
+      background-color: var(--primary-green);
+      border-color: var(--primary-green);
+      color: white;
+    }
+    
+    .btn-primary-custom:hover {
+      background-color: #146c43;
+      border-color: #146c43;
+    }
+    
+    .btn-accent-custom {
+      background-color: var(--primary-gold);
+      border-color: var(--primary-gold);
+      color: #000;
+      font-weight: 600;
+    }
+    
+    .btn-accent-custom:hover {
+      background-color: #e0a800;
+      border-color: #e0a800;
+      color: #000;
+    }
+    
+    .hover-lift { 
+      transition: transform 0.3s ease, box-shadow 0.3s ease; 
+    }
+    
+    .hover-lift:hover { 
+      transform: translateY(-5px); 
+      box-shadow: 0 10px 20px rgba(25, 135, 84, 0.15) !important; 
+    }
+    
+    .img-wrapper { 
+      position: relative; 
+      overflow: hidden; 
+      padding-top: 56.25%; 
+    }
+    
+    .img-wrapper img { 
+      position: absolute; 
+      top: 0; 
+      left: 0; 
+      width: 100%; 
+      height: 100%; 
+      object-fit: cover; 
+      transition: transform 0.5s; 
+    }
+    
+    .card:hover .img-wrapper img { 
+      transform: scale(1.05); 
+    }
+    
+    .date-badge { 
+      min-width: 60px; 
+      text-align: center; 
+      line-height: 1.2; 
+    }
+    
+    .vision-mission-card {
+      transition: all 0.3s ease;
+    }
+    
+    .vision-mission-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(25, 135, 84, 0.15);
+    }
+    
+    .facility-card {
+      transition: all 0.3s ease;
+      border-radius: 8px;
+      padding: 15px;
+      text-align: center;
+      background-color: #f8f9fa;
+      height: 100%;
+    }
+    
+    .facility-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(25, 135, 84, 0.15);
+      background-color: var(--bg-primary-light);
+    }
+    
+    .facility-icon {
+      font-size: 2rem;
+      color: var(--primary-green);
+      margin-bottom: 10px;
+    }
+    
+    .stat-item {
+      padding: 15px;
+      transition: all 0.3s ease;
+    }
+    
+    .stat-item:hover {
+      transform: translateY(-5px);
+    }
+    
+    .stat-item i {
+      color: var(--primary-green) !important;
+    }
+    
+    .bg-gradient-primary {
+      background: linear-gradient(135deg, var(--primary-green), #0f6b3e);
+    }
+    
+    .toggle-icon {
+      transition: transform 0.3s ease;
+    }
+    
+    .toggle-icon.rotated {
+      transform: rotate(180deg);
+    }
+    
+    /* Accent Colors - Konsisten */
+    .text-primary-custom {
+      color: var(--primary-green) !important;
+    }
+    
+    .text-accent-custom {
+      color: var(--primary-gold) !important;
+    }
+    
+    .bg-primary-custom {
+      background-color: var(--primary-green) !important;
+    }
+    
+    .bg-accent-custom {
+      background-color: var(--primary-gold) !important;
+    }
+    
+    .border-primary-custom {
+      border-color: var(--primary-green) !important;
+    }
+    
+    .border-accent-custom {
+      border-color: var(--primary-gold) !important;
+    }
+    
+    /* Divider warna konsisten */
+    .section-divider {
+      background-color: var(--primary-gold);
+    }
+    
+    /* Badge konsisten */
+    .badge-custom-primary {
+      background-color: var(--bg-primary-light) !important;
+      color: var(--primary-green) !important;
+    }
+    
+    .badge-custom-accent {
+      background-color: var(--bg-gold-light) !important;
+      color: #856404 !important;
+    }
+  </style>
   {% endcompress %}
 {% endblock %} 
 
@@ -14,15 +210,20 @@
 
 <div class="hero-section">
   <div class="container">
-    <div class="row align-items-center">
-      <div class="col-lg-6 stagger-fade">
-        <h1 class="display-4 text-white fade-in">SDI AM FATWA</h1>
-        <p class="lead text-white fade-in-up">
+    <div class="row align-items-center justify-content-center">
+      <div class="col-lg-10 text-center stagger-fade">
+        <h1 class="display-3 fw-bold text-white fade-in mb-4">SDI AM FATWA</h1>
+        <p class="lead text-white fade-in-up fs-4 mb-5 opacity-90">
           Mencetak Generasi Qur'ani yang Cerdas dan Berakhlak Mulia
         </p>
-        <a href="#profil" class="btn btn-warning btn-lg slide-in profile-link">
-          Profil Sekolah
-        </a>
+        <div class="d-flex justify-content-center gap-3 flex-wrap">
+            <a href="#profil" class="btn btn-accent-custom btn-lg px-5 rounded-pill slide-in profile-link fw-bold">
+            Profil Sekolah
+            </a>
+            <a href="https://wa.me/6283805530371" class="btn btn-outline-light btn-lg px-5 rounded-pill slide-in fw-bold">
+            Hubungi Kami
+            </a>
+        </div>
       </div>
     </div>
   </div>
@@ -30,19 +231,28 @@
 
 <main class="container my-5">
   <section id="profil" class="mb-5 profile-section fade-in" aria-label="Profil Sekolah">
-    <h2 class="text-center mb-4 slide-in">Profil Sekolah</h2>
+    <div class="text-center mb-5">
+        <h2 class="slide-in fw-bold">Profil Sekolah</h2>
+        <div class="section-divider mx-auto mt-2" style="width: 60px; height: 3px;"></div>
+    </div>
+    
     <div class="profile-content" id="profileContent">
-      <div class="row stagger-fade mb-4">
+      <div class="row stagger-fade mb-5 align-items-center">
         <div class="col-md-6 mb-4 mb-md-0">
-          <img
-            src="{% static 'img/sekolah.webp' %}"
-            alt="Gedung SDI AM FATWA"
-            class="img-fluid rounded shadow lazy-load"
-            loading="lazy"
-          />
+          <div class="position-relative rounded-3 overflow-hidden shadow-lg">
+              <img
+                src="{% static 'img/sekolah.webp' %}"
+                alt="Gedung SDI AM FATWA"
+                class="img-fluid w-100 lazy-load"
+                loading="lazy"
+                width="600"
+                height="400"
+              />
+          </div>
         </div>
         <div class="col-md-6">
-          <p class="lead fade-in-up">
+          <h3 class="h4 mb-3 text-primary-custom fw-bold">Pendidikan Berkualitas & Islami</h3>
+          <p class="lead fade-in-up text-muted">
             SDI AM FATWA adalah sekolah dasar Islam yang berkomitmen untuk
             memberikan pendidikan berkualitas dengan pendekatan islami.
           </p>
@@ -50,61 +260,44 @@
             Dengan kurikulum SD Merdeka, kami berusaha mencetak generasi Qur'ani
             yang cerdas, berakhlak mulia, dan siap menghadapi tantangan global.
           </p>
-          <p>
-            Didukung oleh tenaga pendidik profesional dan fasilitas lengkap, SDI
-            AM FATWA menjadi pilihan tepat untuk putra-putri Anda.
-          </p>
+          <ul class="list-unstyled mt-3">
+            <li class="mb-2"><i class="fas fa-check-circle text-primary-custom me-2"></i>Kurikulum Merdeka Belajar</li>
+            <li class="mb-2"><i class="fas fa-check-circle text-primary-custom me-2"></i>Program Tahfidz Al-Qur'an</li>
+            <li><i class="fas fa-check-circle text-primary-custom me-2"></i>Ekstrakurikuler Beragam</li>
+          </ul>
         </div>
       </div>
 
-      <div class="row mb-4">
-        <div class="col-12">
-          <h4 class="section-title text-center">Visi & Misi Sekolah</h4>
-          <div class="row">
-            <div class="col-md-6 mb-4">
-              <div class="vision-mission-card h-100">
-                <div class="vision-header vision-mission-header">
-                  <h5 class="mb-0"><i class="fas fa-eye me-2" aria-hidden="true"></i>Visi</h5>
+      <div class="row mb-4 g-4">
+         <div class="col-md-6">
+            <div class="card h-100 border-0 shadow-sm bg-light border-start border-4 border-primary-custom vision-mission-card">
+                <div class="card-body p-4">
+                    <h5 class="fw-bold mb-3"><i class="fas fa-eye text-primary-custom me-2"></i>Visi</h5>
+                    <p class="mb-0 fst-italic">"Terwujudnya generasi Qur'ani yang cerdas, berakhlak mulia, dan siap menghadapi tantangan global."</p>
                 </div>
-                <div class="vision-mission-body">
-                  <p class="mb-0">
-                    "Terwujudnya generasi Qur'ani yang cerdas, berakhlak mulia,
-                    dan siap menghadapi tantangan global."
-                  </p>
-                </div>
-              </div>
             </div>
-            <div class="col-md-6 mb-4">
-              <div class="vision-mission-card h-100">
-                <div class="mission-header vision-mission-header">
-                  <h5 class="mb-0"><i class="fas fa-bullseye me-2" aria-hidden="true"></i>Misi</h5>
+         </div>
+         <div class="col-md-6">
+            <div class="card h-100 border-0 shadow-sm bg-light border-start border-4 border-accent-custom vision-mission-card">
+                <div class="card-body p-4">
+                    <h5 class="fw-bold mb-3"><i class="fas fa-bullseye text-accent-custom me-2"></i>Misi</h5>
+                    <ul class="mb-0 ps-3 small">
+                        <li class="mb-1">Menyelenggarakan pendidikan berkualitas islami</li>
+                        <li class="mb-1">Membentuk karakter islami yang kuat</li>
+                        <li>Mengembangkan potensi siswa secara optimal</li>
+                    </ul>
                 </div>
-                <div class="vision-mission-body">
-                  <ul class="mb-0 ps-3">
-                    <li class="mb-2">
-                      Menyelenggarakan pendidikan berkualitas dengan pendekatan
-                      islami
-                    </li>
-                    <li class="mb-2">Membentuk karakter islami yang kuat</li>
-                    <li class="mb-2">
-                      Mengembangkan potensi siswa secara optimal
-                    </li>
-                    <li>Menciptakan lingkungan belajar yang Ramah dan modern</li>
-                  </ul>
-                </div>
-              </div>
             </div>
-          </div>
-        </div>
+         </div>
       </div>
 
       <div class="collapse" id="profilCollapse" aria-labelledby="profilCollapseLabel">
-        <div class="profile-expanded-content">
-          <div class="mb-4">
-            <h4 class="section-title" id="profilCollapseLabel">Sejarah Singkat</h4>
+        <div class="profile-expanded-content py-4">
+          <div class="mb-5">
+            <h4 class="section-title mb-4" id="profilCollapseLabel">Sejarah Singkat</h4>
             <div class="card border-0 shadow-sm">
               <div class="card-body p-4">
-                <div class="row">
+                <div class="row align-items-center">
                   <div class="col-md-8">
                     <p>
                       SDI AM FATWA didirikan pada tahun 2019 dengan tujuan untuk
@@ -119,22 +312,20 @@
                       memberikan yang terbaik bagi putra-putri Anda.
                     </p>
                   </div>
-                  <div class="col-md-4">
-                    <div class="timeline-item">
-                      <div class="timeline-year">2019</div>
-                      <p>Didirikan</p>
-                    </div>
-                    <div class="timeline-item">
-                      <div class="timeline-year">2020</div>
-                      <p>Mencapai akreditasi B</p>
-                    </div>
-                    <div class="timeline-item">
-                      <div class="timeline-year">2023</div>
-                      <p>Meraih 1 prestasi tingkat kota</p>
-                    </div>
-                    <div class="timeline-item">
-                      <div class="timeline-year">2024</div>
-                      <p>Meraih 7 prestasi Kecamatan</p>
+                  <div class="col-md-4 border-start">
+                    <div class="ps-3">
+                        <div class="d-flex mb-3 align-items-center">
+                            <span class="h4 fw-bold text-primary-custom mb-0 me-3">2019</span>
+                            <small class="text-muted">Tahun Berdiri</small>
+                        </div>
+                        <div class="d-flex mb-3 align-items-center">
+                            <span class="h4 fw-bold text-primary-custom mb-0 me-3">2020</span>
+                            <small class="text-muted">Akreditasi B</small>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <span class="h4 fw-bold text-primary-custom mb-0 me-3">2024</span>
+                            <small class="text-muted">7 Prestasi Kecamatan</small>
+                        </div>
                     </div>
                   </div>
                 </div>
@@ -143,129 +334,105 @@
           </div>
 
           <div class="mb-4">
-            <h4 class="section-title">Fasilitas</h4>
-            <div class="row">
-              <div class="col-md-3 col-sm-6 mb-3">
+            <h4 class="section-title mb-4">Fasilitas Unggulan</h4>
+            <div class="row g-3">
+              <div class="col-6 col-md-2 text-center">
                 <div class="facility-card">
                   <div class="facility-icon">
-                    <i class="fas fa-building" aria-hidden="true"></i>
+                    <i class="fas fa-book"></i>
                   </div>
-                  <h6 class="mb-2">Ruang Kelas</h6>
-                  <p class="small text-muted mb-0">6 ruang kelas nyaman</p>
+                  <h6 class="small mb-0">Perpustakaan</h6>
                 </div>
               </div>
-              <div class="col-md-3 col-sm-6 mb-3">
+              <div class="col-6 col-md-2 text-center">
                 <div class="facility-card">
                   <div class="facility-icon">
-                    <i class="fas fa-book" aria-hidden="true"></i>
+                    <i class="fas fa-mosque"></i>
                   </div>
-                  <h6 class="mb-2">Perpustakaan</h6>
-                  <p class="small text-muted mb-0">Koleksi buku Banyak</p>
+                  <h6 class="small mb-0">Mushola</h6>
                 </div>
               </div>
-              <div class="col-md-3 col-sm-6 mb-3">
+              <div class="col-6 col-md-2 text-center">
                 <div class="facility-card">
                   <div class="facility-icon">
-                    <i class="fas fa-restroom" aria-hidden="true"></i>
+                    <i class="fas fa-first-aid"></i>
                   </div>
-                  <h6 class="mb-2">Ruang Toilet</h6>
-                  <p class="small text-muted mb-0">5 ruangan toilet bersih</p>
+                  <h6 class="small mb-0">UKS</h6>
                 </div>
               </div>
-              <div class="col-md-3 col-sm-6 mb-3">
+              <div class="col-6 col-md-2 text-center">
                 <div class="facility-card">
                   <div class="facility-icon">
-                    <i class="fas fa-mosque" aria-hidden="true"></i>
+                    <i class="fas fa-futbol"></i>
                   </div>
-                  <h6 class="mb-2">Mushola</h6>
-                  <p class="small text-muted mb-0">Untuk ibadah sehari-hari</p>
+                  <h6 class="small mb-0">Lapangan</h6>
                 </div>
               </div>
-              <div class="col-md-3 col-sm-6 mb-3">
-                <div class="facility-card">
-                  <div class="facility-icon">
-                    <i class="fas fa-first-aid" aria-hidden="true"></i>
-                  </div>
-                  <h6 class="mb-2">Ruang UKS</h6>
-                  <p class="small text-muted mb-0">Untuk kesehatan siswa</p>
-                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+      
       <div class="text-center mt-4">
         <button
-          class="btn btn-primary px-4"
+          class="btn btn-outline-success rounded-pill px-4"
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#profilCollapse"
           aria-expanded="false"
           aria-controls="profilCollapse"
+          id="btnSelengkapnya"
+          style="border-color: var(--primary-green); color: var(--primary-green);"
         >
-          <span class="btn-text">Selengkapnya</span>
-          <i class="fas fa-chevron-down toggle-icon ms-2" aria-hidden="true"></i>
+          <span class="btn-text">Baca Selengkapnya</span>
+          <i class="fas fa-chevron-down toggle-icon ms-2"></i>
         </button>
       </div>
     </div>
   </section>
 
   <section class="mb-5" aria-label="Berita Terbaru">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      <h2>Berita Terbaru</h2>
-      <a href="{% url 'berita_list' %}" class="btn btn-outline-primary" aria-label="Lihat semua berita">
-        Lihat Semua
+    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-2">
+      <h2 class="h3 fw-bold mb-0">Kabar Sekolah</h2>
+      <a href="{% url 'berita_list' %}" class="btn btn-link text-decoration-none fw-bold text-primary-custom">
+        Lihat Semua <i class="fas fa-arrow-right ms-1"></i>
       </a>
     </div>
-    <div class="row">
+    <div class="row g-4">
       {% for berita in berita_terbaru %}
-      <div class="col-md-4 mb-4">
-        <article class="card berita-card">
-          <div class="berita-card-img-container">
+      <div class="col-md-4">
+        <article class="card h-100 border-0 shadow-sm hover-lift berita-card">
+          <div class="img-wrapper">
             {% if berita.gambar %}
-            <img
-              src="{{ berita.gambar.url }}"
-              class="berita-card-img"
-              alt="{{ berita.judul }}"
-              loading="lazy"
-            />
+            <img src="{{ berita.gambar.url }}" alt="{{ berita.judul }}" loading="lazy">
             {% else %}
-            <img
-              src="{% static 'img/default-berita.jpg' %}"
-              class="berita-card-img"
-              alt="Gambar default berita"
-              loading="lazy"
-            />
+            <img src="{% static 'img/default-berita.jpg' %}" alt="Default" loading="lazy">
             {% endif %}
           </div>
-          <div class="card-body d-flex flex-column">
-            <span class="badge bg-primary mb-2 align-self-start">
-              {{ berita.get_kategori_display }}
-            </span>
-            <h5 class="card-title">{{ berita.judul }}</h5>
-            <p class="card-text">{{ berita.isi|truncatewords_html:20|safe }}</p>
-            <div class="mt-auto">
-              <small class="text-muted">
-                <i class="far fa-calendar me-1" aria-hidden="true"></i> 
+          <div class="card-body d-flex flex-column p-4">
+            <div class="mb-2">
+                <span class="badge badge-custom-primary">{{ berita.get_kategori_display }}</span>
+            </div>
+            <h5 class="card-title fw-bold">
+                <a href="{% url 'berita_detail' berita.id %}" class="text-dark text-decoration-none stretched-link">
+                    {{ berita.judul }}
+                </a>
+            </h5>
+            <p class="card-text text-muted small">{{ berita.isi|striptags|truncatewords:15 }}</p>
+            <div class="mt-auto pt-3 border-top d-flex align-items-center text-muted small">
+                <i class="far fa-calendar-alt me-2 text-primary-custom"></i>
                 <time datetime="{{ berita.tanggal_publikasi|date:'Y-m-d' }}">
-                  {{ berita.tanggal_publikasi|date:"j F Y" }}
-                </time> 
-                oleh {{ berita.author.get_full_name|default:berita.author.username }}
-              </small>
-              <a
-                href="{% url 'berita_detail' berita.id %}"
-                class="btn btn-sm btn-primary float-end"
-                aria-label="Baca selengkapnya tentang {{ berita.judul }}"
-              >Baca Selengkapnya</a
-              >
+                  {{ berita.tanggal_publikasi|date:"d M Y" }}
+                </time>
             </div>
           </div>
         </article>
       </div>
       {% empty %}
       <div class="col-12">
-        <div class="alert alert-info text-center py-4" role="alert">
-          <i class="fas fa-newspaper fa-3x mb-3 d-block text-center" aria-hidden="true"></i>
+        <div class="text-center py-5 text-muted bg-light rounded">
+          <i class="fas fa-newspaper fa-3x mb-3 opacity-50"></i>
           <h5>Belum ada berita terbaru</h5>
           <p>Silakan kunjungi lagi nanti untuk melihat berita terbaru dari kami.</p>
         </div>
@@ -275,99 +442,119 @@
   </section>
 
   <section class="mb-5" aria-label="Agenda Mendatang">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      <h2>Agenda Mendatang</h2>
-      <a
-        href="{% url 'agenda_list' %}?filter=mendatang"
-        class="btn btn-outline-primary"
-        aria-label="Lihat semua agenda"
-      >Lihat Semua</a
-      >
+    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-2">
+      <h2 class="h3 fw-bold mb-0">Agenda Mendatang</h2>
+      <a href="{% url 'agenda_list' %}?filter=mendatang" class="btn btn-link text-decoration-none fw-bold text-primary-custom">
+        Lihat Kalender <i class="fas fa-arrow-right ms-1"></i>
+      </a>
     </div>
-    <div class="row">
+    <div class="row g-4">
       {% for agenda in agenda_mendatang %}
-      <div class="col-md-4 mb-4">
-        <article class="card agenda-card">
-          <div class="card-body">
-            <h5 class="card-title">{{ agenda.judul }}</h5>
-            <p class="card-text">{{ agenda.deskripsi|truncatewords:15 }}</p>
-            <p class="mb-1">
-              <i class="fas fa-calendar-alt text-primary me-2" aria-hidden="true"></i> 
-              <time datetime="{{ agenda.tanggal_mulai|date:'Y-m-d\TH:i' }}">
-                {{ agenda.tanggal_mulai|date:"d M Y H:i" }}
-              </time>
-            </p>
-            <p class="mb-0">
-              <i class="fas fa-map-marker-alt text-primary me-2" aria-hidden="true"></i> 
-              <span>{{ agenda.lokasi }}</span>
-            </p>
+      <div class="col-md-4">
+        <article class="card h-100 border-0 shadow-sm hover-lift agenda-card">
+          <div class="card-body p-4">
+            <div class="d-flex">
+                <div class="date-badge rounded p-2 me-3 h-100" style="background-color: var(--bg-primary-light); color: var(--primary-green);">
+                    <span class="d-block fw-bold fs-4">{{ agenda.tanggal_mulai|date:"d" }}</span>
+                    <span class="d-block small fw-bold text-uppercase">{{ agenda.tanggal_mulai|date:"M" }}</span>
+                </div>
+                <div>
+                    <h5 class="card-title fw-bold mb-1">{{ agenda.judul }}</h5>
+                    <p class="small text-muted mb-2">
+                        <i class="fas fa-clock me-1 text-primary-custom"></i> {{ agenda.tanggal_mulai|date:"H:i" }} WIB
+                    </p>
+                    <p class="card-text small text-muted">{{ agenda.deskripsi|truncatewords:10 }}</p>
+                </div>
+            </div>
           </div>
         </article>
       </div>
       {% empty %}
       <div class="col-12">
-        <div class="alert alert-info text-center py-4" role="alert">
-          <i class="fas fa-calendar-alt fa-3x mb-3 d-block text-center" aria-hidden="true"></i>
-          <h5>Tidak ada agenda mendatang</h5>
-          <p>Silakan kunjungi lagi nanti untuk melihat agenda terbaru dari kami.</p>
+        <div class="alert alert-info text-center border-0 shadow-sm">
+          <i class="fas fa-calendar-alt me-2"></i> Tidak ada agenda dalam waktu dekat.
         </div>
       </div>
       {% endfor %}
     </div>
   </section>
 
-  <section class="mb-5 bg-light py-5 rounded" aria-label="Statistik Sekolah">
-    <h2 class="text-center mb-4">Statistik Sekolah</h2>
-    <div class="row">
-      <div class="col-md-3 text-center">
+  <section class="mb-5 bg-white shadow-sm border rounded-3 py-5" aria-label="Statistik Sekolah">
+    <div class="row text-center divide-x">
+      <div class="col-6 col-md-3 mb-4 mb-md-0">
         <div class="stat-item">
-          <i class="fas fa-users fa-3x text-primary mb-3" aria-hidden="true"></i>
-          <h3>45+</h3>
-          <p>Siswa Aktif</p>
+          <i class="fas fa-users fa-3x mb-3"></i>
+          <h3 class="fw-bold">45+</h3>
+          <p class="text-muted small text-uppercase fw-bold">Siswa Aktif</p>
         </div>
       </div>
-      <div class="col-md-3 text-center">
+      <div class="col-6 col-md-3 mb-4 mb-md-0">
         <div class="stat-item">
-          <i class="fas fa-chalkboard-teacher fa-3x text-primary mb-3" aria-hidden="true"></i>
-          <h3>10+</h3>
-          <p>Tenaga Pendidik</p>
+          <i class="fas fa-chalkboard-teacher fa-3x mb-3"></i>
+          <h3 class="fw-bold">10+</h3>
+          <p class="text-muted small text-uppercase fw-bold">Guru Profesional</p>
         </div>
       </div>
-      <div class="col-md-3 text-center">
+      <div class="col-6 col-md-3">
         <div class="stat-item">
-          <i class="fas fa-trophy fa-3x text-primary mb-3" aria-hidden="true"></i>
-          <h3>10+</h3>
-          <p>Prestasi</p>
+          <i class="fas fa-trophy fa-3x mb-3"></i>
+          <h3 class="fw-bold">10+</h3>
+          <p class="text-muted small text-uppercase fw-bold">Prestasi</p>
         </div>
       </div>
-      <div class="col-md-3 text-center">
+      <div class="col-6 col-md-3">
         <div class="stat-item">
-          <i class="fas fa-building fa-3x text-primary mb-3" aria-hidden="true"></i>
-          <h3>6</h3>
-          <p>Ruang Kelas</p>
+          <i class="fas fa-building fa-3x mb-3"></i>
+          <h3 class="fw-bold">6</h3>
+          <p class="text-muted small text-uppercase fw-bold">Ruang Kelas</p>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="mb-5 bg-gradient-primary text-white py-5 rounded" aria-label="Pendaftaran">
-    <div class="container text-center">
-      <h2 class="mb-4">Daftarkan Putra-Putri Anda Sekarang!</h2>
-      <p class="lead mb-4">
-        Bergabunglah dengan SDI AM FATWA dan berikan pendidikan terbaik untuk masa
-        depan anak Anda.
+  <section class="mb-5 bg-gradient-primary text-white py-5 rounded-3 shadow position-relative overflow-hidden" aria-label="Pendaftaran">
+    <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-25"></div>
+    <div class="container text-center position-relative z-1">
+      <h2 class="mb-3 fw-bold">Daftarkan Putra-Putri Anda Sekarang!</h2>
+      <p class="lead mb-4 text-white opacity-90">
+        Bergabunglah dengan SDI AM FATWA dan berikan pendidikan fondasi terbaik untuk masa depan anak Anda.
       </p>
       <a
         href="https://wa.me/6283805530371"
-        class="btn btn-warning btn-lg btn-daftar"
+        class="btn btn-accent-custom btn-lg rounded-pill px-5 fw-bold shadow-sm"
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="Hubungi kami via WhatsApp untuk pendaftaran"
       >
-        <i class="fab fa-whatsapp me-2" aria-hidden="true"></i> Hubungi Sekarang
+        <i class="fab fa-whatsapp me-2"></i> Chat WhatsApp
       </a>
     </div>
   </section>
 </main>
-{% endblock %}
 
+<script>
+    // Fix untuk Collapse error "style of null"
+    document.addEventListener('DOMContentLoaded', function() {
+        const collapseButtons = document.querySelectorAll('[data-bs-toggle="collapse"]');
+        
+        collapseButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const target = document.querySelector(this.getAttribute('data-bs-target'));
+                const icon = this.querySelector('.toggle-icon');
+                const btnText = this.querySelector('.btn-text');
+                
+                if (target) {
+                    if (target.classList.contains('show')) {
+                        // Will be hidden
+                        if (btnText) btnText.textContent = 'Baca Selengkapnya';
+                        if (icon) icon.classList.remove('rotated');
+                    } else {
+                        // Will be shown
+                        if (btnText) btnText.textContent = 'Tutup';
+                        if (icon) icon.classList.add('rotated');
+                    }
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}
