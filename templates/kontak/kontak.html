@@ -7,11 +7,6 @@
 
 {% block extra_css %}
 <style>
-  /* === PERBAIKAN JARAK NAVBAR === */
-  .kontak-container.my-5 {
-    margin-top: 5rem !important;
-  }
-
   /* === KARTU KONTAK === */
   .contact-card {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -61,140 +56,141 @@
 {% endblock %}
 
 {% block content %}
-<main class="container my-5 kontak-container">
-  <h1 class="mb-4 text-center fw-bold text-success">Kontak Kami</h1>
-  <p class="text-center text-muted mb-5">Hubungi kami untuk informasi lebih lanjut</p>
+<div>
+  <main class="container" style="margin-top: 100px !important; margin-bottom: 5rem;">
+    
+    <h1 class="mb-4 text-center fw-bold text-success">Kontak Kami</h1>
+    <p class="text-center text-muted mb-5">Hubungi kami untuk informasi lebih lanjut</p>
 
-  {% if messages %}
-    {% for message in messages %}
-      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-        {{ message }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    {% endfor %}
-  {% endif %}
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
 
-  <div class="row g-4">
-    <!-- === KOLOM INFORMASI & MAP === -->
-    <div class="col-md-6 d-flex flex-column">
-      <div class="card shadow-sm border-0 mb-4 contact-card">
-        <div class="card-body">
-          <h5 class="card-title mb-3 text-secondary">
-            <i class="fas fa-info-circle me-2 text-success"></i>Informasi Kontak
-          </h5>
-          <p class="mb-2">
-            <i class="fas fa-map-marker-alt text-danger me-2"></i>
-            <strong>Alamat:</strong> Jl. Kramat Pulo Gundul No.2, RT.2/RW.9, Tanah Tinggi,
-            Kec. Johar Baru, Kota Jakarta Pusat, DKI Jakarta 10450
-          </p>
-          <p class="mb-2">
-            <i class="fas fa-phone text-success me-2"></i>
-            <strong>Telepon:</strong>
-            <a href="tel:083805530371" class="text-decoration-none">0838-0553-0371</a>
-          </p>
-          <p class="mb-2">
-            <i class="fas fa-envelope text-warning me-2"></i>
-            <strong>Email:</strong>
-            <a href="mailto:sdi.amfatwa@gmail.com" class="text-decoration-none">sdi.amfatwa@gmail.com</a>
-          </p>
-          <p class="mb-0">
-            <i class="fas fa-clock text-info me-2"></i>
-            <strong>Jam Operasional:</strong> Senin - Sabtu: 07.30 - 16.00
-          </p>
+    <div class="row g-4">
+      <div class="col-md-6 d-flex flex-column">
+        <div class="card shadow-sm border-0 mb-4 contact-card">
+          <div class="card-body">
+            <h5 class="card-title mb-3 text-secondary">
+              <i class="fas fa-info-circle me-2 text-success"></i>Informasi Kontak
+            </h5>
+            <p class="mb-2">
+              <i class="fas fa-map-marker-alt text-danger me-2"></i>
+              <strong>Alamat:</strong> Jl. Kramat Pulo Gundul No.2, RT.2/RW.9, Tanah Tinggi,
+              Kec. Johar Baru, Kota Jakarta Pusat, DKI Jakarta 10450
+            </p>
+            <p class="mb-2">
+              <i class="fas fa-phone text-success me-2"></i>
+              <strong>Telepon:</strong>
+              <a href="tel:083805530371" class="text-decoration-none">0838-0553-0371</a>
+            </p>
+            <p class="mb-2">
+              <i class="fas fa-envelope text-warning me-2"></i>
+              <strong>Email:</strong>
+              <a href="mailto:sdi.amfatwa@gmail.com" class="text-decoration-none">sdi.amfatwa@gmail.com</a>
+            </p>
+            <p class="mb-0">
+              <i class="fas fa-clock text-info me-2"></i>
+              <strong>Jam Operasional:</strong> Senin - Sabtu: 07.30 - 16.00
+            </p>
+          </div>
+        </div>
+
+        <div class="card shadow-sm border-0 contact-card flex-grow-1">
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title mb-3 text-secondary">
+              <i class="fas fa-map-marked-alt me-2 text-success"></i>Lokasi Kami
+            </h5>
+            <div class="ratio ratio-16x9 rounded overflow-hidden flex-grow-1">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.6092516467975!2d106.84610197499005!3d-6.183020393804466!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f5bfd68f7671%3A0x1524e3bc2d364c4c!2sSDI%20AM%20FATWA!5e0!3m2!1sid!2sid!4v1762408803044!5m2!1sid!2sid"
+                style="border:0;"
+                allowfullscreen
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                title="Lokasi SDI AM FATWA pada Google Maps"
+                aria-label="Peta lokasi SDI AM FATWA">
+              </iframe>
+            </div>
+            <div class="mt-3 text-center">
+              <a href="https://maps.google.com/?q=SDI+AM+FATWA" target="_blank" class="btn btn-outline-primary btn-sm">
+                <i class="fas fa-external-link-alt me-1"></i> Buka di Google Maps
+              </a>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="card shadow-sm border-0 contact-card flex-grow-1">
-        <div class="card-body d-flex flex-column">
-          <h5 class="card-title mb-3 text-secondary">
-            <i class="fas fa-map-marked-alt me-2 text-success"></i>Lokasi Kami
-          </h5>
-          <div class="ratio ratio-16x9 rounded overflow-hidden flex-grow-1">
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.6092516467975!2d106.84610197499005!3d-6.183020393804466!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f5bfd68f7671%3A0x1524e3bc2d364c4c!2sSDI%20AM%20FATWA!5e0!3m2!1sid!2sid!4v1762408803044!5m2!1sid!2sid"
-              style="border:0;"
-              allowfullscreen
-              loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade"
-              title="Lokasi SDI AM FATWA pada Google Maps"
-              aria-label="Peta lokasi SDI AM FATWA">
-            </iframe>
-          </div>
-          <div class="mt-3 text-center">
-            <a href="https://maps.google.com/?q=SDI+AM+FATWA" target="_blank" class="btn btn-outline-primary btn-sm">
-              <i class="fas fa-external-link-alt me-1"></i> Buka di Google Maps
-            </a>
+      <div class="col-md-6">
+        <div class="card shadow-sm border-0 contact-card h-100">
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title mb-3 text-secondary">
+              <i class="fas fa-paper-plane me-2 text-success"></i>Kirim Pesan
+            </h5>
+
+            <form method="post" id="contactForm" novalidate class="flex-grow-1 d-flex flex-column">
+              {% csrf_token %}
+
+              <div class="mb-3">
+                <label for="{{ form.nama.id_for_label }}" class="form-label fw-semibold">
+                  Nama Lengkap <span class="text-danger">*</span>
+                </label>
+                {{ form.nama|add_class:"form-control"|attr:"autocomplete:name"|attr:"required:true" }}
+                {% if form.nama.errors %}
+                  <div class="text-danger small">{{ form.nama.errors }}</div>
+                {% endif %}
+                <div class="invalid-feedback">Silakan masukkan nama lengkap Anda.</div>
+              </div>
+
+              <div class="mb-3">
+                <label for="{{ form.email.id_for_label }}" class="form-label fw-semibold">
+                  Email <span class="text-danger">*</span>
+                </label>
+                {{ form.email|add_class:"form-control"|attr:"autocomplete:email"|attr:"required:true"|attr:"type:email" }}
+                {% if form.email.errors %}
+                  <div class="text-danger small">{{ form.email.errors }}</div>
+                {% endif %}
+                <div class="invalid-feedback">Silakan masukkan email yang valid.</div>
+              </div>
+
+              <div class="mb-3">
+                <label for="{{ form.subjek.id_for_label }}" class="form-label fw-semibold">
+                  Subjek <span class="text-danger">*</span>
+                </label>
+                {{ form.subjek|add_class:"form-control"|attr:"autocomplete:off"|attr:"required:true" }}
+                {% if form.subjek.errors %}
+                  <div class="text-danger small">{{ form.subjek.errors }}</div>
+                {% endif %}
+                <div class="invalid-feedback">Silakan masukkan subjek pesan.</div>
+              </div>
+
+              <div class="mb-3 flex-grow-1 d-flex flex-column">
+                <label for="{{ form.pesan.id_for_label }}" class="form-label fw-semibold">
+                  Pesan <span class="text-danger">*</span>
+                </label>
+                {{ form.pesan|add_class:"form-control flex-grow-1"|attr:"rows:4"|attr:"required:true" }}
+                {% if form.pesan.errors %}
+                  <div class="text-danger small">{{ form.pesan.errors }}</div>
+                {% endif %}
+                <div class="invalid-feedback">Silakan masukkan pesan Anda.</div>
+              </div>
+
+              <div class="d-grid mt-auto">
+                <button type="submit" class="btn btn-primary py-2 fw-semibold" id="submitBtn">
+                  <i class="fas fa-paper-plane me-1"></i> Kirim Pesan
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
     </div>
-
-    <!-- === FORM KONTAK === -->
-    <div class="col-md-6">
-      <div class="card shadow-sm border-0 contact-card h-100">
-        <div class="card-body d-flex flex-column">
-          <h5 class="card-title mb-3 text-secondary">
-            <i class="fas fa-paper-plane me-2 text-success"></i>Kirim Pesan
-          </h5>
-
-          <form method="post" id="contactForm" novalidate class="flex-grow-1 d-flex flex-column">
-            {% csrf_token %}
-
-            <div class="mb-3">
-              <label for="{{ form.nama.id_for_label }}" class="form-label fw-semibold">
-                Nama Lengkap <span class="text-danger">*</span>
-              </label>
-              {{ form.nama|add_class:"form-control"|attr:"autocomplete:name"|attr:"required:true" }}
-              {% if form.nama.errors %}
-                <div class="text-danger small">{{ form.nama.errors }}</div>
-              {% endif %}
-              <div class="invalid-feedback">Silakan masukkan nama lengkap Anda.</div>
-            </div>
-
-            <div class="mb-3">
-              <label for="{{ form.email.id_for_label }}" class="form-label fw-semibold">
-                Email <span class="text-danger">*</span>
-              </label>
-              {{ form.email|add_class:"form-control"|attr:"autocomplete:email"|attr:"required:true"|attr:"type:email" }}
-              {% if form.email.errors %}
-                <div class="text-danger small">{{ form.email.errors }}</div>
-              {% endif %}
-              <div class="invalid-feedback">Silakan masukkan email yang valid.</div>
-            </div>
-
-            <div class="mb-3">
-              <label for="{{ form.subjek.id_for_label }}" class="form-label fw-semibold">
-                Subjek <span class="text-danger">*</span>
-              </label>
-              {{ form.subjek|add_class:"form-control"|attr:"autocomplete:off"|attr:"required:true" }}
-              {% if form.subjek.errors %}
-                <div class="text-danger small">{{ form.subjek.errors }}</div>
-              {% endif %}
-              <div class="invalid-feedback">Silakan masukkan subjek pesan.</div>
-            </div>
-
-            <div class="mb-3 flex-grow-1 d-flex flex-column">
-              <label for="{{ form.pesan.id_for_label }}" class="form-label fw-semibold">
-                Pesan <span class="text-danger">*</span>
-              </label>
-              {{ form.pesan|add_class:"form-control flex-grow-1"|attr:"rows:4"|attr:"required:true" }}
-              {% if form.pesan.errors %}
-                <div class="text-danger small">{{ form.pesan.errors }}</div>
-              {% endif %}
-              <div class="invalid-feedback">Silakan masukkan pesan Anda.</div>
-            </div>
-
-            <div class="d-grid mt-auto">
-              <button type="submit" class="btn btn-primary py-2 fw-semibold" id="submitBtn">
-                <i class="fas fa-paper-plane me-1"></i> Kirim Pesan
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-</main>
+  </main>
+</div>
 {% endblock %}
 
 {% block extra_js %}

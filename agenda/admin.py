@@ -6,7 +6,10 @@ class AgendaAdmin(admin.ModelAdmin):
     list_display = ('judul', 'kategori', 'tanggal_mulai', 'tanggal_selesai', 'lokasi', 'status', 'pihak_terkait')
     list_filter = ('kategori', 'status', 'tanggal_mulai')
     search_fields = ('judul', 'deskripsi', 'lokasi', 'pihak_terkait')
-    date_hierarchy = 'tanggal_mulai'
+    
+    # --- PERBAIKAN DISINI ---
+    # Ganti 'tanggal_mulai' (yang bikin crash) jadi 'dibuat_pada' (yang pasti aman)
+    date_hierarchy = 'dibuat_pada' 
     
     fieldsets = (
         ('Informasi Utama', {

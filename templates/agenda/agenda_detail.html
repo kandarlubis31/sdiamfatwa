@@ -3,41 +3,216 @@
 
 {% block title %}{{ agenda.judul }}{% endblock %}
 
+{% block extra_css %}
+<style>
+  .breadcrumb {
+    background-color: transparent;
+    padding: 0;
+    margin-bottom: 1.5rem;
+  }
+  
+  .breadcrumb-item + .breadcrumb-item::before {
+    content: ">";
+    color: #6c757d;
+  }
+  
+  .agenda-card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    overflow: hidden;
+  }
+  
+  .agenda-header-bg {
+    background: linear-gradient(135deg, #189A6A 0%, #116146 100%);
+    padding: 2.5rem 2rem;
+    color: white;
+    position: relative;
+  }
+  
+  .agenda-header-bg::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+    background: white;
+    border-radius: 20px 20px 0 0;
+  }
+  
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .info-box {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    padding: 1.2rem;
+    display: flex;
+    align-items: center;
+    border-left: 4px solid #189A6A;
+    transition: transform 0.2s;
+  }
+  
+  .info-box:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  }
+  
+  .info-icon-circle {
+    width: 45px;
+    height: 45px;
+    background-color: rgba(24, 154, 106, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+    flex-shrink: 0;
+  }
+  
+  .info-icon-circle i {
+    color: #189A6A;
+    font-size: 1.2rem;
+  }
+  
+  .info-content h6 {
+    font-size: 0.85rem;
+    color: #6c757d;
+    margin-bottom: 0.2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .info-content p {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+    line-height: 1.4;
+  }
+  
+  .agenda-description {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: #444;
+    padding: 0 1rem;
+  }
+  
+  .btn-back {
+    border-radius: 50px;
+    padding: 0.5rem 1.5rem;
+  }
+  
+  /* Status Badge */
+  .status-badge {
+    display: inline-block;
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+    backdrop-filter: blur(4px);
+  }
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="container my-5">
+<div>
+  <div class="container" style="margin-top: 100px !important; margin-bottom: 4rem;">
+    
     <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{% url 'home' %}">Beranda</a></li>
-            <li class="breadcrumb-item"><a href="{% url 'agenda_list' %}">Agenda</a></li>
-            <li class="breadcrumb-item active">{{ agenda.judul }}</li>
-        </ol>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'home' %}" class="text-decoration-none text-muted">Beranda</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'agenda_list' %}" class="text-decoration-none text-muted">Agenda</a></li>
+        <li class="breadcrumb-item active text-primary fw-bold">Detail Agenda</li>
+      </ol>
     </nav>
-    
-    <div class="card">
-        <div class="card-body">
-            <h1 class="card-title">{{ agenda.judul }}</h1>
-            <div class="row mb-4">
-                <div class="col-md-6">
-                    <p><i class="fas fa-calendar-alt"></i> <strong>Mulai:</strong> {{ agenda.tanggal_mulai|date:"d F Y H:i" }}</p>
-                    <p><i class="fas fa-calendar-check"></i> <strong>Selesai:</strong> {{ agenda.tanggal_selesai|date:"d F Y H:i" }}</p>
-                </div>
-                <div class="col-md-6">
-                    <p><i class="fas fa-map-marker-alt"></i> <strong>Lokasi:</strong> {{ agenda.lokasi }}</p>
-                    {% if agenda.pihak_terkait %}
-                    <p><i class="fas fa-users"></i> <strong>Pihak Terkait:</strong> {{ agenda.pihak_terkait }}</p>
-                    {% endif %}
-                </div>
+
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        
+        <div class="card agenda-card">
+          
+          <div class="agenda-header-bg text-center">
+            <div class="status-badge">
+              <i class="far fa-calendar-check me-1"></i> Agenda Kegiatan
             </div>
+            <h1 class="fw-bold mb-2">{{ agenda.judul }}</h1>
+            <p class="mb-4 opacity-75"><i class="far fa-clock me-1"></i> Diposting: {{ agenda.dibuat_pada|date:"d M Y" }}</p>
+          </div>
+
+          <div class="card-body p-4 p-md-5 pt-0">
             
-            <div class="card-text">
-                <h5>Deskripsi:</h5>
-                <p>{{ agenda.deskripsi|linebreaksbr }}</p>
+            <div class="info-grid">
+              <div class="info-box">
+                <div class="info-icon-circle">
+                  <i class="fas fa-hourglass-start"></i>
+                </div>
+                <div class="info-content">
+                  <h6>Mulai</h6>
+                  <p>{{ agenda.tanggal_mulai|date:"d M Y" }}</p>
+                  <small class="text-muted">{{ agenda.tanggal_mulai|date:"H:i" }} WIB</small>
+                </div>
+              </div>
+
+              <div class="info-box">
+                <div class="info-icon-circle">
+                  <i class="fas fa-flag-checkered"></i>
+                </div>
+                <div class="info-content">
+                  <h6>Selesai</h6>
+                  <p>{{ agenda.tanggal_selesai|date:"d M Y" }}</p>
+                  <small class="text-muted">{{ agenda.tanggal_selesai|date:"H:i" }} WIB</small>
+                </div>
+              </div>
+
+              <div class="info-box">
+                <div class="info-icon-circle">
+                  <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <div class="info-content">
+                  <h6>Lokasi</h6>
+                  <p>{{ agenda.lokasi }}</p>
+                </div>
+              </div>
+
+              {% if agenda.pihak_terkait %}
+              <div class="info-box">
+                <div class="info-icon-circle">
+                  <i class="fas fa-users"></i>
+                </div>
+                <div class="info-content">
+                  <h6>Peserta / Pihak</h6>
+                  <p>{{ agenda.pihak_terkait }}</p>
+                </div>
+              </div>
+              {% endif %}
             </div>
+
+            <hr class="my-4">
+
+            <div class="agenda-description">
+              <h4 class="fw-bold mb-3 text-dark">Deskripsi Lengkap</h4>
+              {{ agenda.deskripsi|safe }}
+            </div>
+
+            <div class="mt-5 text-center">
+              <a href="{% url 'agenda_list' %}" class="btn btn-outline-success btn-back">
+                <i class="fas fa-arrow-left me-2"></i> Kembali ke Daftar Agenda
+              </a>
+            </div>
+
+          </div>
         </div>
+
+      </div>
     </div>
-    
-    <div class="mt-4">
-        <a href="{% url 'agenda_list' %}" class="btn btn-outline-primary">Kembali ke Daftar Agenda</a>
-    </div>
+
+  </div>
 </div>
 {% endblock %}
