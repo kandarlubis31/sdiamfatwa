@@ -1,7 +1,37 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{# === BAGIAN INI YANG DITAMBAHKAN UNTUK SEO & WHATSAPP PREVIEW === #}
+
 {% block title %}{{ berita.judul }}{% endblock %}
+
+{# Deskripsi untuk Google Search #}
+{% block meta_description %}{{ berita.isi|striptags|truncatewords:25 }}{% endblock %}
+{% block meta_keywords %}berita sdi amfatwa, {{ berita.get_kategori_display }}, {{ berita.judul }}{% endblock %}
+
+{# Metadata untuk WhatsApp & Facebook (Open Graph) #}
+{% block og_title %}{{ berita.judul }}{% endblock %}
+{% block og_description %}{{ berita.isi|striptags|truncatewords:25 }}{% endblock %}
+{% block og_image %}
+  {% if berita.gambar %}
+    {{ request.scheme }}://{{ request.get_host }}{{ berita.gambar.url }}
+  {% else %}
+    {{ request.scheme }}://{{ request.get_host }}{% static 'img/logo.webp' %}
+  {% endif %}
+{% endblock %}
+
+{# Metadata untuk Twitter/X #}
+{% block twitter_title %}{{ berita.judul }}{% endblock %}
+{% block twitter_description %}{{ berita.isi|striptags|truncatewords:25 }}{% endblock %}
+{% block twitter_image %}
+  {% if berita.gambar %}
+    {{ request.scheme }}://{{ request.get_host }}{{ berita.gambar.url }}
+  {% else %}
+    {{ request.scheme }}://{{ request.get_host }}{% static 'img/logo.webp' %}
+  {% endif %}
+{% endblock %}
+
+{# === BATAS AKHIR PENAMBAHAN SEO === #}
 
 {% block extra_css %}
 <style>
