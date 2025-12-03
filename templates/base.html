@@ -15,8 +15,8 @@
 
     <style>
       /* ========================================
-          CRITICAL CSS - PRELOADER & BASE STYLES
-          ======================================== */
+         CRITICAL CSS - PRELOADER & BASE STYLES
+         ======================================== */
       * {
         box-sizing: border-box;
       }
@@ -348,8 +348,7 @@
     <!-- NAVBAR -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
       <div class="container">
-        <!-- FIXED: Updated url 'home' to 'home:index' -->
-        <a class="navbar-brand" href="{% url 'home:index' %}" aria-label="SDI AM FATWA Homepage">
+        <a class="navbar-brand" href="{% url 'home' %}" aria-label="SDI AM FATWA Homepage">
           <img 
             src="{% static 'img/logo.webp' %}" 
             alt="Logo SDI AM FATWA" 
@@ -375,47 +374,41 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-              <!-- FIXED: Check request.resolver_match.app_name for active state & use 'home:index' -->
               <a
-                class="nav-link {% if request.resolver_match.app_name == 'home' %}active{% endif %}"
-                href="{% url 'home:index' %}"
-                {% if request.resolver_match.app_name == 'home' %}aria-current="page"{% endif %}
+                class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}"
+                href="{% url 'home' %}"
+                {% if request.resolver_match.url_name == 'home' %}aria-current="page"{% endif %}
               >Beranda</a>
             </li>
             <li class="nav-item">
-              <!-- FIXED: Use 'home:index' for anchor link -->
-              <a class="nav-link profile-link" href="{% url 'home:index' %}#profil">Profil</a>
+              <a class="nav-link profile-link" href="{% url 'home' %}#profil">Profil</a>
             </li>
             <li class="nav-item">
-              <!-- FIXED: Use app_name check & 'berita:berita_list' -->
               <a
-                class="nav-link {% if request.resolver_match.app_name == 'berita' %}active{% endif %}"
-                href="{% url 'berita:berita_list' %}"
-                {% if request.resolver_match.app_name == 'berita' %}aria-current="page"{% endif %}
+                class="nav-link {% if 'berita' in request.resolver_match.url_name %}active{% endif %}"
+                href="{% url 'berita_list' %}"
+                {% if 'berita' in request.resolver_match.url_name %}aria-current="page"{% endif %}
               >Berita</a>
             </li>
             <li class="nav-item">
-              <!-- FIXED: Use app_name check & 'agenda:agenda_list' -->
               <a
-                class="nav-link {% if request.resolver_match.app_name == 'agenda' %}active{% endif %}"
-                href="{% url 'agenda:agenda_list' %}"
-                {% if request.resolver_match.app_name == 'agenda' %}aria-current="page"{% endif %}
+                class="nav-link {% if 'agenda' in request.resolver_match.url_name %}active{% endif %}"
+                href="{% url 'agenda_list' %}"
+                {% if 'agenda' in request.resolver_match.url_name %}aria-current="page"{% endif %}
               >Agenda</a>
             </li>
             <li class="nav-item">
-              <!-- FIXED: Use app_name check & 'galeri:list_album' -->
               <a
-                class="nav-link {% if request.resolver_match.app_name == 'galeri' %}active{% endif %}"
-                href="{% url 'galeri:list_album' %}"
-                {% if request.resolver_match.app_name == 'galeri' %}aria-current="page"{% endif %}
+                class="nav-link {% if 'galeri' in request.resolver_match.url_name %}active{% endif %}"
+                href="{% url 'galeri_list' %}"
+                {% if 'galeri' in request.resolver_match.url_name %}aria-current="page"{% endif %}
               >Galeri</a>
             </li>
             <li class="nav-item">
-              <!-- FIXED: Use app_name check & 'kontak:kirim_pesan' -->
               <a
-                class="nav-link {% if request.resolver_match.app_name == 'kontak' %}active{% endif %}"
-                href="{% url 'kontak:kirim_pesan' %}"
-                {% if request.resolver_match.app_name == 'kontak' %}aria-current="page"{% endif %}
+                class="nav-link {% if 'kontak' in request.resolver_match.url_name %}active{% endif %}"
+                href="{% url 'kontak' %}"
+                {% if 'kontak' in request.resolver_match.url_name %}aria-current="page"{% endif %}
               >Kontak</a>
             </li>
           </ul>
@@ -463,32 +456,27 @@
             <h5>Link Cepat</h5>
             <ul class="list-unstyled">
               <li class="mb-2">
-                <!-- FIXED: Updated to 'home:index' -->
-                <a href="{% url 'home:index' %}#profil" class="text-white text-decoration-none profile-link">
+                <a href="{% url 'home' %}#profil" class="text-white text-decoration-none profile-link">
                   <i class="fas fa-chevron-right me-2"></i>Profil
                 </a>
               </li>
               <li class="mb-2">
-                <!-- FIXED: Updated to 'berita:berita_list' -->
-                <a href="{% url 'berita:berita_list' %}" class="text-white text-decoration-none">
+                <a href="{% url 'berita_list' %}" class="text-white text-decoration-none">
                   <i class="fas fa-chevron-right me-2"></i>Berita
                 </a>
               </li>
               <li class="mb-2">
-                <!-- FIXED: Updated to 'agenda:agenda_list' -->
-                <a href="{% url 'agenda:agenda_list' %}" class="text-white text-decoration-none">
+                <a href="{% url 'agenda_list' %}" class="text-white text-decoration-none">
                   <i class="fas fa-chevron-right me-2"></i>Agenda
                 </a>
               </li>
               <li class="mb-2">
-                <!-- FIXED: Updated to 'galeri:list_album' -->
-                <a href="{% url 'galeri:list_album' %}" class="text-white text-decoration-none">
+                <a href="{% url 'galeri_list' %}" class="text-white text-decoration-none">
                   <i class="fas fa-chevron-right me-2"></i>Galeri
                 </a>
               </li>
               <li class="mb-2">
-                <!-- FIXED: Updated to 'kontak:kirim_pesan' -->
-                <a href="{% url 'kontak:kirim_pesan' %}" class="text-white text-decoration-none">
+                <a href="{% url 'kontak' %}" class="text-white text-decoration-none">
                   <i class="fas fa-chevron-right me-2"></i>Kontak
                 </a>
               </li>
@@ -622,7 +610,7 @@
         function scrollToProfile(e) {
           e.preventDefault();
 
-          const homeUrl = "{% url 'home:index' %}";
+          const homeUrl = "{% url 'home' %}";
           const currentPath = window.location.pathname;
           const isHomePage = currentPath === homeUrl || (homeUrl === '/' && currentPath === '/');
 
@@ -638,7 +626,7 @@
               });
             }
           } else {
-            window.location.href = "{% url 'home:index' %}#profil";
+            window.location.href = "{% url 'home' %}#profil";
           }
         }
 
