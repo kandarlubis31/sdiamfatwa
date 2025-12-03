@@ -5,9 +5,11 @@ from django.views.static import serve
 from django.contrib.sitemaps.views import sitemap
 from django.http import HttpResponse
 from berita.sitemaps import BeritaSitemap
+from home.sitemaps import StaticSitemap
 
 sitemaps = {
     'berita': BeritaSitemap,
+    'static': StaticSitemap,
 }
 
 def robots_txt(request):
@@ -31,6 +33,7 @@ urlpatterns = [
     path('', include('pwa.urls')),
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     path('robots.txt', robots_txt),
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
     re_path(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}),
 ]
