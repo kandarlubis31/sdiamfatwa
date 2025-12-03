@@ -1,5 +1,3 @@
-# agenda/models.py
-
 from django.db import models
 from django.utils import timezone
 
@@ -43,7 +41,7 @@ class Agenda(models.Model):
         verbose_name="Status"
     )
     dibuat_pada = models.DateTimeField(auto_now_add=True, verbose_name="Dibuat Pada")
-    diperbarui_pada = models.DateTimeField(auto_now=True, verbose_name="Diperbarui Pada")
+    diperbarui_pada = models.DateTimeField(auto_now=True, verbose_name="Diperbarui Pada") 
     
     class Meta:
         verbose_name = "Agenda"
@@ -54,7 +52,6 @@ class Agenda(models.Model):
         return self.judul
     
     def save(self, *args, **kwargs):
-        # Update status based on current date
         now = timezone.now()
         if self.tanggal_selesai < now:
             self.status = 'selesai'
@@ -67,23 +64,19 @@ class Agenda(models.Model):
     
     @property
     def is_mendatang(self):
-        """Check if agenda is in the future"""
         return self.tanggal_mulai > timezone.now()
     
     @property
     def is_berlangsung(self):
-        """Check if agenda is currently happening"""
         now = timezone.now()
         return self.tanggal_mulai <= now <= self.tanggal_selesai
     
     @property
     def is_selesai(self):
-        """Check if agenda has finished"""
         return self.tanggal_selesai < timezone.now()
     
     @property
     def durasi(self):
-        """Calculate duration of agenda"""
         duration = self.tanggal_selesai - self.tanggal_mulai
         days = duration.days
         hours, remainder = divmod(duration.seconds, 3600)

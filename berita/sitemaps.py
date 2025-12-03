@@ -1,7 +1,8 @@
 from django.contrib.sitemaps import Sitemap
 from django.urls import reverse
-from berita.models import Berita # Model berita
-from agenda.models import Agenda # Model agenda (Asumsi ini ada di app agenda)
+from berita.models import Berita
+from agenda.models import Agenda
+from django.db.models import Q # Untuk query yang lebih kompleks (tambahan)
 
 # 1. Sitemap untuk halaman statis (Home, Profil, Kontak, dll.)
 class StaticSitemap(Sitemap):
@@ -10,8 +11,8 @@ class StaticSitemap(Sitemap):
     protocol = 'https'
 
     def items(self):
-        # DAFTAR NAMA URL STATIS WAJIB CEK DI urls.py masing-masing app
-        # Contoh: home:index adalah name dari path di home/urls.py
+        # Kalau salah satu nama URL ini tidak ada, sitemap akan CRASH!
+        # Pastikan nama-nama ini ada di urls.py masing-masing app
         return ['home:index', 'home:profil', 'kontak:kirim_pesan', 'galeri:list_album'] 
 
     def location(self, item):
@@ -24,12 +25,12 @@ class BeritaSitemap(Sitemap):
     protocol = 'https'
 
     def items(self):
-        # Filter hanya berita yang sudah dipublikasikan
-        return Berita.objects.filter(is_published=True).order_by('-tanggal_publikasi') 
+        # FIX: Gunakan status='published' dan diperbarui_pada
+        return Berita.objects.filter(status='published').order_by('-tanggal_publikasi') 
 
     def lastmod(self, obj):
-        # Gunakan tanggal terakhir update
-        return obj.tanggal_update 
+        # FIX: Gunakan nama field yang baru dibuat
+        return obj.diperbarui_pada 
 
 # 3. Sitemap untuk konten dinamis (Agenda Kegiatan)
 class AgendaSitemap(Sitemap):
@@ -38,8 +39,12 @@ class AgendaSitemap(Sitemap):
     protocol = 'https'
 
     def items(self):
-        # Filter hanya agenda yang masih aktif
-        return Agenda.objects.filter(is_active=True).order_by('-tanggal_mulai') 
+        # FIX: Filter hanya agenda yang statusnya Rencana atau Sedang Berlangsung.
+        # Kita pakai Q() untuk OR
+        return Agenda.objects.filter(
+            Q(status='rencana') | Q(status='berlangsung')
+        ).order_by('-tanggal_mulai') 
 
     def lastmod(self, obj):
-        return obj.tanggal_update
+        # FIX: Gunakan nama field yang benar
+        return obj.diperbarui_pada
