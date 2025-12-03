@@ -4,6 +4,15 @@
 
 {% block title %}Beranda - SDI AM FATWA{% endblock %} 
 
+{# === BAGIAN SEO KHUSUS HALAMAN HOME === #}
+{% block meta_description %}Selamat datang di Website Resmi SDI AM FATWA. Sekolah Dasar Islam di Jakarta Pusat dengan Kurikulum Merdeka dan Program Unggulan Tahfidz Al-Qur'an.{% endblock %}
+{% block meta_keywords %}SDI AM FATWA, Sekolah Dasar Islam Jakarta Pusat, SD Islam Terbaik, Program Tahfidz, Kurikulum Merdeka, PPDB SD Jakarta{% endblock %}
+
+{% block og_title %}Beranda - SDI AM FATWA{% endblock %}
+{% block og_description %}Mencetak Generasi Qur'ani yang Cerdas dan Berakhlak Mulia. Info Pendaftaran, Profil, dan Berita Terbaru.{% endblock %}
+{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'img/sekolah.webp' %}{% endblock %}
+{# === AKHIR BAGIAN SEO === #}
+
 {% block extra_head %}
 <script type="application/ld+json">
 {
@@ -18,7 +27,12 @@
     "addressLocality": "Jakarta Pusat",
     "addressRegion": "DKI Jakarta",
     "addressCountry": "ID"
-  }
+  },
+  "sameAs": [
+    "https://web.facebook.com/amf.fatwa.5",
+    "https://www.instagram.com/sdiamfatwa/",
+    "https://www.youtube.com/@sdiamfatwa4752"
+  ]
 }
 </script>
 {% endblock %}
