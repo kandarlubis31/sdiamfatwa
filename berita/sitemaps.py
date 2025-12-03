@@ -2,7 +2,8 @@ from django.contrib.sitemaps import Sitemap
 from django.urls import reverse
 from berita.models import Berita
 from agenda.models import Agenda
-from django.db.models import Q # Untuk query yang lebih kompleks (tambahan)
+from django.db.models import Q
+from django.urls import NoReverseMatch
 
 # 1. Sitemap untuk halaman statis (Home, Profil, Kontak, dll.)
 class StaticSitemap(Sitemap):
@@ -11,9 +12,20 @@ class StaticSitemap(Sitemap):
     protocol = 'https'
 
     def items(self):
-        # Kalau salah satu nama URL ini tidak ada, sitemap akan CRASH!
-        # Pastikan nama-nama ini ada di urls.py masing-masing app
-        return ['home:index', 'home:profil', 'kontak:kirim_pesan', 'galeri:list_album'] 
+        # Daftar semua nama URL statis kamu.
+        url_names = ['home:index', 'home:profil', 'kontak:kirim_pesan', 'galeri:list_album']
+        
+        # Filter URL yang tidak ditemukan (ReverseMatch) untuk menghindari error 500
+        valid_urls = []
+        for name in url_names:
+            try:
+                # Coba reverse, jika sukses, masukkan ke daftar.
+                reverse(name)
+                valid_urls.append(name)
+            except NoReverseMatch:
+                # Jika URL tidak ditemukan, lewati (tidak dimasukkan ke sitemap)
+                continue
+        return valid_urls
 
     def location(self, item):
         return reverse(item) 
@@ -26,6 +38,7 @@ class BeritaSitemap(Sitemap):
 
     def items(self):
         # FIX: Gunakan status='published' dan diperbarui_pada
+        # Pastikan status='published' ada datanya di DB, kalau tidak, sitemap kosong tapi tidak 500
         return Berita.objects.filter(status='published').order_by('-tanggal_publikasi') 
 
     def lastmod(self, obj):
