@@ -398,6 +398,14 @@
                 {% if 'agenda' in request.resolver_match.url_name %}aria-current="page"{% endif %}
               >Agenda</a>
             </li>
+            
+            <!-- MENU BARU POJOK ISLAMI -->
+            <li class="nav-item">
+              <a
+                class="nav-link {% if 'edukasi' in request.resolver_match.url_name or active_menu == 'edukasi' %}active{% endif %}"
+                href="{% url 'edukasi_index' %}"
+              >Pojok Islami</a>
+            </li>
             <li class="nav-item">
               <a
                 class="nav-link {% if 'galeri' in request.resolver_match.url_name %}active{% endif %}"

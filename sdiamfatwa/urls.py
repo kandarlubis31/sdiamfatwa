@@ -29,11 +29,11 @@ urlpatterns = [
     path('agenda/', include('agenda.urls')),
     path('galeri/', include('galeri.urls')),
     path('kontak/', include('kontak.urls')),
+    path('pojok-islami/', include('edukasi.urls')), # INI BARIS BARUNYA
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path('', include('pwa.urls')),
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     path('robots.txt', robots_txt),
-    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
     re_path(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}),
 ]

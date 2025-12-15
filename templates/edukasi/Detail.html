@@ -1,0 +1,142 @@
+    {% extends "base.html" %}
+    {% load static %}
+
+    {% block title %}{{ materi.judul }}{% endblock %}
+
+    {% block extra_css %}
+    <style>
+        .detail-container {
+            margin-top: 6rem !important;
+        }
+
+        .breadcrumb-item a {
+            color: #189a6a;
+            text-decoration: none;
+        }
+
+        .article-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #333;
+        }
+
+        .article-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+        }
+
+        .sidebar-card {
+            border: none;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.2s;
+            background: #fff;
+        }
+
+        .sidebar-card:hover {
+            transform: translateY(-3px);
+        }
+    </style>
+    {% endblock %}
+
+    {% block content %}
+    <div class="container detail-container mb-5">
+        <div class="row">
+            <div class="col-lg-8">
+                <nav aria-label="breadcrumb" class="mb-4">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'edukasi_index' %}">Pojok Islami</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'edukasi_kategori' materi.kategori.slug %}">{{ materi.kategori.nama }}</a></li>
+                        <li class="breadcrumb-item active text-truncate" style="max-width: 200px;">{{ materi.judul }}</li>
+                    </ol>
+                </nav>
+
+                <article class="bg-white p-4 p-md-5 rounded-3 shadow-sm border mb-5">
+                    <header class="mb-4 border-bottom pb-4">
+                        <span class="badge bg-success mb-2">{{ materi.kategori.nama }}</span>
+                        <h1 class="fw-bold mb-3">{{ materi.judul }}</h1>
+                        <div class="d-flex align-items-center text-muted small">
+                            <i class="far fa-clock me-2"></i> {{ materi.created_at|date:"l, d F Y" }}
+                        </div>
+                    </header>
+
+                    {% if materi.jenis == 'video' and video_id %}
+                    <div class="ratio ratio-16x9 mb-4 rounded-3 overflow-hidden shadow">
+                        <iframe src="https://www.youtube.com/embed/{{ video_id }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    {% elif materi.thumbnail %}
+                    <div class="mb-4">
+                        <img src="{{ materi.thumbnail.url }}" class="img-fluid rounded-3 w-100 shadow-sm" alt="{{ materi.judul }}">
+                    </div>
+                    {% endif %}
+
+                    <div class="article-content">
+                        {{ materi.konten|safe }}
+                    </div>
+
+                    <div class="mt-5 pt-4 border-top">
+                        <h6 class="fw-bold mb-3">Bagikan Materi Ini:</h6>
+                        <a href="https://wa.me/?text={{ materi.judul }}%0A{{ request.build_absolute_uri }}" target="_blank" class="btn btn-success btn-sm me-2">
+                            <i class="fab fa-whatsapp me-1"></i> WhatsApp
+                        </a>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank" class="btn btn-primary btn-sm">
+                            <i class="fab fa-facebook-f me-1"></i> Facebook
+                        </a>
+                    </div>
+                </article>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="sticky-top" style="top: 100px; z-index: 1;">
+                    <h5 class="fw-bold mb-3 border-start border-4 border-success ps-3">Materi Terkait</h5>
+                    
+                    {% if materi_terkait %}
+                        <div class="d-flex flex-column gap-3">
+                            {% for item in materi_terkait %}
+                            <div class="card sidebar-card">
+                                <div class="row g-0">
+                                    <div class="col-4">
+                                        {% if item.thumbnail %}
+                                        <img src="{{ item.thumbnail.url }}" class="img-fluid h-100 w-100" style="object-fit: cover;" alt="{{ item.judul }}">
+                                        {% else %}
+                                        <div class="bg-light h-100 w-100 d-flex align-items-center justify-content-center">
+                                            <i class="fas fa-image text-muted"></i>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-8">
+                                        <div class="card-body p-2">
+                                            <h6 class="card-title mb-1" style="font-size: 0.95rem; line-height: 1.4;">
+                                                <a href="{% url 'edukasi_detail' item.slug %}" class="text-dark text-decoration-none stretched-link">
+                                                    {{ item.judul|truncatechars:40 }}
+                                                </a>
+                                            </h6>
+                                            <small class="text-muted" style="font-size: 0.75rem;">
+                                                <i class="far fa-calendar-alt me-1"></i> {{ item.created_at|date:"d M Y" }}
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="alert alert-light border text-center text-muted small">
+                            Tidak ada materi terkait lainnya.
+                        </div>
+                    {% endif %}
+
+                    <div class="mt-4 p-4 bg-light rounded-3 text-center border">
+                        <h6 class="fw-bold mb-3">Yuk Belajar Lainnya!</h6>
+                        <a href="{% url 'edukasi_index' %}" class="btn btn-outline-success w-100 rounded-pill">
+                            Lihat Semua Materi
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}

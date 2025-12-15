@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ kategori.nama }} - Pojok Islami{% endblock %}
+
+{% block extra_css %}
+<style>
+    .kategori-header {
+        margin-top: 5rem !important;
+        padding: 3rem 0;
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #e9ecef;
+        margin-bottom: 3rem;
+    }
+
+    .icon-circle {
+        width: 80px;
+        height: 80px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: #fff;
+        border-radius: 50%;
+        color: #189a6a;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        margin-bottom: 1.5rem;
+    }
+
+    .materi-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: none;
+        border-radius: 12px;
+        overflow: hidden;
+        height: 100%;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        background: #fff;
+    }
+
+    .materi-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+    }
+
+    .materi-img-container {
+        height: 180px;
+        overflow: hidden;
+        position: relative;
+        background: #f1f1f1;
+    }
+
+    .materi-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+
+    .materi-card:hover .materi-img {
+        transform: scale(1.05);
+    }
+
+    .play-icon-overlay {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 40px;
+        height: 40px;
+        background: rgba(0, 0, 0, 0.6);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        backdrop-filter: blur(2px);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="kategori-header text-center">
+    <div class="container">
+        <div class="icon-circle">
+            <i class="{{ kategori.icon }} fa-3x"></i>
+        </div>
+        <h1 class="fw-bold mb-2">{{ kategori.nama }}</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb justify-content-center mb-0">
+                <li class="breadcrumb-item"><a href="{% url 'edukasi_index' %}" class="text-decoration-none text-success">Pojok Islami</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ kategori.nama }}</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="container mb-5">
+    <div class="row g-4">
+        {% for item in page_obj %}
+        <div class="col-md-4">
+            <div class="card materi-card">
+                <div class="materi-img-container">
+                    {% if item.thumbnail %}
+                        <img src="{{ item.thumbnail.url }}" class="materi-img" alt="{{ item.judul }}" loading="lazy">
+                    {% else %}
+                        <div class="d-flex w-100 h-100 align-items-center justify-content-center bg-light">
+                            <i class="fas fa-image fa-3x text-secondary opacity-25"></i>
+                        </div>
+                    {% endif %}
+                    
+                    {% if item.jenis == 'video' %}
+                    <div class="play-icon-overlay">
+                        <i class="fas fa-play fa-sm"></i>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="card-body d-flex flex-column p-4">
+                    <h5 class="card-title fw-bold mb-3">
+                        <a href="{% url 'edukasi_detail' item.slug %}" class="text-dark text-decoration-none stretched-link">
+                            {{ item.judul|truncatechars:50 }}
+                        </a>
+                    </h5>
+                    <div class="mt-auto d-flex align-items-center justify-content-between pt-3 border-top">
+                        <small class="text-muted">
+                            <i class="far fa-calendar-alt me-1"></i> {{ item.created_at|date:"d M Y" }}
+                        </small>
+                        <i class="fas fa-arrow-right text-success"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="text-center py-5 border rounded-3 bg-light">
+                <i class="fas fa-folder-open fa-4x text-muted mb-3 opacity-50"></i>
+                <h4 class="text-muted mb-3">Belum ada materi di kategori ini</h4>
+                <a href="{% url 'edukasi_index' %}" class="btn btn-success px-4 rounded-pill mt-2">
+                    Kembali ke Beranda
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% if page_obj.has_other_pages %}
+    <nav aria-label="Page navigation" class="mt-5">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link text-success border-0 shadow-none" href="?page={{ page_obj.previous_page_number }}">
+                    <i class="fas fa-chevron-left"></i>
+                </a>
+            </li>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                <li class="page-item active">
+                    <span class="page-link bg-success border-success shadow-none">{{ num }}</span>
+                </li>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                <li class="page-item">
+                    <a class="page-link text-success border-0 shadow-none" href="?page={{ num }}">{{ num }}</a>
+                </li>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link text-success border-0 shadow-none" href="?page={{ page_obj.next_page_number }}">
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+</div>
+{% endblock %}

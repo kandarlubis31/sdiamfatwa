@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'mptt',
     'import_export',
     'pwa',
+    'edukasi',
 ]
 
 SITE_ID = 1
@@ -209,15 +210,19 @@ JAZZMIN_SETTINGS = {
     ],
     "show_sidebar": True,
     "navigation_expanded": True,
-    "hide_apps": ["sites"],
+    
+    # --- BAGIAN INI YANG PENTING ---
+    # Tambahkan 'filer' dan 'easy_thumbnails' biar gak muncul di sidebar
+    "hide_apps": ["sites", "filer", "easy_thumbnails"],
+    
     "order_with_respect_to": [
         "berita",
         "agenda",
+        "edukasi",
         "galeri",
         "users",
         "kontak",
         "auth",
-        "filer"
     ],
     "icons": {
         "auth": "fas fa-users-cog",
@@ -231,13 +236,14 @@ JAZZMIN_SETTINGS = {
         "berita": "fas fa-newspaper",
         "berita.Berita": "fas fa-pen-nib",
         "berita.Kategori": "fas fa-tags",
+        "edukasi": "fas fa-mosque",
+        "edukasi.KategoriEdukasi": "fas fa-layer-group",
+        "edukasi.MateriEdukasi": "fas fa-book-reader",
         "galeri": "fas fa-photo-video",
         "galeri.Album": "fas fa-folder-open",
         "galeri.Foto": "fas fa-images",
         "kontak": "fas fa-comments",
         "kontak.Pesan": "fas fa-envelope-open-text",
-        "filer": "fas fa-cloud-upload-alt",
-        "filer.Folder": "fas fa-folder",
     },
     "default_icon_parents": "fas fa-chevron-circle-right",
     "default_icon_children": "fas fa-circle",
