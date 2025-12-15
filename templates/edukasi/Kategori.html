@@ -5,47 +5,117 @@
 
 {% block extra_css %}
 <style>
-    .kategori-header {
-        margin-top: 5rem !important;
-        padding: 3rem 0;
-        background-color: #f8f9fa;
-        border-bottom: 1px solid #e9ecef;
-        margin-bottom: 3rem;
+    /* 1. FIX JARAK NAVBAR: Samain logic-nya kayak Index */
+    .kategori-container {
+        margin-top: 6rem !important; /* Standar aman */
     }
 
-    .icon-circle {
+    /* 2. STYLE HERO SECTION (Diambil dari Index biar konsisten) */
+    .hero-section {
+        background: linear-gradient(135deg, #189a6a 0%, #0d5f40 100%);
+        border-radius: 15px;
+        padding: 3.5rem 2rem;
+        margin-bottom: 3rem;
+        box-shadow: 0 10px 30px rgba(24, 154, 106, 0.25);
+        color: white;
+        position: relative;
+        overflow: hidden;
+        text-align: center;
+    }
+
+    .hero-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        pointer-events: none;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 1;
+    }
+
+    /* Icon Circle di tengah Hero */
+    .hero-icon-circle {
         width: 80px;
         height: 80px;
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(5px);
+        border-radius: 50%;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        background: #fff;
-        border-radius: 50%;
-        color: #189a6a;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.08);
         margin-bottom: 1.5rem;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
     }
 
+    .hero-icon-circle i {
+        font-size: 2.5rem;
+        color: white;
+    }
+
+    /* Breadcrumb di dalam Hero (Putih) */
+    .breadcrumb-nav {
+        margin-top: 1rem;
+        display: inline-block;
+        background: rgba(0, 0, 0, 0.1);
+        padding: 0.5rem 1.5rem;
+        border-radius: 50px;
+    }
+
+    .breadcrumb {
+        margin: 0;
+        padding: 0;
+        background: transparent;
+    }
+
+    .breadcrumb-item a {
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 0.9rem;
+    }
+
+    .breadcrumb-item a:hover {
+        color: white;
+    }
+
+    .breadcrumb-item.active {
+        color: white;
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+
+    .breadcrumb-item + .breadcrumb-item::before {
+        color: rgba(255, 255, 255, 0.5);
+    }
+
+    /* 3. STYLE CARD MATERI (Tetap pakai yang mewah) */
     .materi-card {
         transition: transform 0.3s ease, box-shadow 0.3s ease;
-        border: none;
+        height: 100%;
         border-radius: 12px;
         overflow: hidden;
-        height: 100%;
+        border: none;
         box-shadow: 0 3px 10px rgba(0,0,0,0.08);
         background: #fff;
     }
 
     .materi-card:hover {
         transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+        box-shadow: 0 12px 20px rgba(0,0,0,0.12);
     }
 
     .materi-img-container {
         height: 180px;
         overflow: hidden;
         position: relative;
-        background: #f1f1f1;
+        background-color: #f1f1f1;
     }
 
     .materi-img {
@@ -59,94 +129,210 @@
         transform: scale(1.05);
     }
 
+    .type-badge {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        background-color: rgba(255, 255, 255, 0.95);
+        color: #333;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        z-index: 2;
+    }
+
     .play-icon-overlay {
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        width: 40px;
-        height: 40px;
-        background: rgba(0, 0, 0, 0.6);
+        width: 45px;
+        height: 45px;
+        background: rgba(255, 255, 255, 0.9);
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
+        color: #dc3545;
+        transition: transform 0.3s ease;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    .materi-card:hover .play-icon-overlay {
+        transform: translate(-50%, -50%) scale(1.1);
+        background: #fff;
+    }
+
+    .card-body {
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .card-title a {
+        color: #2c3e50;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 1.1rem;
+        line-height: 1.4;
+        transition: color 0.2s;
+    }
+
+    .card-title a:hover {
+        color: #189a6a;
+    }
+
+    /* Empty State */
+    .empty-state {
+        padding: 4rem 1rem;
+        text-align: center;
+        background-color: #f8f9fa;
+        border-radius: 15px;
+        border: 2px dashed #dee2e6;
+    }
+
+    .empty-icon {
+        font-size: 3rem;
+        color: #adb5bd;
+        margin-bottom: 1rem;
+    }
+
+    /* Pagination */
+    .page-link {
+        color: #189a6a;
+        border: none;
+        margin: 0 4px;
+        border-radius: 50% !important;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+    }
+
+    .page-link:hover {
+        background-color: #e8f5e9;
+        color: #116146;
+    }
+
+    .page-item.active .page-link {
+        background-color: #189a6a;
         color: white;
-        backdrop-filter: blur(2px);
+        box-shadow: 0 4px 10px rgba(24, 154, 106, 0.3);
+    }
+
+    @media (max-width: 768px) {
+        .kategori-container {
+            margin-top: 5.5rem !important; /* Mobile adjustment */
+        }
+        
+        .hero-section {
+            padding: 2.5rem 1.5rem;
+        }
+        
+        .hero-section h1 {
+            font-size: 1.8rem;
+        }
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="kategori-header text-center">
-    <div class="container">
-        <div class="icon-circle">
-            <i class="{{ kategori.icon }} fa-3x"></i>
+<div class="container kategori-container">
+    
+    <!-- Hero Section Kategori (Gaya Index) -->
+    <div class="hero-section">
+        <div class="hero-content">
+            <div class="hero-icon-circle">
+                <i class="{{ kategori.icon }}"></i>
+            </div>
+            <h1 class="fw-bold mb-2">{{ kategori.nama }}</h1>
+            
+            <div class="breadcrumb-nav">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'edukasi_index' %}">Pojok Islami</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ kategori.nama }}</li>
+                    </ol>
+                </nav>
+            </div>
         </div>
-        <h1 class="fw-bold mb-2">{{ kategori.nama }}</h1>
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb justify-content-center mb-0">
-                <li class="breadcrumb-item"><a href="{% url 'edukasi_index' %}" class="text-decoration-none text-success">Pojok Islami</a></li>
-                <li class="breadcrumb-item active" aria-current="page">{{ kategori.nama }}</li>
-            </ol>
-        </nav>
     </div>
-</div>
 
-<div class="container mb-5">
+    <!-- Grid Materi -->
     <div class="row g-4">
         {% for item in page_obj %}
-        <div class="col-md-4">
+        <div class="col-md-4 col-sm-6">
             <div class="card materi-card">
                 <div class="materi-img-container">
                     {% if item.thumbnail %}
                         <img src="{{ item.thumbnail.url }}" class="materi-img" alt="{{ item.judul }}" loading="lazy">
                     {% else %}
-                        <div class="d-flex w-100 h-100 align-items-center justify-content-center bg-light">
-                            <i class="fas fa-image fa-3x text-secondary opacity-25"></i>
+                        <div class="d-flex w-100 h-100 align-items-center justify-content-center bg-light text-muted">
+                            <i class="fas fa-image fa-3x opacity-25"></i>
                         </div>
                     {% endif %}
                     
+                    <!-- Badge Jenis -->
+                    <div class="type-badge">
+                        {% if item.jenis == 'video' %}
+                            <i class="fas fa-video text-danger me-1"></i> Video
+                        {% else %}
+                            <i class="fas fa-book-open text-primary me-1"></i> Artikel
+                        {% endif %}
+                    </div>
+
                     {% if item.jenis == 'video' %}
                     <div class="play-icon-overlay">
-                        <i class="fas fa-play fa-sm"></i>
+                        <i class="fas fa-play fa-lg"></i>
                     </div>
                     {% endif %}
                 </div>
-                <div class="card-body d-flex flex-column p-4">
-                    <h5 class="card-title fw-bold mb-3">
-                        <a href="{% url 'edukasi_detail' item.slug %}" class="text-dark text-decoration-none stretched-link">
+                
+                <div class="card-body">
+                    <h5 class="card-title mb-3">
+                        <a href="{% url 'edukasi_detail' item.slug %}" class="stretched-link">
                             {{ item.judul|truncatechars:50 }}
                         </a>
                     </h5>
-                    <div class="mt-auto d-flex align-items-center justify-content-between pt-3 border-top">
+                    
+                    <div class="mt-auto d-flex justify-content-between align-items-center border-top pt-3">
                         <small class="text-muted">
                             <i class="far fa-calendar-alt me-1"></i> {{ item.created_at|date:"d M Y" }}
                         </small>
-                        <i class="fas fa-arrow-right text-success"></i>
+                        <span class="text-success small fw-bold">
+                            Lihat <i class="fas fa-arrow-right ms-1"></i>
+                        </span>
                     </div>
                 </div>
             </div>
         </div>
         {% empty %}
         <div class="col-12">
-            <div class="text-center py-5 border rounded-3 bg-light">
-                <i class="fas fa-folder-open fa-4x text-muted mb-3 opacity-50"></i>
-                <h4 class="text-muted mb-3">Belum ada materi di kategori ini</h4>
-                <a href="{% url 'edukasi_index' %}" class="btn btn-success px-4 rounded-pill mt-2">
-                    Kembali ke Beranda
+            <div class="empty-state">
+                <div class="empty-icon">
+                    <i class="fas fa-folder-open"></i>
+                </div>
+                <h4 class="text-muted fw-bold mb-2">Belum ada materi</h4>
+                <p class="text-muted mb-4">Materi untuk kategori ini akan segera tersedia.</p>
+                <a href="{% url 'edukasi_index' %}" class="btn btn-outline-success rounded-pill px-4">
+                    <i class="fas fa-arrow-left me-2"></i>Kembali ke Beranda
                 </a>
             </div>
         </div>
         {% endfor %}
     </div>
 
+    <!-- Pagination -->
     {% if page_obj.has_other_pages %}
     <nav aria-label="Page navigation" class="mt-5">
         <ul class="pagination justify-content-center">
             {% if page_obj.has_previous %}
             <li class="page-item">
-                <a class="page-link text-success border-0 shadow-none" href="?page={{ page_obj.previous_page_number }}">
+                <a class="page-link shadow-none" href="?page={{ page_obj.previous_page_number }}">
                     <i class="fas fa-chevron-left"></i>
                 </a>
             </li>
@@ -155,18 +341,18 @@
             {% for num in page_obj.paginator.page_range %}
                 {% if page_obj.number == num %}
                 <li class="page-item active">
-                    <span class="page-link bg-success border-success shadow-none">{{ num }}</span>
+                    <span class="page-link">{{ num }}</span>
                 </li>
                 {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
                 <li class="page-item">
-                    <a class="page-link text-success border-0 shadow-none" href="?page={{ num }}">{{ num }}</a>
+                    <a class="page-link shadow-none" href="?page={{ num }}">{{ num }}</a>
                 </li>
                 {% endif %}
             {% endfor %}
 
             {% if page_obj.has_next %}
             <li class="page-item">
-                <a class="page-link text-success border-0 shadow-none" href="?page={{ page_obj.next_page_number }}">
+                <a class="page-link shadow-none" href="?page={{ page_obj.next_page_number }}">
                     <i class="fas fa-chevron-right"></i>
                 </a>
             </li>
