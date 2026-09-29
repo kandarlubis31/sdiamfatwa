@@ -7,10 +7,7 @@ class BeritaSitemap(Sitemap):
     protocol = "https"
 
     def items(self):
-        return Berita.objects.all().order_by("-tanggal_publikasi")
+        return Berita.objects.all()
 
     def lastmod(self, obj):
         return obj.tanggal_publikasi
-
-    def location(self, obj):
-        return "/berita/%s/" % obj.id
