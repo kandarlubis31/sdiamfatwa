@@ -37,11 +37,7 @@ manifest/service worker wired in through `pwa.urls`.
 
 - Python 3.10+
 - PostgreSQL
-- Dependencies in [requirements.txt](requirements.txt)
-
-> **Note on `requirements.txt`:** the file is currently saved as **UTF-16**, which
-> `pip install -r` will reject. Convert it to UTF-8 before installing:
-> `iconv -f UTF-16 -t UTF-8 requirements.txt > requirements.utf8.txt`
+- Dependencies in [requirements.txt](requirements.txt) (UTF-8, pinned)
 
 ## Setup
 
