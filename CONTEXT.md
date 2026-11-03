@@ -1,42 +1,53 @@
 # sdiamfatwa — Project Context
 
 ## Ringkasan
-Project di direktori django\sdiamfatwa (belum ada deskripsi).
 
-> *Context ini dibuat otomatis oleh `catalog/generate_contexts.py`. Isi ulang
-> bagian ringkasan / arsitektur secara manual jika butuh detail lebih dalam.*
+Situs resmi SDI Am Fatwa: berita, agenda kegiatan, galeri foto, profil, kontak, dan pojok kajian
+keislaman. Semua isi diedit staf sekolah lewat panel admin, tanpa menyentuh kode.
 
-## Tech Stack
-Python
+Django 5.2 + PostgreSQL, produksi di [sdiamfatwa.web.id](https://sdiamfatwa.web.id).
 
-## Struktur Utama
+## Arsitektur
+
+Satu proyek Django yang dipecah per bagian, tiap bagian punya model, view, dan sitemapnya sendiri:
+
+| URL | App | Isi |
+| :--- | :--- | :--- |
+| `/` | `home` | Halaman depan, peta situs statis |
+| `/berita/` | `berita` | Artikel berita + sitemap |
+| `/agenda/` | `agenda` | Acara dan kegiatan |
+| `/edukasi/` | `edukasi` | Kajian keislaman |
+| `/galeri/` | `galeri` | Album foto |
+| `/kontak/` | `kontak` | Formulir kontak |
+| admin | `admin_panel` | Pengelolaan isi |
+
+Keputusan penting: konten dipegang model Django, bukan halaman statis, karena staf non-teknis perlu
+menambah berita sendiri. Sitemap per bagian dibuat agar halaman baru langsung terindeks.
+
+## Struktur
+
 ```
-admin_panel/
-agenda/
-berita/
-edukasi/
-galeri/
-home/
-kontak/
-logs/
-media/
-sdiamfatwa/
-static/
-staticfiles/
-templates/
-users/
-#gunicorn.conf.pys
-.env
-.gitignore
-CONTEXT.md
 manage.py
-requirements.txt
-users.json
+admin_panel/  berita/  agenda/  edukasi/  galeri/  home/  kontak/
+logs/         Catatan server
+#gunicorn.conf.pys   Contoh konfigurasi gunicorn
 ```
 
-## Cara Menjalankan
-- `python manage.py runserver`
+## Menjalankan
 
----
+```bash
+python -m venv .venv && .venv/Scripts/activate
+pip install django psycopg2-binary gunicorn
+cp .env.example .env        # kredensial basis data
+python manage.py migrate
+python manage.py runserver
+```
 
-*Generated: 2026-08-08 · Path: django\sdiamfatwa*
+Produksi: gunicorn di balik reverse proxy, `DEBUG=False`, dan `collectstatic` dijalankan setelah
+perubahan aset.
+
+## Catatan
+
+- `db.sqlite3` hanya untuk pengembangan; produksi memakai PostgreSQL.
+- Berkas media (foto galeri) tidak ikut repo; siapkan penyimpanan terpisah di server.
+- `settings.py` membaca kredensial dari `.env`; jangan menuliskan kunci langsung di kode.
