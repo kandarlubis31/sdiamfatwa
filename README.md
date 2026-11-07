@@ -90,6 +90,14 @@ leading `#` is intentional). Production is expected to run behind a reverse prox
 with `DEBUG=False`, managed static files, and the database credentials supplied
 through environment variables.
 
+---
+
+## Bahasa Indonesia
+
+**SDI Am Fatwa** adalah situs sekolah berbasis CMS: berita, agenda, galeri foto, formulir kontak, dan sudut kajian Islam. Semua yang diterbitkan sekolah disunting lewat panel admin, bukan lewat kode.
+
+---
+
 ## License
 
 See the repository for licensing terms.
